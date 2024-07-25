@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./reset.css";
 
 :root {
   --foreground-rgb: 0, 0, 0;
