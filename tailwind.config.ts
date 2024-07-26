@@ -45,6 +45,7 @@ const config: Config = {
           200: '#EEEEEE',
           300: '#DDDDDD',
           400: '#CBC9CF',
+          450: '#A1A1A1', //프로필 NAV 텍스트 컬러
           500: '#ADAEB8',
           600: '#A4A1AA',
           700: '#79747E',
