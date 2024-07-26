@@ -42,7 +42,7 @@ const SwiperContainer: React.FC<SwiperContainerProps> = ({ images }) => {
       onSwiper={swiper => setSwiperInstance(swiper)}
       modules={[Navigation, Pagination, Scrollbar]}
       spaceBetween={50}
-      slidesPerView={1} // 모바일에서는 한 번에 하나씩 보이게
+      slidesPerView={1}
       pagination={{ clickable: true }}
       navigation
       scrollbar={{ draggable: true }}
