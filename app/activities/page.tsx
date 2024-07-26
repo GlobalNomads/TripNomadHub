@@ -1,3 +1,5 @@
+import React from "react";
+import ActivityImageGallery from "./_components/ActivityImageGallery";
 import ActivityTitle from "./_components/ActivityTitle";
 
 const mockData = {
@@ -10,7 +12,7 @@ const mockData = {
   price: 1000000,
   address: "서울특별시 강남구 테헤란로 427",
   bannerImageUrl:
-    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721969204805.png",
+    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994832772.jpeg",
   rating: 4.8,
   reviewCount: 589,
   createdAt: "2024-07-26T13:49:15.140Z",
@@ -20,6 +22,21 @@ const mockData = {
       id: 2627,
       imageUrl:
         "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721969278121.png",
+    },
+    {
+      id: 2628,
+      imageUrl:
+        "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994813442.png",
+    },
+    {
+      id: 2629,
+      imageUrl:
+        "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721969204805.png",
+    },
+    {
+      id: 2630,
+      imageUrl:
+        "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994869821.jpeg",
     },
   ],
   schedules: [
@@ -50,7 +67,9 @@ const mockData = {
   ],
 };
 
-function Activities() {
+const images = mockData.subImages.map(image => image.imageUrl);
+
+const Activities: React.FC = () => {
   return (
     <div>
       Activities
@@ -61,8 +80,9 @@ function Activities() {
         reviewCount={mockData.reviewCount}
         location={mockData.address}
       />
+      <ActivityImageGallery bannerImage={mockData.bannerImageUrl} images={images} />
     </div>
   );
-}
+};
 
 export default Activities;
