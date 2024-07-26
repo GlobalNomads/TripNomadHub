@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettify": "prettier --write *.js **/*.js"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.11",
@@ -22,6 +23,7 @@
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
     "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
