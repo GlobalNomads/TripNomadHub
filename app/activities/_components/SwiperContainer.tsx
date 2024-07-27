@@ -23,7 +23,6 @@ const SwiperContainer: React.FC<SwiperContainerProps> = ({ images }) => {
       pagination={{ clickable: true }}
       navigation
       scrollbar={{ draggable: true }}
-      loop
       style={{ width: "100%", height: "310px" }}
     >
       {images.map((image, index) => (
