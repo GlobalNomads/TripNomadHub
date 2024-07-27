@@ -1,6 +1,6 @@
 import React from "react";
-import ReservationCard from "./ReservationCard";
-import SideNavCard from "./SideNavCard";
+import ReservationCard from "./_components/ReservationCard";
+import SideNavCard from "./_components/SideNavCard";
 
 const MyReservations: React.FC = () => {
   return (
