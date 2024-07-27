@@ -1,6 +1,18 @@
+/*
+  체험 상세 페이지
+  Todo: 
+    (1)체험 상세, 
+    (2)카카오 지도 연결,
+    (3)후기 연결,
+    (4)예약 관리,
+    (5)동적 라우팅 연결하기, 
+    (6)MockData 없애고 실제 API와 데이터 연결하기
+*/
+
 import React from "react";
 import ActivityImageGallery from "./_components/ActivityImageGallery";
 import ActivityTitle from "./_components/ActivityTitle";
+import DropDownMenu from "./_components/DropDownMenu";
 
 const mockData = {
   id: 1932,
@@ -73,13 +85,20 @@ const Activities: React.FC = () => {
   return (
     <div>
       Activities
-      <ActivityTitle
-        category={mockData.category}
-        title={mockData.title}
-        rating={mockData.rating}
-        reviewCount={mockData.reviewCount}
-        location={mockData.address}
-      />
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <ActivityTitle
+            category={mockData.category}
+            title={mockData.title}
+            rating={mockData.rating}
+            reviewCount={mockData.reviewCount}
+            location={mockData.address}
+          />
+        </div>
+        <div className="flex-none">
+          <DropDownMenu />
+        </div>
+      </div>
       <ActivityImageGallery bannerImage={mockData.bannerImageUrl} images={images} />
     </div>
   );
