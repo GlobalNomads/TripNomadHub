@@ -1,3 +1,7 @@
+/*
+  DropDown 메뉴 만들기 위한 공용 컴포넌트
+*/
+
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
 
 interface DropdownProps {

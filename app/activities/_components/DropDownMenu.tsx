@@ -1,3 +1,8 @@
+/*
+  체험 상세 페이지 DropDown 메뉴 + 케밥 버튼
+  Todo: 수정하기, 삭제하기 기능 및 페이지 연결하기
+*/
+
 "use client";
 
 import KebabBtn from "@/app/assets/icon/ic_meatball.svg";
@@ -23,8 +28,7 @@ const DropDownMenu: FC = () => {
     <Dropdown
       items={dropdownItems}
       trigger={<Image src={KebabBtn} alt="menu" width={32} height={32} />}
-      dropdownClassName="xl:text-lg md:text-lg text-sm"
-      itemClassName="text-gray-600 font-medium w-[140px] xl:h-[58px] md:w-[160px] md:h-[58px] xl:w-[160px] xl:h-[58px]"
+      itemClassName="w-[140px] xl:h-[58px] md:w-[160px] md:h-[58px] xl:w-[160px] xl:h-[58px]"
     />
   );
 };
