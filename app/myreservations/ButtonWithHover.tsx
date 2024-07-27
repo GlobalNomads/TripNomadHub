@@ -29,12 +29,14 @@ const ButtonWithHover = ({ children, defaultIcon, hoverIcon, href }: ButtonWithH
   return (
     <Link href={href}>
       <button
-        className={`${activeClass} flex h-[44px] w-[203px] cursor-pointer items-center justify-center gap-3.5 rounded-2xl text-lg-bold`}
+        className={`${activeClass} flex h-[44px] w-[203px] cursor-pointer items-center rounded-2xl pl-4 text-lg-bold xl:w-[336px]`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Image src={isHovered || isActive ? hoverIcon : defaultIcon} width={24} height={24} alt="icon" />
-        <div>{children}</div>
+        <div className="flex items-center justify-center gap-3.5">
+          <Image src={isHovered || isActive ? hoverIcon : defaultIcon} width={24} height={24} alt="icon" />
+          <div>{children}</div>
+        </div>
       </button>
     </Link>
   );
