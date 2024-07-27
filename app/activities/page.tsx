@@ -1,6 +1,7 @@
 import React from "react";
 import ActivityImageGallery from "./_components/ActivityImageGallery";
 import ActivityTitle from "./_components/ActivityTitle";
+import DropDownMenu from "./_components/DropDownMenu";
 
 const mockData = {
   id: 1932,
@@ -73,13 +74,20 @@ const Activities: React.FC = () => {
   return (
     <div>
       Activities
-      <ActivityTitle
-        category={mockData.category}
-        title={mockData.title}
-        rating={mockData.rating}
-        reviewCount={mockData.reviewCount}
-        location={mockData.address}
-      />
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <ActivityTitle
+            category={mockData.category}
+            title={mockData.title}
+            rating={mockData.rating}
+            reviewCount={mockData.reviewCount}
+            location={mockData.address}
+          />
+        </div>
+        <div className="flex-none">
+          <DropDownMenu />
+        </div>
+      </div>
       <ActivityImageGallery bannerImage={mockData.bannerImageUrl} images={images} />
     </div>
   );
