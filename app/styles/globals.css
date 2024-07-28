@@ -8,4 +8,5 @@
 
 body {
   background-color: #fafafa;
+  font-family: var(--font-pretendard-std), var(--font-inter), sans-serif;
 }
