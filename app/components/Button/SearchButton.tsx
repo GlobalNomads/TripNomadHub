@@ -11,6 +11,7 @@ const SearchButton: FC<DefaultButtonProps> = props => {
   return (
     <DefaultButton
       {...props}
+      type={props.type || "nomadBlack"}
       className={` ${props.className} h-[56px] w-[96px] rounded-[4px] p-[8px] text-lg-bold md:w-[136px] xl:w-[136px]`}
     />
   );
