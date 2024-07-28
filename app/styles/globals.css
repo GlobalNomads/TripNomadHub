@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./reset.css";
+
+/* Swiper styles - 이미지 갤러리 라이브러리 */
+@import "swiper/swiper-bundle.css";
+
+body {
+  background-color: #fafafa;
+}

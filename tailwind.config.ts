@@ -2,9 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -47,6 +45,7 @@ const config: Config = {
           200: '#EEEEEE',
           300: '#DDDDDD',
           400: '#CBC9CF',
+          450: '#A1A1A1', //프로필 NAV 텍스트 컬러
           500: '#ADAEB8',
           600: '#A4A1AA',
           700: '#79747E',
