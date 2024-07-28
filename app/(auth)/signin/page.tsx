@@ -1,7 +1,7 @@
 import MainLogo from "@/app/assets/icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
-//import SigninForm from "./_components/signinForm"; 폼 적용 경로
+import SigninForm from "./_components/SigninForm";
 
 function Signin() {
   return (
@@ -10,7 +10,7 @@ function Signin() {
         <div className="flex w-[270px] items-center justify-center md:w-[340px]">
           <Image src={MainLogo} alt="메인 로고" className="w-full" />
         </div>
-        {/* <SigninForm /> 제출 폼 컴포넌트 완성후 적용 예정 */}
+        <SigninForm />
 
         <div className="mt-[40px] flex items-center justify-center gap-[10px] text-lg-regular">
           회원이 아니신가요?&nbsp;
