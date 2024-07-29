@@ -1,7 +1,7 @@
 "use client";
 
+import LoginButton from "@/app/components/Button/LoginButton";
 import { useForm } from "react-hook-form";
-import Button from "./Button";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
 import Label from "./Label";
@@ -59,9 +59,9 @@ function SigninForm() {
           {errors.password && <ErrorText>{errors.password?.message}</ErrorText>}
         </div>
       </div>
-      <Button disabled={!isValid || isSubmitting} type="submit">
+      <LoginButton type="nomadBlack" className="mt-6 w-full max-w-[640px] py-[10.5px]">
         로그인
-      </Button>
+      </LoginButton>
     </form>
   );
 }
