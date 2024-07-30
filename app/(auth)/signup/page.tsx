@@ -1,4 +1,4 @@
-import MainLogo from "@/app/assets/icon/ic_logo_big.svg";
+import MainLogo from "@/assets/icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
 import SignupForm from "../_components/SignupForm";
