@@ -1,58 +1,36 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-// import FetchApi from "./FetchApi";
+import { fetchMyReservations } from "./api";
+
+interface Reservation {
+  activity: {
+    title: string;
+    bannerImageUrl: string;
+  };
+}
+
+interface MyReservationsResponse {
+  reservations: Reservation[];
+}
 
 const ReservationCard = () => {
-  const [title, setTitle] = useState("");
-  const [bannerImageUrl, setBannerImageUrl] = useState("");
+  const { data, error, isLoading } = useQuery<MyReservationsResponse>({
+    queryKey: ["reservations"],
+    queryFn: fetchMyReservations,
+    staleTime: 60000, // 1 minute (60000 milliseconds)
+    retry: 2, // Retry twice on failure
+  });
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzEwLCJ0ZWFtSWQiOiI2LTExIiwiaWF0IjoxNzIyMzUwMDcxLCJleHAiOjE3MjM1NTk2NzEsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.wKKF9ioNjGW0aSF9lXfEBKFlpI5KcRxIYSFFLmXqHNk";
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
-  useEffect(() => {
-    const fetchCard = async () => {
-      try {
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL}my-reservations`;
-        const response = await fetch(url, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  if (!data || data.reservations.length === 0) {
+    return <div>No reservations found</div>;
+  }
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const jsonData = await response.json();
-        const title = jsonData.reservations[0].activity.title;
-        const bannerImageUrl = jsonData.reservations[0].activity.bannerImageUrl;
-        setTitle(title);
-        setBannerImageUrl(bannerImageUrl);
-
-        console.log("title:", title);
-      } catch (error) {
-        console.error("Fetch Card failed", error);
-      }
-    };
-    // const fetchCard = async () => {
-    //   try {
-    //     const url = "my-reservations";
-    //     const response = await FetchApi(url);
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     const jsonData = await response;
-    //     setTitle(jsonData.title);
-
-    //     console.log("title:", title);
-    //   } catch (error) {
-    //     console.error("Fetch card failed:", error);
-    //   }
-    // };
-    fetchCard();
-  }, []);
+  const title = data.reservations[0].activity.title;
+  const bannerImageUrl = data.reservations[0].activity.bannerImageUrl;
 
   return (
     <div className="mx-auto flex-row">
@@ -72,4 +50,5 @@ const ReservationCard = () => {
     </div>
   );
 };
+
 export default ReservationCard;
