@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/Button/Button";
+import Button from "@button/Button";
 import { useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";

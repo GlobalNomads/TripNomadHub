@@ -5,8 +5,8 @@
 
 "use client";
 
+import Button from "@button/Button";
 import React, { useState } from "react";
-import Button from "../Button/Button";
 import Modal from "./Modal";
 
 const ModalTest: React.FC = () => {

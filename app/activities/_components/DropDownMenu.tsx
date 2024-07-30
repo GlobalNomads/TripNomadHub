@@ -5,8 +5,8 @@
 
 "use client";
 
-import KebabBtn from "@/assets/icon/ic_meatball.svg";
-import Dropdown from "@/components/DropDown/DropDown";
+import Dropdown from "@dropdown/DropDown";
+import KebabBtn from "@icon/ic_meatball.svg";
 import Image from "next/image";
 import { FC } from "react";
 
