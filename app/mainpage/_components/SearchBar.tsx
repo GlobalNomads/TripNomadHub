@@ -18,7 +18,7 @@ const SearchBar = () => {
               내가 원하는 체험은
             </label>
             <div className="absolute left-2 top-2">
-              <Image src={searchicon} alt="Search" width={24} height={24} />
+              <Image src={searchicon} alt="Search" width={40} height={40} />
             </div>
             <input
               id="activity-search"
