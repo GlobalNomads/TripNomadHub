@@ -7,6 +7,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import React from "react";
 
 // SwiperContainer를 동적으로 가져옵니다.
@@ -27,12 +28,12 @@ const ActivityImageGallery: React.FC<ImageGalleryProps> = ({ images, bannerImage
 
       {/* 태블릿과 데스크탑 그리드 */}
       <div className="hidden h-[600px] grid-cols-4 grid-rows-2 gap-4 md:grid xl:grid">
-        <div className="col-span-2 row-span-2">
-          <img src={bannerImage} alt="Banner" className="h-full w-full object-cover" />
+        <div className="relative col-span-2 row-span-2">
+          <Image src={bannerImage} alt="Banner" layout="fill" className="object-cover" />
         </div>
         {images.slice(0, 4).map((image, index) => (
           <div key={index} className="relative h-full">
-            <img src={image} alt={`Image ${index + 1}`} className="h-full w-full object-cover" />
+            <Image src={image} alt={`Image ${index + 1}`} layout="fill" className="object-cover" />
           </div>
         ))}
       </div>
