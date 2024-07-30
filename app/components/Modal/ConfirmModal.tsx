@@ -4,8 +4,8 @@
 */
 "use client";
 
+import Button from "@button/Button";
 import { FC } from "react";
-import Button from "../Button/Button";
 import DefaultModal, { ModalFunctionProps } from "./DefaultModal";
 
 interface ConfirmModalProps extends ModalFunctionProps {

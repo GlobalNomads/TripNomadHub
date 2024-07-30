@@ -1,10 +1,10 @@
 import Link from "next/link";
 import FooterLink from "./FooterLink";
 
-import FacebookIcon from "@/assets/icon/FacebookIcon";
-import InstagramIcon from "@/assets/icon/InstagramIcon";
-import TwitterIcon from "@/assets/icon/TwitterIcon";
-import YoutubeIcon from "@/assets/icon/YoutubeIcon";
+import FacebookIcon from "@icon/FacebookIcon";
+import InstagramIcon from "@icon/InstagramIcon";
+import TwitterIcon from "@icon/TwitterIcon";
+import YoutubeIcon from "@icon/YoutubeIcon";
 
 const Footer = () => {
   return (

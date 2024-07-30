@@ -3,10 +3,10 @@
 */
 "use client";
 
-import check from "@/assets/icon/ic_check_inCircle.svg";
+import Button from "@button/Button";
+import check from "@icon/ic_check_inCircle.svg";
 import Image from "next/image";
 import { FC } from "react";
-import Button from "../Button/Button";
 import DefaultModal, { ModalFunctionProps } from "./DefaultModal";
 
 interface CancelModalProps extends ModalFunctionProps {
