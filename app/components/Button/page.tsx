@@ -9,7 +9,7 @@
 import React from "react";
 import Button from "./Button";
 
-const App: React.FC = () => {
+const ButtonTest: React.FC = () => {
   const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Category Button Clicked", event);
   };
@@ -82,4 +82,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default ButtonTest;
