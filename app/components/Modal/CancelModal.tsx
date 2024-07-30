@@ -3,7 +3,7 @@
 */
 "use client";
 
-import check from "@/app/assets/icon/ic_check_inCircle.svg";
+import check from "@/assets/icon/ic_check_inCircle.svg";
 import Image from "next/image";
 import { FC } from "react";
 import Button from "../Button/Button";

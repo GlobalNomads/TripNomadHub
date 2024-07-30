@@ -10,7 +10,7 @@
 */
 "use client";
 
-import closebtn from "@/app/assets/icon/ic_btn_X_bold.svg";
+import closebtn from "@/assets/icon/ic_btn_X_bold.svg";
 import Image from "next/image";
 import { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
