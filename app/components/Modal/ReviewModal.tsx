@@ -31,7 +31,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, onSubmit }) => {
       width="w-full md:w-[480px] xl:w-[480px]"
       height="h-full md:h-[750px] xl:h-[750px]"
     >
-      <div className="flex flex-grow flex-col items-center p-4">
+      <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center overflow-y-auto p-4">
         <div className="h-[140px] w-full bg-primary-green-100">{/* 체험정보 불러오는 란 */}</div>
         <div className="mb-[24px] mt-[24px] h-[100px] w-full bg-primary-green-100">{/* 별점 구간 */}</div>
         <textarea className="mt-4 h-24 h-60 w-full border px-4 py-2" placeholder="후기를 작성해주세요" />
