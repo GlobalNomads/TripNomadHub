@@ -30,7 +30,12 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose, onConfirm, messa
       }
     >
       <div className="relative flex h-full w-full justify-center">
-        <p className="lg-medium absolute left-1/2 top-2/3 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center font-medium md:text-2lg-medium xl:text-2lg-medium">
+        {/* 모바일에서만 보이는 메시지 */}
+        <p className="lg-medium absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center font-medium md:hidden xl:hidden">
+          {message}
+        </p>
+        {/* 태블릿, 데스크탑에서만 보이는 메시지 */}
+        <p className="lg-medium absolute left-1/2 top-2/3 hidden -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center font-medium md:block md:text-2lg-medium xl:block xl:text-2lg-medium">
           {message}
         </p>
       </div>
