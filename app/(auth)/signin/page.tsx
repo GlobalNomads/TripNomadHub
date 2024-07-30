@@ -1,7 +1,7 @@
-import MainLogo from "@/app/assets/icon/ic_logo_big.svg";
+import MainLogo from "@/assets/icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
-import SigninForm from "./_components/SigninForm";
+import SigninForm from "../_components/SigninForm";
 
 function Signin() {
   return (

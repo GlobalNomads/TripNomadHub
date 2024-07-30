@@ -4,8 +4,8 @@
     Todo: API 연결
 */
 
-import locationIcon from "@/app/assets/icon/ic_location.svg";
-import star from "@/app/assets/icon/ic_star_on.svg";
+import locationIcon from "@/assets/icon/ic_location.svg";
+import star from "@/assets/icon/ic_star_on.svg";
 import Image from "next/image";
 import React from "react";
 

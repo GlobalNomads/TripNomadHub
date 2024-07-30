@@ -1,6 +1,6 @@
 "use client";
 
-import LoginButton from "@/app/components/Button/LoginButton";
+import Button from "@/components/Button/Button";
 import { useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
@@ -59,9 +59,9 @@ function SigninForm() {
           {errors.password && <ErrorText>{errors.password?.message}</ErrorText>}
         </div>
       </div>
-      <LoginButton type="nomadBlack" className="mt-6 w-full max-w-[640px] py-[10.5px]">
+      <Button.Login type="nomadBlack" className="mt-6 w-full max-w-[640px] py-[10.5px]">
         로그인
-      </LoginButton>
+      </Button.Login>
     </form>
   );
 }
