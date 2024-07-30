@@ -4,8 +4,7 @@ import SideNavCard from "./_components/SideNavCard";
 
 const MyReservations: React.FC = () => {
   return (
-    <div>
-      <div className="mb-3 text-3xl-bold">예약 내역</div>
+    <div className="mx-auto flex gap-4 xl:gap-6">
       <SideNavCard />
       <ReservationCard />
     </div>
