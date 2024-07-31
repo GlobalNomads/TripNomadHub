@@ -3,12 +3,9 @@
 /*
   체험 상세 페이지
   Todo: 
-    (1)체험 상세, 
-    (2)카카오 지도 연결,
-    (3)후기 연결,
-    (4)예약 관리,
-    (5)동적 라우팅 연결하기, 
-    (6)MockData 없애고 실제 API와 데이터 연결하기
+    (1)카카오 지도 연결,
+    (2)예약 관리,
+    (3)MockData 없애고 실제 API와 데이터 연결하기
 */
 
 import { useEffect, useState } from "react";
@@ -50,21 +47,32 @@ interface Review {
   updatedAt: string;
 }
 
+interface Reviews {
+  averageRating: number;
+  totalCount: number;
+  reviews: Review[];
+}
+
 interface ActivityPageProps {
   params: { activityId: string };
 }
 
-async function getActivityData(activityId: string): Promise<{ activity: Activity; reviews: Review[] }> {
+async function getActivityData(activityId: string): Promise<{ activity: Activity; reviewsData: Reviews }> {
   // 실제 데이터 패칭 로직 추가 필요
   const activity = activityData; // 예제에서는 mockData 사용
   const reviews = reviewData.reviews.filter(review => review.activityId.toString() === activityId);
-  return { activity, reviews };
+  const reviewsData: Reviews = {
+    averageRating: reviewData.averageRating,
+    totalCount: reviewData.totalCount,
+    reviews,
+  };
+  return { activity, reviewsData };
 }
 
 export default function ActivityPage({ params }: ActivityPageProps) {
   const { activityId } = params;
 
-  const [data, setData] = useState<{ activity: Activity; reviews: Review[] } | null>(null);
+  const [data, setData] = useState<{ activity: Activity; reviewsData: Reviews } | null>(null);
 
   useEffect(() => {
     getActivityData(activityId).then(fetchedData => {
@@ -76,9 +84,10 @@ export default function ActivityPage({ params }: ActivityPageProps) {
     return <div>Loading...</div>;
   }
 
-  const { activity, reviews } = data;
+  const { activity, reviewsData } = data;
 
   const images = activity.subImages.map(image => image.imageUrl);
+
   return (
     <div>
       Activities
@@ -98,7 +107,11 @@ export default function ActivityPage({ params }: ActivityPageProps) {
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
       <ActivityDescription description={activity.description} />
-      <ActivityReviews reviews={reviews} />
+      <ActivityReviews
+        averageRating={reviewsData.averageRating}
+        totalCount={reviewsData.totalCount}
+        reviews={reviewsData.reviews}
+      />
     </div>
   );
 }
