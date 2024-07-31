@@ -89,7 +89,7 @@ const config: Config = {
         ".btn_mobile_white": {
           width: "80px",
           height: "32px",
-          padding: "4px 8px",
+          padding: "5px 9px",
           fontSize: "14px",
           fontWeight: "700",
           lineHeight: "24px",
@@ -102,7 +102,7 @@ const config: Config = {
         ".btn_tablet_white": {
           width: "112px",
           height: "40px",
-          padding: "8px 12px",
+          padding: "6px 21px",
           fontSize: "16px",
           fontWeight: "700",
           lineHeight: "26px",
@@ -128,7 +128,7 @@ const config: Config = {
         ".btn_mobile_black": {
           width: "80px",
           height: "32px",
-          padding: "4px 8px",
+          padding: "5px 9px",
           fontSize: "14px",
           fontWeight: "700",
           lineHeight: "20px",
@@ -141,7 +141,7 @@ const config: Config = {
         ".btn_tablet_black": {
           width: "112px",
           height: "40px",
-          padding: "8px 12px",
+          padding: "6px 21px",
           fontSize: "16px",
           fontWeight: "700",
           lineHeight: "26px",
