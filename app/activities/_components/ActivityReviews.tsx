@@ -1,6 +1,6 @@
 /*
     체험 상세 페이지 후기 컴포넌트
-    TODO: API 연결(현재: MockData 연결됨)
+    TODO: API 연결(현재: MockData 연결됨). Pagination구현(TanStack Query 적용하면서 구현 예정)
 */
 
 import star from "@icon/ic_star_on.svg";
@@ -29,8 +29,11 @@ const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, r
         </div>
       </div>
       <div>
-        {reviews.map(review => (
-          <Review key={review.id} review={review} />
+        {reviews.map((review, index) => (
+          <div key={review.id}>
+            <Review key={review.id} review={review} />
+            {index < reviews.length - 1 && <hr className="my-4 border-t border-primary-black-100 opacity-25" />}
+          </div>
         ))}
       </div>
     </>
