@@ -1,18 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { fetchMyReservations } from "./api";
-
-interface Reservation {
-  activity: {
-    title: string;
-    bannerImageUrl: string;
-  };
-}
-
-interface MyReservationsResponse {
-  reservations: Reservation[];
-}
+import { fetchMyReservations, MyReservationsResponse } from "./api";
 
 const ReservationCard = () => {
   const { data, error, isLoading } = useQuery<MyReservationsResponse>({
@@ -28,9 +17,9 @@ const ReservationCard = () => {
   if (!data || data.reservations.length === 0) {
     return <div>No reservations found</div>;
   }
-
-  const title = data.reservations[0].activity.title;
-  const bannerImageUrl = data.reservations[0].activity.bannerImageUrl;
+  const reservation = data.reservations[0];
+  const { title, bannerImageUrl } = reservation.activity;
+  const { date, startTime, endTime, totalPrice, status } = reservation;
 
   return (
     <div className="mx-auto flex-row">
@@ -45,7 +34,14 @@ const ReservationCard = () => {
             className="h-[128px] w-[128px] rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]"
           />
         </div>
-        <div className="text-md-bold">{title}</div>
+        <div className="ml-2">
+          <div>{status}</div>
+          <div className="text-md-bold">{title}</div>
+          <div className="text-xs-regular">
+            {date}·{startTime}-{endTime}·
+          </div>
+          <div className="text-2lg-medium">₩{totalPrice}</div>
+        </div>
       </div>
     </div>
   );

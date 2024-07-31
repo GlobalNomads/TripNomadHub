@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
 
 const pretendardStd = localFont({
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
-      <body className={`${pretendardStd.variable} ${inter.variable}`}>{children}</body>
+      <body className={`${pretendardStd.variable} ${inter.variable}`}>
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }
