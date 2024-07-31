@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
   content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -80,6 +81,90 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: PluginAPI) {
+      addUtilities({
+        // 예약 내역 페이지
+        // 예약 취소 버튼-모바일 사이즈
+        ".btn_mobile_white": {
+          width: "80px",
+          height: "32px",
+          padding: "4px 8px",
+          fontSize: "14px",
+          fontWeight: "700",
+          lineHeight: "24px",
+          color: "#112211",
+          backgroundColor: "#ffffff",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+        // 예약 취소 버튼-태블릿 사이즈
+        ".btn_tablet_white": {
+          width: "112px",
+          height: "40px",
+          padding: "8px 12px",
+          fontSize: "16px",
+          fontWeight: "700",
+          lineHeight: "26px",
+          color: "#112211",
+          backgroundColor: "#ffffff",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+        // 예약 취소 버튼-데스크탑 사이즈
+        ".btn_desktop_white": {
+          width: "144px",
+          height: "43.08px",
+          padding: "8px 36px",
+          fontSize: "16px",
+          fontWeight: "700",
+          lineHeight: "26px",
+          color: "#112211",
+          backgroundColor: "#ffffff",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+        //후기 작성 버튼-모바일 사이즈
+        ".btn_mobile_black": {
+          width: "80px",
+          height: "32px",
+          padding: "4px 8px",
+          fontSize: "14px",
+          fontWeight: "700",
+          lineHeight: "20px",
+          color: "#FFFFFF",
+          backgroundColor: "#112211",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+        //후기 작성 버튼-태블릿 사이즈
+        ".btn_tablet_black": {
+          width: "112px",
+          height: "40px",
+          padding: "8px 12px",
+          fontSize: "16px",
+          fontWeight: "700",
+          lineHeight: "26px",
+          color: "#FFFFFF",
+          backgroundColor: "#112211",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+        //후기 작성 버튼-데스크탑 사이즈
+        ".btn_desktop_black": {
+          width: "144px",
+          height: "43.08px",
+          padding: "8px 36px",
+          fontSize: "16px",
+          fontWeight: "700",
+          lineHeight: "26px",
+          color: "#FFFFFF",
+          backgroundColor: "#112211",
+          border: "1px solid #112211",
+          borderRadius: "6px",
+        },
+      });
+    },
+  ],
 };
 export default config;

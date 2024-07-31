@@ -73,6 +73,7 @@ const ReservationCard = () => {
 
           <div>
             <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">₩{totalPrice}</div>
+            <div className="btn_mobile_black md:btn_tablet_black xl:btn_desktop_black">후기 작성</div>
           </div>
         </div>
       </div>
