@@ -14,14 +14,22 @@ interface ReviewProps {
   reviews: any[];
 }
 
+const getSatisfactionLabel = (rating: number): string => {
+  if (rating >= 4) return "매우 만족🤗";
+  if (rating >= 3) return "만족😊";
+  if (rating >= 2) return "보통🙂";
+  return "불만족😥";
+};
+
 const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, reviews }) => {
+  const satisfactionLabel = getSatisfactionLabel(averageRating);
   return (
     <>
       <div className="px-4 text-xl-bold text-primary-black-100">후기</div>
       <div className="flex items-center rounded-lg border px-4 pb-6 pt-[18px]">
         <div className="mr-4 text-[50px] font-bold text-primary-black-100">{averageRating.toFixed(1)}</div>
-        <div>
-          <div className="text-2lg-regular text-primary-black-100">매우 만족</div>
+        <div className="space-y-2">
+          <div className="text-2lg-bold text-primary-black-100">{satisfactionLabel}</div>
           <div className="flex items-center space-x-1 text-gray-700">
             <Image src={star} alt="location" width={16} height={16} />
             <span className="text-md-regular text-primary-black-200">{totalCount.toLocaleString()}개 후기</span>
