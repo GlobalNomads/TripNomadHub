@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const ProfileImage = () => {
-  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njk3LCJ0ZWFtSWQiOiI2LTExIiwiaWF0IjoxNzIyMTQ1ODkyLCJleHAiOjE3MjMzNTU0OTIsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.OpRMgEWUfrFDzmzr8nO0rbMlh1BlmQBpEpwkgcAFLVQ";
@@ -24,10 +24,9 @@ const ProfileImage = () => {
 
         const jsonData = await response.json();
         setProfileImageUrl(jsonData.profileImageUrl);
-
-        console.log("Profile Image URL:", jsonData.profileImageUrl);
       } catch (error) {
         console.error("Fetch profile failed:", error);
+        setProfileImageUrl(null);
       }
     };
 
@@ -41,11 +40,12 @@ const ProfileImage = () => {
           src={profileImageUrl}
           width={160}
           height={160}
+          priority
           alt="프로필 이미지"
           className="flex h-[160px] w-[160px] justify-center rounded-full object-cover"
         />
       ) : (
-        <p>Loading...</p>
+        <div className="flex h-[160px] w-[160px] justify-center rounded-full bg-gray-300" />
       )}
     </div>
   );
