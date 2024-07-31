@@ -11,6 +11,7 @@ export interface Reservation {
   endTime: string;
   totalPrice: string;
   status: string;
+  headCount: string;
 }
 
 export interface MyReservationsResponse {

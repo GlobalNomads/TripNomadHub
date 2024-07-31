@@ -7,8 +7,8 @@ const ReservationCard = () => {
   const { data, error, isLoading } = useQuery<MyReservationsResponse>({
     queryKey: ["reservations"],
     queryFn: fetchMyReservations,
-    staleTime: 60000, // 1 minute (60000 milliseconds)
-    retry: 2, // Retry twice on failure
+    staleTime: 60000,
+    retry: 2,
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -19,7 +19,32 @@ const ReservationCard = () => {
   }
   const reservation = data.reservations[0];
   const { title, bannerImageUrl } = reservation.activity;
-  const { date, startTime, endTime, totalPrice, status } = reservation;
+  const { date, startTime, endTime, totalPrice, status, headCount } = reservation;
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "예약 완료";
+      case "canceled":
+        return "예약 취소";
+      case "declined":
+        return "예약 거절";
+      case "completed":
+        return "체험 완료";
+      case "confirmed":
+        return "예약 승인";
+      default:
+        return status;
+    }
+  };
+
+  const truncateTitle = (title: string, maxLength: number) => {
+    return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
+  };
+
+  const formatDate = (dateString: string) => {
+    return dateString.replace(/-/g, ".");
+  };
 
   return (
     <div className="mx-auto flex-row">
@@ -34,13 +59,21 @@ const ReservationCard = () => {
             className="h-[128px] w-[128px] rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]"
           />
         </div>
-        <div className="ml-2">
-          <div>{status}</div>
-          <div className="text-md-bold">{title}</div>
-          <div className="text-xs-regular">
-            {date}·{startTime}-{endTime}·
+        <div className="ml-2 mt-[11px] md:mt-[12px] xl:mt-[21px]">
+          <div className="grid gap-1 md:gap-[5px] xl:gap-[12px]">
+            <div className="text-sm md:text-[16px]">{getStatusText(status)}</div>
+            <div className="text-md-bold md:text-lg-bold xl:text-xl-bold">
+              <span className="block xl:hidden">{truncateTitle(title, 15)}</span>
+              <span className="hidden xl:block">{title}</span>
+            </div>
+            <div className="md:text-sm-regular text-xs-regular xl:text-[18px]">
+              {formatDate(date)} · {startTime}-{endTime} · {headCount}명
+            </div>
           </div>
-          <div className="text-2lg-medium">₩{totalPrice}</div>
+
+          <div>
+            <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">₩{totalPrice}</div>
+          </div>
         </div>
       </div>
     </div>
