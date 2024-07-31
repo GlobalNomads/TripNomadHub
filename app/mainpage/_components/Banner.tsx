@@ -8,7 +8,7 @@ const Banner = () => {
       <Image
         src={dancer}
         alt="Street Dance"
-        layout="fill"
+        fill={true}
         objectFit="cover"
         quality={100}
       />
