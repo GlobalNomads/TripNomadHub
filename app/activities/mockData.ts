@@ -76,12 +76,13 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "손응민",
+        nickname: "백두산날다람쥐",
         id: 694,
       },
       activityId: 1932,
       rating: 4.5,
-      content: "너무 재밌었어요. 특히 가이드분이 너무 친절하셨어요. 강력추천합니다.",
+      content:
+        "저는 저희 스트릿 댄서 체험에 참가하게 된 지 얼마 안됐지만, 정말 즐거운 시간을 보냈습니다. 전문가가 직접 강사로 참여하기 때문에 어떤 수준의 춤추는 사람도 쉽게 이해할 수 있었고, 강사님의 친절한 설명 덕분에 저는 새로운 스타일과 춤추기에 대한 열정이 더욱 생겼습니다.",
       createdAt: "2024-07-31T05:21:54.022Z",
       updatedAt: "2024-07-31T05:21:54.022Z",
     },
@@ -89,14 +90,14 @@ export const reviewData = {
       id: 2,
       user: {
         profileImageUrl:
-          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "김철수",
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994832772.jpeg",
+        nickname: "박하늘별님구름햇님보다사랑스러우리",
         id: 695,
       },
       activityId: 1932,
       rating: 4.8,
       content:
-        "정말 훌륭한 체험이었습니다! 많은 것을 배울 수 있었고, 재미있게 참여할 수 있었습니다. 강사님이 너무 친절하고 전문적이어서 더욱 좋았습니다.",
+        "저는 저희 스트릿 댄서 체험에 참가하게 된 지 얼마 안됐지만, 정말 즐거운 시간을 보냈습니다. 새로운 스타일과 춤추기를 좋아하는 나에게 정말 적합한 체험이었고, 전문가가 직접 강사로 참여하기 때문에 어떤 수준의 춤추는 사람도 쉽게 이해할 수 있었습니다. 강사님께서 정말 친절하게 설명해주셔서 정말 좋았고, 이번 체험을 거쳐 새로운 스타일과 춤추기에 대한 열정이 더욱 생겼습니다. 저는 이 체험을 적극 추천합니다!",
       createdAt: "2024-07-31T05:22:54.022Z",
       updatedAt: "2024-07-31T05:22:54.022Z",
     },
@@ -104,14 +105,14 @@ export const reviewData = {
       id: 3,
       user: {
         profileImageUrl:
-          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "박영희",
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994813442.png",
+        nickname: "프라이인드로스테쭈젠댄마리소피아수인레나테엘리자벳피아루이제",
         id: 696,
       },
       activityId: 1932,
       rating: 4.7,
       content:
-        "춤추기를 좋아하는 사람에게 꼭 추천하고 싶은 체험입니다. 많은 것을 배울 수 있었고, 재미있는 시간이었습니다.",
+        "전문가(곽철 강사님)가 직접 강사로 참여하기 때문에 어떤 수준의 춤추는 사람도 쉽게 이해할 수 있었습니다. 이번 체험을 거쳐 저의 춤추기 실력은 더욱 향상되었어요.",
       createdAt: "2024-07-31T05:23:54.022Z",
       updatedAt: "2024-07-31T05:23:54.022Z",
     },
@@ -120,7 +121,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "이민정",
+        nickname: "이안나",
         id: 697,
       },
       activityId: 1932,
@@ -134,12 +135,13 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "최지훈",
+        nickname: "Rihanna",
         id: 698,
       },
       activityId: 1932,
       rating: 4.9,
-      content: "정말 재미있었고, 강사님도 너무 친절하셨습니다. 새로운 스타일의 춤을 배울 수 있어서 좋았습니다.",
+      content:
+        "춤추기를 좋아하는 사람에게 꼭 추천하고 싶은 체험입니다. 많은 것을 배울 수 있었고, 재미있는 시간이었습니다. 정말 재미있었고, 강사님도 너무 친절하셨습니다. 새로운 스타일의 춤을 배울 수 있어서 좋았습니다.",
       createdAt: "2024-07-31T05:25:54.022Z",
       updatedAt: "2024-07-31T05:25:54.022Z",
     },
@@ -148,7 +150,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "정수빈",
+        nickname: "Gary Oldman",
         id: 699,
       },
       activityId: 1932,
@@ -162,7 +164,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "장유진",
+        nickname: "장원형",
         id: 700,
       },
       activityId: 1932,
@@ -176,7 +178,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "고영수",
+        nickname: "칼이나",
         id: 701,
       },
       activityId: 1932,
@@ -190,7 +192,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "서은지",
+        nickname: "누룽지",
         id: 702,
       },
       activityId: 1932,
@@ -204,7 +206,7 @@ export const reviewData = {
       user: {
         profileImageUrl:
           "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/6-11_694_1722403560402.png",
-        nickname: "윤기준",
+        nickname: "곽철이는귀염둥이",
         id: 703,
       },
       activityId: 1932,
