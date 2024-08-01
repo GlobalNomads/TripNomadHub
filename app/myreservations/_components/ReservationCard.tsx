@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { fetchMyReservations, MyReservationsResponse } from "./api";
-import { getStatusColor, getStatusText } from "./statusUtils";
+import { getStatusColor, getStatusText } from "./StatusUtils";
 
 const ReservationCard = () => {
   const { data, error, isLoading } = useQuery<MyReservationsResponse>({
