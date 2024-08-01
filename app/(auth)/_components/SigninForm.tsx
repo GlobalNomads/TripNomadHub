@@ -1,7 +1,9 @@
 "use client";
 
+import postSignIn from "@api/postSignin";
 import Button from "@button/Button";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
 import Label from "./Label";
@@ -21,8 +23,30 @@ function SigninForm() {
     formState: { isSubmitting, errors, isValid },
   } = useForm<ISignInValue>({ mode: "onChange" });
 
+  const router = useRouter();
+  const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
+
+  const onSubmit: SubmitHandler<ISignInValue> = async data => {
+    try {
+      await postSignIn(data);
+      router.push("/");
+    } catch (error: any) {
+      if (error?.message === "비밀번호가 일치하지 않습니다.") {
+        setError("password", {
+          type: "pw not match",
+          message: error?.message,
+        });
+      } else if (error?.message === "존재하지 않는 유저입니다.") {
+        setError("email", {
+          type: "email is void",
+          message: error?.message,
+        });
+      }
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-6">
         <div className="grid gap-[10px]">
           <Label htmlFor="email">이메일</Label>
@@ -59,7 +83,7 @@ function SigninForm() {
           {errors.password && <ErrorText>{errors.password?.message}</ErrorText>}
         </div>
       </div>
-      <Button.Login type="nomadBlack" className="mt-6 w-full max-w-[640px] py-[10.5px]">
+      <Button.Login type={disabled} className="mt-6 w-full max-w-[640px] py-[10.5px]">
         로그인
       </Button.Login>
     </form>
