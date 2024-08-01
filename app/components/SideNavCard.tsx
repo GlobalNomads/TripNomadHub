@@ -1,4 +1,3 @@
-"use client";
 import ButtonWithHover from "@/myreservations/_components/ButtonWithHover";
 import ProfileImage from "@/myreservations/_components/ProfileImage";
 import AccountCheck from "@icon/ic_account_check_outline.svg";
@@ -19,7 +18,14 @@ function SideNavCard(): React.JSX.Element {
       <div className="relative mx-auto mt-6 items-center justify-center">
         <ProfileImage />
       </div>
-      <Image className="absolute right-14 top-[140px] xl:right-32" src={Pencil} width={44} height={44} alt="연필" />
+      <Image
+        className="absolute right-14 top-[140px] xl:right-32"
+        src={Pencil}
+        width={44}
+        height={44}
+        priority={true}
+        alt="연필"
+      />
       <div className="mx-auto flex flex-col gap-2 text-primary-gray-450 xl:h-[200px] xl:w-[336px]">
         <ButtonWithHover href={"/myprofile"} defaultIcon={GrayAccountCheck} hoverIcon={AccountCheck}>
           내 정보

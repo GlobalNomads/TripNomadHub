@@ -1,54 +1,27 @@
+import fetchInstance from "@/utils/fetchInstance";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-const ProfileImage = () => {
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+interface Profile {
+  profileImageUrl: string;
+}
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Njk3LCJ0ZWFtSWQiOiI2LTExIiwiaWF0IjoxNzIyMTQ1ODkyLCJleHAiOjE3MjMzNTU0OTIsImlzcyI6InNwLWdsb2JhbG5vbWFkIn0.OpRMgEWUfrFDzmzr8nO0rbMlh1BlmQBpEpwkgcAFLVQ";
+async function getProfile(): Promise<Profile> {
+  const url = "users/me";
+  try {
+    return await fetchInstance(url);
+  } catch (error) {
+    throw new Error("Failed to fetch profile");
+  }
+}
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL}users/me`;
-        const response = await fetch(url, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const jsonData = await response.json();
-        setProfileImageUrl(jsonData.profileImageUrl);
-      } catch (error) {
-        console.error("Fetch profile failed:", error);
-        setProfileImageUrl(null);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+export default async function ProfileImage() {
+  const profile = await getProfile();
 
   return (
-    <div>
-      {profileImageUrl ? (
-        <Image
-          src={profileImageUrl}
-          width={160}
-          height={160}
-          priority
-          alt="프로필 이미지"
-          className="flex h-[160px] w-[160px] justify-center rounded-full object-cover"
-        />
-      ) : (
-        <div className="flex h-[160px] w-[160px] justify-center rounded-full bg-gray-300" />
+    <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full bg-primary-gray-300">
+      {profile.profileImageUrl && (
+        <Image src={profile.profileImageUrl} alt="Profile picture" layout="fill" objectFit="cover" />
       )}
     </div>
   );
-};
-
-export default ProfileImage;
+}
