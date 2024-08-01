@@ -10,6 +10,7 @@
 */
 
 import React from "react";
+import ActivityDescription from "./_components/ActivityDescription";
 import ActivityImageGallery from "./_components/ActivityImageGallery";
 import ActivityTitle from "./_components/ActivityTitle";
 import DropDownMenu from "./_components/DropDownMenu";
@@ -100,6 +101,7 @@ const Activities: React.FC = () => {
         </div>
       </div>
       <ActivityImageGallery bannerImage={mockData.bannerImageUrl} images={images} />
+      <ActivityDescription description={mockData.description} />
     </div>
   );
 };

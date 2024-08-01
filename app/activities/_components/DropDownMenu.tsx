@@ -5,7 +5,7 @@
 
 "use client";
 
-import Dropdown from "@dropdown/DropDown";
+import Dropdown, { DropdownItem } from "@dropdown/DropDown";
 import KebabBtn from "@icon/ic_meatball.svg";
 import Image from "next/image";
 import { FC } from "react";
@@ -19,7 +19,7 @@ const DropDownMenu: FC = () => {
     console.log("Delete action triggered");
   };
 
-  const dropdownItems = [
+  const dropdownItems: DropdownItem[] = [
     { label: "수정하기", action: handleEdit },
     { label: "삭제하기", action: handleDelete },
   ];
