@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./styles/globals.css";
-import Footer from "./components/Footer/Footer";
-import SearchBar from "./mainpage/_components/SearchBar";
-import Banner from "./mainpage/_components/Banner";
 
-const inter = Inter({ subsets: ["latin"] });
+const pretendardStd = localFont({
+  src: "./assets/fonts/PretendardStdVariable.woff2",
+  display: "swap",
+  variable: "--font-pretendard-std",
+});
+
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "GlobalNomad",
@@ -22,16 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <Banner />
-        <SearchBar/>
-        <div>
-          <h4> middle </h4>
-        </div>
-        <Footer />
-      </body>
+    <html lang="ko">
+      <head />
+      <body className={`${pretendardStd.variable} ${inter.variable}`}>{children}</body>
     </html>
   );
 }
