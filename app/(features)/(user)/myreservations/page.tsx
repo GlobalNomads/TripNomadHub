@@ -5,8 +5,12 @@ import ReservationCard from "./_components/ReservationCard";
 const MyReservations: React.FC = () => {
   return (
     <div className="mx-auto flex gap-4 xl:gap-6">
-      <SideNavCard />
-      <ReservationCard />
+      <div>
+        <SideNavCard />
+      </div>
+      <div>
+        <ReservationCard />
+      </div>
     </div>
   );
 };

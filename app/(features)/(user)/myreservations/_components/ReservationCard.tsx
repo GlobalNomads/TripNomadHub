@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { fetchMyReservations, MyReservationsResponse } from "./api";
+import { fetchMyReservations, MyReservationsResponse } from "../api/api";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
 const ReservationCard = () => {
