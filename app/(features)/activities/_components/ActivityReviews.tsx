@@ -25,8 +25,8 @@ const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, r
   const satisfactionLabel = getSatisfactionLabel(averageRating);
   return (
     <>
-      <div className="px-4 text-xl-bold text-primary-black-100">후기</div>
-      <div className="flex items-center rounded-lg border px-4 pb-6 pt-[18px]">
+      <div className="text-xl-bold text-primary-black-100">후기</div>
+      <div className="flex items-center rounded-lg border pb-6 pt-[18px]">
         <div className="mr-4 text-[50px] font-bold text-primary-black-100">{averageRating.toFixed(1)}</div>
         <div className="space-y-2">
           <div className="text-2lg-bold text-primary-black-100">{satisfactionLabel}</div>

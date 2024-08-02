@@ -9,7 +9,7 @@ export default function FeaturesLayout({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="main-layout">{children}</main>
       <Footer />
     </>
   );
