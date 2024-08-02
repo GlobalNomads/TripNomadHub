@@ -25,6 +25,7 @@
       "@button/*": ["./app/components/Button/*"],
       "@modal/*": ["./app/components/Modal/*"],
       "@footer/*": ["./app/components/Footer/*"],
+      "@header/*": ["./app/components/Header/*"],
       "@api/*": ["./app/api/*"]
     }
   },
