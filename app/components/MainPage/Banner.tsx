@@ -6,7 +6,7 @@ const Banner = () => {
     <div className="relative h-96 w-full">
       <Image src={dancer} alt="Street Dance" fill={true} objectFit="cover" quality={100} />
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="absolute inset-0 flex flex-col items-start justify-center pl-10 text-white">
+      <div className="main-layout absolute inset-0 flex flex-col items-start justify-center pl-10 text-white">
         <h1 className="text-4xl font-bold leading-tight md:text-6xl">
           함께 배우면 즐거운 <br /> 스트릿 댄스
         </h1>
