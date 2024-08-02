@@ -1,11 +1,11 @@
-import Image from "next/image";
-import searchicon from "../../assets/icon/ic_search.svg";
 import SearchButton from "@/components/Button/SearchButton";
+import searchicon from "@icon/ic_search.svg";
+import Image from "next/image";
 
 const SearchBar = () => {
   return (
-    <div className="relative flex justify-center items-center -mt-20">
-      <div className="rounded-2xl bg-white shadow-xl px-6 py-4 md:px-6 md:py-9 w-full md:w-[696px] lg:w-[1200px] h-[129px] md:h-[166px] lg:h-[178px]">
+    <div className="relative -mt-20 flex items-center justify-center">
+      <div className="h-[129px] w-full rounded-2xl bg-white px-6 py-4 shadow-xl md:h-[166px] md:w-[696px] md:px-6 md:py-9 lg:h-[178px] lg:w-[1200px]">
         <h1 className="text-primary-black text-base font-bold leading-6 md:text-lg md:leading-8">
           무엇을 체험하고 싶으신가요?
         </h1>
@@ -24,7 +24,7 @@ const SearchBar = () => {
               id="activity-search"
               type="text"
               placeholder="내가 원하는 체험은"
-              className="text-primary-black h-full w-full rounded border border-gray-700 pl-12 pr-3 text-sm outline-none focus:border-2 focus:border-primary-black md:text-base"
+              className="text-primary-black focus:border-primary-black h-full w-full rounded border border-gray-700 pl-12 pr-3 text-sm outline-none focus:border-2 md:text-base"
             />
           </div>
           <SearchButton className="h-full">검색하기</SearchButton>
