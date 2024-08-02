@@ -5,6 +5,7 @@ import DefaultButton from "./DefaultButton";
 import FilterButton from "./FilterButton";
 import LoginButton from "./LoginButton";
 import ModalButton from "./ModalButton";
+import { CancelReservationButton, WriteReviewButton } from "./ReservationButtons";
 import SearchButton from "./SearchButton";
 
 const Button = Object.assign(DefaultButton, {
@@ -14,6 +15,8 @@ const Button = Object.assign(DefaultButton, {
   Filter: FilterButton,
   Search: SearchButton,
   Modal: ModalButton,
+  WriteReview: WriteReviewButton,
+  CancelReservation: CancelReservationButton,
 });
 
 export default Button;
