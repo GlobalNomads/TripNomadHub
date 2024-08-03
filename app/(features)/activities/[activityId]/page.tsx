@@ -14,6 +14,7 @@ import ActivityImageGallery from "../_components/ActivityImageGallery";
 import ActivityReviews from "../_components/ActivityReviews";
 import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
+import ReservationFloatingBox from "../_components/ReservationFloatingBox";
 import { activityData, reviewData } from "../mockData";
 
 interface Activity {
@@ -107,6 +108,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
       <ActivityDescription description={activity.description} />
+      <ReservationFloatingBox />
       <ActivityReviews
         averageRating={reviewsData.averageRating}
         totalCount={reviewsData.totalCount}
