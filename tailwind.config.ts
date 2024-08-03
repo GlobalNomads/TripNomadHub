@@ -9,7 +9,7 @@ const config: Config = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        sans: ["var(--font-pretendard-std)", "var(--font-inter)"],
+        Pretendard: ["Pretendard"],
       },
       fontSize: {
         "3xl-bold": ["32px", { lineHeight: "42px", fontWeight: "bold" }],
