@@ -13,7 +13,7 @@ function Signup() {
         <SignupForm />
 
         <div className="flex items-center justify-center gap-[10px] text-lg-regular">
-          회원이 아니신가요?&nbsp;
+          회원이신가요?&nbsp;
           <Link href="/signin" className="text-center text-primary-green-300 underline">
             로그인하기
           </Link>
