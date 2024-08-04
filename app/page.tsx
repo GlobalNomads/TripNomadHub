@@ -1,11 +1,19 @@
-import React from 'react';
-import Footer from "./components/Footer/Footer";
+import Banner from "@/components/MainPage/Banner";
+import MainPage from "@/components/MainPage/MainPage";
+import Footer from "@footer/Footer";
+import Header from "@header/Header";
 
-export default function Home() {
+const LandingPage = () => {
   return (
     <>
+      <Header />
+      <Banner />
+      <div className="main-layout">
+        <MainPage />
+      </div>
       <Footer />
     </>
-    
   );
-}
+};
+
+export default LandingPage;

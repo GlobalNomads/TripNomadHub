@@ -1,26 +1,25 @@
-import React from 'react';
-import Link from 'next/link';
-import FooterLink from './FooterLink';
+import Link from "next/link";
+import FooterLink from "./FooterLink";
 
-import FacebookIcon from '../../assets/icon/FacebookIcon';
-import InstagramIcon from '../../assets/icon/InstagramIcon';
-import TwitterIcon from '../../assets/icon/TwitterIcon';
-import YoutubeIcon from '../../assets/icon/YoutubeIcon';
+import FacebookIcon from "@icon/FacebookIcon";
+import InstagramIcon from "@icon/InstagramIcon";
+import TwitterIcon from "@icon/TwitterIcon";
+import YoutubeIcon from "@icon/YoutubeIcon";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary-black-100 py-8 px-26 flex justify-between items-start whitespace-nowrap">
-      <div className="container mx-auto flex justify-between items-center flex-wrap">
-        <div className="text-gray-600 text-sm">&copy;codeit - 2023</div>
-        <div className="flex gap-8">
-          <Link href="/privacypolicy" className="text-gray-400 text-sm">
+    <footer className="bg-primary-black-100 py-8">
+      <div className="container mx-auto flex flex-col items-center px-8 md:flex-row md:justify-between md:px-16 lg:px-32">
+        <div className="mb-4 text-sm text-gray-600 md:mb-0">&copy;codeit - 2023</div>
+        <div className="mb-4 flex gap-8 md:mb-0">
+          <Link href="/privacypolicy" className="text-sm text-gray-400">
             Privacy Policy
           </Link>
-          <Link href="/faq" className="text-gray-400 text-sm">
+          <Link href="/faq" className="text-sm text-gray-400">
             FAQ
           </Link>
         </div>
-        <div className="flex justify-between w-28">
+        <div className="flex gap-4">
           <FooterLink href="https://www.facebook.com/">
             <FacebookIcon />
           </FooterLink>
@@ -37,6 +36,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;
