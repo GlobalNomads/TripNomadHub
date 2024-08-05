@@ -8,7 +8,7 @@ import ErrorText from "./ErrorText";
 import Input from "./Input";
 import Label from "./Label";
 
-interface ISignUpValue {
+interface SignUpValue {
   email: string;
   password: string;
   nickname: string;
@@ -24,13 +24,14 @@ function SigninForm() {
     watch,
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
-  } = useForm<ISignUpValue>({ mode: "onChange" });
+  } = useForm<SignUpValue>({ mode: "onChange" });
 
   const router = useRouter();
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
-  const onSubmit: SubmitHandler<ISignUpValue> = async data => {
+  const onSubmit: SubmitHandler<SignUpValue> = async ({ email, nickname, password }) => {
     try {
+      const data = { email, nickname, password };
       await postSignUp(data);
       router.push("/signin");
     } catch (error: any) {
@@ -113,7 +114,7 @@ function SigninForm() {
         </div>
       </div>
       <Button.Login type={disabled} className="mt-6 w-full max-w-[640px] py-[10.5px]">
-        로그인
+        회원가입
       </Button.Login>
     </form>
   );

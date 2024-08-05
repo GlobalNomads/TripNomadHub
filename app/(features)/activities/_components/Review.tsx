@@ -7,7 +7,7 @@ import { FC } from "react";
 
 const Review: FC<{ review: any }> = ({ review }) => {
   return (
-    <div className="flex rounded-lg border p-4">
+    <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">
         <div className="h-[45px] w-[45px] overflow-hidden rounded-full">
           <Image

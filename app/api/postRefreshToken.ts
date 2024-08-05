@@ -1,35 +1,20 @@
 "use server";
 
+import fetchInstance from "@/utils/fetchInstance";
 import { cookies } from "next/headers";
 
 interface RequestRefreshToken {
   accessToken?: string;
+  refreshToken?: string;
 }
 
 const postRefreshToken = async () => {
   try {
-    const cookie = cookies().get("refreshToken");
-    const refreshToken = cookie?.value;
-
-    if (!refreshToken) {
-      throw new Error("No refresh token available");
-    }
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/tokens`, {
+    const data = await fetchInstance<RequestRefreshToken>("auth/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to refresh token");
-    }
-
-    const data: RequestRefreshToken = await response.json();
-
-    if (data.accessToken) {
+    if (data.accessToken && data.refreshToken) {
       cookies().set("accessToken", data.accessToken);
     } else {
       throw new Error("Access token is missing");

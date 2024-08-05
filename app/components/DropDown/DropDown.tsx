@@ -54,7 +54,7 @@ const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, 
             <li key={index} className={`border border-primary-gray-300 p-2 ${itemClassName}`}>
               <button
                 onClick={() => handleClickActionBtn(item.action)}
-                className="md-medium w-full rounded px-4 py-2 text-left text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
+                className="md-medium w-full rounded px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
               >
                 {item.label}
               </button>
