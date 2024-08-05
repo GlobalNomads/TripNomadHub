@@ -6,9 +6,11 @@ export default function UserLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <SideNavCard />
-      {children}
-    </>
+    <div className="flex w-full gap-4 xl:gap-6">
+      <div className="hidden md:flex md:w-[33.10%]">
+        <SideNavCard />
+      </div>
+      <div className="w-[100%] md:w-[64.83%]">{children}</div>
+    </div>
   );
 }

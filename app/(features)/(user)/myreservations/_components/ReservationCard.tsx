@@ -1,10 +1,15 @@
 "use client";
+import Button from "@/components/Button/Button";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { fetchMyReservations, MyReservationsResponse } from "../api/api";
+import { useState } from "react";
+import { fetchMyReservations, MyReservationsResponse } from "./api";
+import EmptyPage from "./EmptyPage";
+import ReviewModal from "./ReviewModal";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
 const ReservationCard = () => {
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const { data, error, isLoading } = useQuery<MyReservationsResponse>({
     queryKey: ["reservations"],
     queryFn: fetchMyReservations,
@@ -16,7 +21,7 @@ const ReservationCard = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   if (!data || data.reservations.length === 0) {
-    return <div>아직 등록한 체험이 없어요</div>;
+    return <EmptyPage />;
   }
   const reservation = data.reservations[0];
   const { title, bannerImageUrl } = reservation.activity;
@@ -34,7 +39,6 @@ const ReservationCard = () => {
 
   return (
     <div className="mx-auto flex-row">
-      <div className="mb-3 ml-4 mt-6 text-3xl-bold">예약 내역</div>
       <div className="flex h-[128px] w-[344px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]">
         <div>
           <Image
@@ -58,10 +62,13 @@ const ReservationCard = () => {
           </div>
           <div className="mb-1 flex w-[190px] items-center justify-between md:w-[245px] xl:mb-0 xl:mt-4 xl:w-[540px]">
             <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">₩{totalPrice}</div>
-            <div className="btn_mobile_black md:btn_tablet_black xl:btn_desktop_black">후기 작성</div>
+            <div>
+              <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
+            </div>
           </div>
         </div>
       </div>
+      <ReviewModal isOpen={isReviewModalOpen} onClose={() => setReviewModalOpen(false)} />
     </div>
   );
 };
