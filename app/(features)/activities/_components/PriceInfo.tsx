@@ -2,11 +2,17 @@
     체험 예약 총 금액 정보
 */
 
-const PriceInfo = () => {
+interface PriceInfoProps {
+  price: number;
+}
+
+const PriceInfo: React.FC<PriceInfoProps> = ({ price }) => {
   return (
     <div>
-      <h3>가격 정보</h3>
-      {/* Pricing information will go here */}
+      <div>
+        <span className="text-xl-regular text-primary-black-200 md:text-2xl-bold xl:text-3xl-bold">₩ {price}</span>
+        <span className="text-lg-regular text-primary-gray-800 md:text-2lg-bold xl:text-xl-regular">/인</span>
+      </div>
     </div>
   );
 };
