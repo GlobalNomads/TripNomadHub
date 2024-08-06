@@ -1,6 +1,6 @@
 "use server";
 
-import postRefreshToken from "@api/postRefreshToken";
+import postTokens from "@/api/Auth/postTokens";
 import { cookies } from "next/headers";
 import createParams from "./createParams";
 
@@ -51,7 +51,7 @@ const fetchInstance = async <T>(
         const refreshTokenCookie = cookies().get("refreshToken");
         if (refreshTokenCookie) {
           try {
-            await postRefreshToken();
+            await postTokens();
             const retryHeaders = getDefaultHeaders(options.isMultipart);
             const retryResponse: Response = await fetch(`${baseUrl}${queryString}`, {
               ...options,

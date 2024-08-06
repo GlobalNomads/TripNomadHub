@@ -1,28 +1,19 @@
 "use server";
 
-import { UserInput } from "@/types/auth.type";
+import { UserData } from "@/types/auth.type";
 import fetchInstance from "@/utils/fetchInstance";
 
 import { cookies } from "next/headers";
 
-export interface User {
-  id?: number;
-  email?: string;
+export interface UserInput {
+  email: string;
   nickname?: string;
-  profileImageUrl?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  password: string;
 }
 
-export interface RequestUserInfo {
-  user?: User;
-  accessToken?: string;
-  refreshToken?: string;
-}
-
-const postSignIn = async (userInput: UserInput) => {
+const postLogin = async (userInput: UserInput) => {
   try {
-    const data = await fetchInstance<RequestUserInfo>("auth/login", {
+    const data = await fetchInstance<UserData>("auth/login", {
       method: "POST",
       body: JSON.stringify(userInput),
     });
@@ -44,4 +35,4 @@ const postSignIn = async (userInput: UserInput) => {
   }
 };
 
-export default postSignIn;
+export default postLogin;
