@@ -115,8 +115,10 @@ export default function ActivityPage({ params }: ActivityPageProps) {
             reviews={reviewsData.reviews}
           />
         </div>
-        <div className="pt-[85px] md:w-[251px] xl:w-[384px]">
-          <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
+        <div className="pt-[85px] md:relative md:w-[251px] xl:relative xl:w-[384px]">
+          <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative xl:relative">
+            <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
+          </div>
         </div>
       </div>
     </div>
