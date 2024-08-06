@@ -17,11 +17,17 @@ export interface MyReservationsResponse {
   reservations: Reservation[];
 }
 
-export interface MyReservationsResponse {
-  reservations: Reservation[];
-}
-
-export const fetchMyReservations = async (): Promise<MyReservationsResponse> => {
-  const url = "my-reservations";
-  return fetchInstance<MyReservationsResponse>(url);
+export const fetchMyReservations = async () => {
+  try {
+    const data = await fetchInstance<MyReservationsResponse>("my-reservations", {
+      method: "GET",
+    });
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message || "reservation data failed");
+    } else {
+      throw new Error("reservation data failed");
+    }
+  }
 };
