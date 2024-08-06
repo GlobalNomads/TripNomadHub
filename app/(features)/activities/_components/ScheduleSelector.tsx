@@ -81,7 +81,7 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
       </div>
       <div>
         <h3 className="pb-3 text-xl-bold text-primary-black-100">예약 가능한 시간</h3>
-        <div className="space-x-3 space-y-3 text-center">
+        <div className="space-x-3 space-y-3 text-left">
           {filteredSchedules.length > 0 ? (
             filteredSchedules.map((schedule, index) => (
               <Button.Default
