@@ -23,6 +23,7 @@ interface ReservationFloatingBoxProps {
 const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedules, price }) => {
   const [participantCount, setParticipantCount] = useState<number>(1);
   const [selectedSchedule, setSelectedSchedule] = useState<string>("");
+  const [showScheduleSelector, setShowScheduleSelector] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     const response = await fetch("/api/submit", {
@@ -40,11 +41,54 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     }
   };
 
+  const toggleScheduleSelector = () => {
+    setShowScheduleSelector(!showScheduleSelector);
+  };
+
   return (
-    <div className="h-auto w-[384px] whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:w-[251]">
+    <div className="relative h-auto w-full whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:w-[251px] lg:w-[384px]">
       <PriceInfo price={price} />
       <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
-      <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+      <div className="block md:hidden">
+        <Button.Default onClick={toggleScheduleSelector} className="border-0">
+          날짜 선택하기
+        </Button.Default>
+      </div>
+      {showScheduleSelector && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 md:hidden">
+          <div className="relative rounded-lg bg-white p-4">
+            <button onClick={toggleScheduleSelector} className="absolute right-2 top-2 text-black">
+              X
+            </button>
+            <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+            <Button.Default onClick={toggleScheduleSelector} className="mt-4">
+              확인
+            </Button.Default>
+          </div>
+        </div>
+      )}
+      <h3 className="pb-4 text-xl-bold text-primary-black-100">날짜</h3>
+      <div className="hidden md:block xl:hidden">
+        <Button.Default onClick={toggleScheduleSelector} className="border-0">
+          날짜 선택하기
+        </Button.Default>
+      </div>
+      {showScheduleSelector && (
+        <div className="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 md:flex xl:hidden">
+          <div className="relative rounded-lg bg-white p-4">
+            <button onClick={toggleScheduleSelector} className="absolute right-2 top-2 text-black">
+              X
+            </button>
+            <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+            <Button.Default onClick={toggleScheduleSelector} className="mt-4 border-0">
+              확인
+            </Button.Default>
+          </div>
+        </div>
+      )}
+      <div className="hidden xl:block">
+        <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+      </div>
       <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
       <ParticipantCount count={participantCount} setCount={setParticipantCount} />
       <div className="pt-4">

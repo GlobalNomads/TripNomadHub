@@ -64,7 +64,6 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
   return (
     <div>
       <div>
-        <h3 className="pb-4 text-xl-bold text-primary-black-100">날짜</h3>
         <div className="pb-4 text-center">
           <DatePicker
             selected={selectedDate}
