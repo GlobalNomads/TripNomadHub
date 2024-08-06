@@ -59,19 +59,19 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     <div className="relative h-auto w-full whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg">
       {showScheduleSelector && isMobile ? (
         // 모바일에서만 전체화면 모달
-        <div className="fixed inset-0 z-50 flex flex-col bg-white">
+        <div className="fixed inset-0 z-50 flex flex-col whitespace-nowrap bg-white px-6 py-10">
           <div className="flex items-center justify-between border-primary-gray-400 p-4 md:border-b md:border-solid xl:border-b xl:border-solid">
             <h3 className="text-xl-bold text-primary-black-100">날짜</h3>
             <button onClick={toggleScheduleSelector} className="text-black">
               X
             </button>
           </div>
-          <div className="flex-1 overflow-auto p-4">
+          <div className="flex-1 space-y-4 overflow-auto p-4">
             <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
-          <div className="border-t border-solid border-primary-gray-400 p-4">
-            <Button.Default onClick={toggleScheduleSelector} className="w-full border-0 bg-primary-gray-100">
+          <div className="border-primary-gray-400 p-4 md:border-t md:border-solid xl:border-t xl:border-solid">
+            <Button.Default type="nomadBlack" className="h-14 w-full p-2 text-center" onClick={toggleScheduleSelector}>
               확인
             </Button.Default>
           </div>
@@ -101,14 +101,20 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           <PriceInfo price={price} />
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 날짜 */}
-          <h3 className="pb-3 text-xl-bold text-primary-black-100">날짜</h3>
+          <h3 className="hidden pb-3 text-xl-bold text-primary-black-100 md:block xl:block">날짜</h3>
           <div className="block md:hidden">
-            <Button.Default onClick={toggleScheduleSelector} className="border-0">
+            <Button.Default
+              onClick={toggleScheduleSelector}
+              className="border-0 font-bold text-primary-black-100 underline"
+            >
               {selectedSchedule ? "날짜 다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
           <div className="hidden md:block xl:hidden">
-            <Button.Default onClick={toggleScheduleSelector} className="border-0">
+            <Button.Default
+              onClick={toggleScheduleSelector}
+              className="border-0 font-bold text-primary-black-100 underline"
+            >
               {selectedSchedule ? "날짜 다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
@@ -128,16 +134,29 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           </div>
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 인원 */}
-          <ParticipantCount count={participantCount} setCount={setParticipantCount} />
-          <div className="pt-4">
-            <Button.Submit onClick={handleSubmit} className="">
-              예약하기
-            </Button.Submit>
+          <div className="hidden md:block xl:hidden">
+            <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
+          {/* 기본 버튼 위치 */}
+          {!isMobile && (
+            <div className="pt-4">
+              <Button.Submit onClick={handleSubmit} className="">
+                예약하기
+              </Button.Submit>
+            </div>
+          )}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 가격 */}
           <TotalPrice price={price} count={participantCount} />
         </>
+      )}
+      {/* 모바일에서 버튼 위치 변경 */}
+      {isMobile && (
+        <div className="fixed bottom-0 right-0 m-4 w-[106px]">
+          <Button.Submit onClick={handleSubmit} className="">
+            예약하기
+          </Button.Submit>
+        </div>
       )}
     </div>
   );
