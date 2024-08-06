@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 
 export interface UserInput {
   email: string;
-  nickname?: string;
   password: string;
 }
 
