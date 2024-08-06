@@ -6,30 +6,16 @@
 
 import React, { MouseEventHandler, ReactNode } from "react";
 
-export type ButtonType = "enable" | "nomadBlack";
-
 interface SubmitButtonProps {
   children: ReactNode;
   disabled?: boolean;
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  type?: ButtonType; // 이제 새롭게 정의된 ButtonType을 사용
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({
-  type = "enable",
-  children,
-  disabled = false,
-  className = "",
-  onClick,
-}) => {
-  const baseClasses = "rounded-[4px] text-lg-bold p-[8px] w-full h-56px";
-  const typeClasses =
-    {
-      enable: "bg-gray-400",
-      nomadBlack: "bg-primary-black-100 text-white",
-    }[type] || "";
-
+const SubmitButton: React.FC<SubmitButtonProps> = ({ children, disabled = false, className = "", onClick }) => {
+  const baseClasses = "rounded text-lg-bold p-2 w-full h-14";
+  const typeClasses = disabled ? "bg-primary-gray-400 cursor-not-allowed" : "bg-primary-black-100 text-white";
   const combinedClasses = `${baseClasses} ${typeClasses} ${className}`;
 
   return (
