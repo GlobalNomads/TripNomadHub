@@ -137,7 +137,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           )}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 인원 */}
-          <div className="hidden md:block xl:hidden">
+          <div className="hidden md:block xl:block">
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
           <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
