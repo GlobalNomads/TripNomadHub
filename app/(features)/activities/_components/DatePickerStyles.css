@@ -39,3 +39,14 @@
 .react-datepicker__navigation {
   top: 1rem;
 }
+
+/* schedule 있는 날 */
+.selectable-day {
+  color: black;
+}
+
+/* schedule 없는 날 */
+.non-selectable-day {
+  color: gray;
+  pointer-events: none;
+}
