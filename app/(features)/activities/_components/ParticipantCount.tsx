@@ -17,7 +17,7 @@ const ParticipantCount: React.FC<ParticipantCountProps> = ({ count, setCount }) 
   return (
     <div>
       <div>
-        <h3 className="text-xl-bold text-primary-black-100">참여 인원 수</h3>
+        <h3 className="pb-2 text-xl-bold text-primary-black-100">참여 인원 수</h3>
       </div>
       <div className="flex h-10 w-28 items-center rounded-md border border-solid border-primary-gray-400 p-2">
         <button onClick={handleDecrement} className="px-3 py-1 text-lg-bold">

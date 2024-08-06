@@ -41,15 +41,19 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   return (
-    <div className="h-[746px] w-[384px] rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg">
-      <h2>예약용 플로팅 박스</h2>
+    <div className="h-auto w-[384px] whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg">
       <PriceInfo price={price} />
+      <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
       <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+      <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
       <ParticipantCount count={participantCount} setCount={setParticipantCount} />
+      <div className="pt-4">
+        <Button.Submit onClick={handleSubmit} className="">
+          예약하기
+        </Button.Submit>
+      </div>
+      <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
       <TotalPrice price={price} count={participantCount} />
-      <Button.Submit onClick={handleSubmit} className="">
-        예약하기
-      </Button.Submit>
     </div>
   );
 };
