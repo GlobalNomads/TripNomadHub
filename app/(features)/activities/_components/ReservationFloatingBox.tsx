@@ -35,8 +35,12 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const formatPrice = (amount: number) => {
+    return new Intl.NumberFormat("ko-KR").format(amount);
+  };
+
   const handleSubmit = async () => {
-    const response = await fetch("/api/submit", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/activities/{activityId}/reservations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,9 +49,9 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     });
 
     if (response.ok) {
-      alert("Successfully submitted!");
+      alert("예약 성공! 😍");
     } else {
-      alert("Submission failed.");
+      alert("예약 실패! 😥");
     }
   };
 
@@ -119,7 +123,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           {selectedSchedule && isMobile && (
             <div className="text-lg-semibold text-primary-black-100">
               <p>
-                ₩ {price * participantCount} / 총 {participantCount}인
+                ₩ {formatPrice(price * participantCount)} / 총 {participantCount}인
               </p>
               <p>{selectedSchedule}</p>
             </div>
