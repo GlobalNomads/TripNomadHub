@@ -76,6 +76,17 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
             inline
             filterDate={isDateSelectable}
             dayClassName={dayClassName}
+            renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
+              <div className="flex items-center justify-between px-2 py-1">
+                <button onClick={decreaseMonth} className="btn btn-light">
+                  {"<"}
+                </button>
+                <span>{format(date, "yyyy년 M월", { locale: ko as unknown as Locale })}</span>
+                <button onClick={increaseMonth} className="btn btn-light">
+                  {">"}
+                </button>
+              </div>
+            )}
           />
         </div>
       </div>
