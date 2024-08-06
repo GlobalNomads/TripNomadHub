@@ -39,21 +39,21 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     return new Intl.NumberFormat("ko-KR").format(amount);
   };
 
-  const handleSubmit = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/activities/{activityId}/reservations`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ count: participantCount, schedule: selectedSchedule }),
-    });
+  // const handleSubmit = async () => {
+  //  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/activities/{activityId}/reservations`, {
+  //    method: "POST",
+  //    headers: {
+  //      "Content-Type": "application/json",
+  //    },
+  //    body: JSON.stringify({ count: participantCount, schedule: selectedSchedule }),
+  //  });
 
-    if (response.ok) {
-      alert("예약 성공! 😍");
-    } else {
-      alert("예약 실패! 😥");
-    }
-  };
+  //    if (response.ok) {
+  //      alert("예약 성공! 😍");
+  //    } else {
+  //      alert("예약 실패! 😥");
+  //    }
+  //  };
 
   const toggleScheduleSelector = () => {
     setShowScheduleSelector(!showScheduleSelector);
@@ -141,9 +141,8 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
           <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
-            <Button.Submit onClick={handleSubmit} className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}>
-              예약하기
-            </Button.Submit>
+            {/* TODO: API 연결하며 onClick={handleSubmit} Button에 추가 */}
+            <Button.Submit className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}>예약하기</Button.Submit>
           </div>
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 가격 */}
