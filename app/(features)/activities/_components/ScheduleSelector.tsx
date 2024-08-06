@@ -23,7 +23,6 @@ interface ScheduleSelectorProps {
 const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], setSelectedSchedule }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date()); // 현재 날짜를 초기 선택 값으로 설정
   const [selectedTime, setSelectedTime] = useState<string>("");
-  const [buttonType, setButtonType] = useState<ButtonType>("white"); // 버튼 타입 상태에 타입 지정
 
   const handleDateChange = (date: Date | null, event: React.SyntheticEvent<any> | undefined) => {
     if (date) {
@@ -33,13 +32,9 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
   };
 
   const handleTimeSelect = (time: string) => {
+    console.log("Selected time:", time);
     setSelectedTime(time);
     setSelectedSchedule(`${selectedDate?.toLocaleDateString()} ${time}`);
-  };
-
-  const handleClick = () => {
-    // 버튼 타입을 토글합니다.
-    setButtonType(currentType => (currentType === "white" ? "nomadBlack" : "white"));
   };
 
   const today = new Date();
@@ -47,29 +42,35 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
   return (
     <div>
       <div>
-        <h3 className="text-xl-bold text-primary-black-100">날짜</h3>
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          minDate={today}
-          dateFormat="yyyy/MM/dd"
-          className="input react-datepicker-custom" // Tailwind CSS 클래스를 적용할 수 있습니다.
-          inline
-        />
+        <h3 className="pb-4 text-xl-bold text-primary-black-100">날짜</h3>
+        <div className="pb-4 text-center">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            minDate={today}
+            dateFormat="yyyy/MM/dd"
+            className="input react-datepicker-custom"
+            inline
+          />
+        </div>
       </div>
       <div>
-        <h3 className="text-xl-bold text-primary-black-100">예약 가능한 시간</h3>
-        {schedules.map(schedule => (
-          <Button.Default
-            key={schedule.id}
-            onClick={() => handleTimeSelect(`${schedule.startTime}~${schedule.endTime}`)}
-            className={`w-[120px] rounded-[8px] px-3 py-2 text-lg-semibold ${
-              selectedTime === `${schedule.startTime}~${schedule.endTime}` ? "bg-gray-300" : ""
-            }`}
-          >
-            {schedule.startTime}~{schedule.endTime}
-          </Button.Default>
-        ))}
+        <h3 className="pb-3 text-xl-bold text-primary-black-100">예약 가능한 시간</h3>
+        <div className="space-x-3 space-y-3 text-center">
+          {schedules.map((schedule, index) => (
+            <Button.Default
+              key={`${schedule.id}-${index}`}
+              type={selectedTime === `${schedule.startTime}~${schedule.endTime}` ? "nomadBlack" : "white"}
+              onClick={() => {
+                console.log(`Button clicked for ${schedule.startTime}~${schedule.endTime}`); // 디버깅 메시지 추가
+                handleTimeSelect(`${schedule.startTime}~${schedule.endTime}`);
+              }}
+              className={`w-[120px] rounded-[8px] px-3 py-2 text-lg-semibold`}
+            >
+              {schedule.startTime}~{schedule.endTime}
+            </Button.Default>
+          ))}
+        </div>
       </div>
     </div>
   );
