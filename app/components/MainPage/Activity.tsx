@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import miniStar from "@/assets/icon/mini_star.svg";
+import miniStar from "@icon/mini_star.svg";
 
 import type { Activites } from "./types";
 

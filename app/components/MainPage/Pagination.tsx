@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import PaginationArrowLeft from "@/assets/icon/ic_left.svg";
-import PaginationArrowRight from "@/assets/icon/ic_right.svg";
+import PaginationArrowLeft from "@icon/ic_left.svg"
+import PaginationArrowRight from "@icon/ic_right.svg"
 
 interface PaginationProps {
   totalPages: number;
