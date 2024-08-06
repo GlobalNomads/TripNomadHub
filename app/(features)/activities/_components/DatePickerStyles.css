@@ -1,0 +1,41 @@
+.react-datepicker {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+}
+
+.react-datepicker__header {
+  background-color: white;
+  border-bottom: none;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #0b3b2d;
+  color: white;
+}
+
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--keyboard-selected:hover {
+  background-color: #0b3b2d;
+}
+
+/* 오늘(today) 강조 */
+.react-datepicker__day--today {
+  font-weight: bold;
+  background-color: #ced8d5;
+  border-radius: 8px;
+  color: #0b3b2d;
+}
+
+/* 기본 날짜 스타일 */
+.react-datepicker__day {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+/* 달력 네비게이션 버튼 스타일 */
+.react-datepicker__navigation {
+  top: 1rem;
+}
