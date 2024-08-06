@@ -97,66 +97,56 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
               </div>
             </div>
           )}
-          {/* 가격 */}
-          <PriceInfo price={price} />
+          {/* 가격 (모바일에서는 일정 선택 전에만 보이게) */}
+          {isMobile && !selectedSchedule && <PriceInfo price={price} />}
+          {!isMobile && <PriceInfo price={price} />}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 날짜 */}
           <h3 className="hidden pb-3 text-xl-bold text-primary-black-100 md:block xl:block">날짜</h3>
           <div className="block md:hidden">
-            <Button.Default
-              onClick={toggleScheduleSelector}
-              className="border-0 font-bold text-primary-black-100 underline"
-            >
-              {selectedSchedule ? "날짜 다시 선택하기" : "날짜 선택하기"}
+            <Button.Default onClick={toggleScheduleSelector} className="border-0 font-bold underline">
+              {selectedSchedule ? "다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
           <div className="hidden md:block xl:hidden">
-            <Button.Default
-              onClick={toggleScheduleSelector}
-              className="border-0 font-bold text-primary-black-100 underline"
-            >
-              {selectedSchedule ? "날짜 다시 선택하기" : "날짜 선택하기"}
+            <Button.Default onClick={toggleScheduleSelector} className="border-0 font-bold underline">
+              {selectedSchedule ? "다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
           <div className="hidden xl:block">
             <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
           </div>
-          <div className="my-4">
-            {selectedSchedule ? (
-              <div className="text-lg text-primary-black-100 xl:hidden">
+          {selectedSchedule && isMobile && (
+            <div className="text-lg-semibold text-primary-black-100">
+              <p>
+                ₩ {price * participantCount} / 총 {participantCount}인
+              </p>
+              <p>{selectedSchedule}</p>
+            </div>
+          )}
+          {selectedSchedule && !isMobile && (
+            <div className="my-4">
+              <div className="text-lg text-primary-black-100">
                 <p>{selectedSchedule}</p>
               </div>
-            ) : (
-              <div className="block text-lg text-primary-black-100 md:block xl:hidden">
-                <p>체험 일정을 선택하세요</p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 인원 */}
           <div className="hidden md:block xl:hidden">
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
-          {/* 기본 버튼 위치 */}
-          {!isMobile && (
-            <div className="pt-4">
-              <Button.Submit onClick={handleSubmit} className="">
-                예약하기
-              </Button.Submit>
-            </div>
-          )}
+          <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
+            <Button.Submit onClick={handleSubmit} className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}>
+              예약하기
+            </Button.Submit>
+          </div>
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 가격 */}
-          <TotalPrice price={price} count={participantCount} />
+          <div className="hidden md:block xl:block">
+            <TotalPrice price={price} count={participantCount} />
+          </div>
         </>
-      )}
-      {/* 모바일에서 버튼 위치 변경 */}
-      {isMobile && (
-        <div className="fixed bottom-0 right-0 m-4 w-[106px]">
-          <Button.Submit onClick={handleSubmit} className="">
-            예약하기
-          </Button.Submit>
-        </div>
       )}
     </div>
   );
