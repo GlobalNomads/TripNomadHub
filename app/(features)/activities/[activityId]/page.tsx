@@ -108,7 +108,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
       <ActivityDescription description={activity.description} />
-      <ReservationFloatingBox />
+      <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
       <ActivityReviews
         averageRating={reviewsData.averageRating}
         totalCount={reviewsData.totalCount}
