@@ -12,7 +12,7 @@ export interface User {
   updatedAt?: string;
 }
 
-const postSignUp = async (userInput: UserInput) => {
+const postUsers = async (userInput: UserInput) => {
   try {
     const data = await fetchInstance<User>("users", {
       method: "POST",
@@ -29,4 +29,4 @@ const postSignUp = async (userInput: UserInput) => {
   }
 };
 
-export default postSignUp;
+export default postUsers;
