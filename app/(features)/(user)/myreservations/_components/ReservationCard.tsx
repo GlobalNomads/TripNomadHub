@@ -39,7 +39,7 @@ const ReservationCard = () => {
 
   return (
     <div className="mx-auto flex-row">
-      <div className="flex h-[128px] w-[344px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]">
+      <div className="flex h-[128px] w-full rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] xl:h-[204px]">
         <div>
           <Image
             src={bannerImageUrl}

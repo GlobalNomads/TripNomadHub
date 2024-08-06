@@ -1,30 +1,25 @@
-import fetchInstance from "@/utils/fetchInstance";
+"use server";
+
+import getUsersMe from "@/api/Users/getUsersMe";
+import { UserData } from "@/types/users.type";
 import Image from "next/image";
 
-interface Profile {
-  profileImageUrl: string | null;
-}
-
-async function getProfile(): Promise<Profile> {
-  const url = "users/me";
+const ProfileImage = async () => {
   try {
-    return await fetchInstance<Profile>(url);
+    const userData: UserData = await getUsersMe();
+    return (
+      <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
+        {userData.profileImageUrl ? (
+          <Image src={userData.profileImageUrl} alt="Profile picture" layout="fill" objectFit="cover" />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-primary-gray-300"></div>
+        )}
+      </div>
+    );
   } catch (error) {
-    console.error("Failed to fetch profile", error);
-    throw new Error("Failed to fetch profile");
+    console.error("Failed to fetch user data:", error);
+    return <div>Error loading profile</div>;
   }
-}
+};
 
-export default async function ProfileImage() {
-  const profile = await getProfile();
-
-  return (
-    <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
-      {profile.profileImageUrl ? (
-        <Image src={profile.profileImageUrl} alt="Profile picture" layout="fill" objectFit="cover" />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center bg-primary-gray-300"></div>
-      )}
-    </div>
-  );
-}
+export default ProfileImage;

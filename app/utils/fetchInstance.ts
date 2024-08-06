@@ -51,14 +51,15 @@ const fetchInstance = async <T>(
         const refreshTokenCookie = cookies().get("refreshToken");
         if (refreshTokenCookie) {
           try {
-            await postRefreshToken();
-            const retryHeaders = getDefaultHeaders(options.isMultipart);
+            const newAccessToken = await postRefreshToken();
+            headers.set("Authorization", `Bearer ${newAccessToken.accessToken}`);
+            // const retryHeaders = getDefaultHeaders(options.isMultipart);
             const retryResponse: Response = await fetch(`${baseUrl}${queryString}`, {
               ...options,
-              headers: new Headers({
-                ...retryHeaders,
-                ...options.headers,
-              }),
+              // headers: new Headers({
+              //   ...retryHeaders,
+              //   ...options.headers,
+              headers,
             });
             if (retryResponse.ok) {
               return retryResponse.json();
@@ -67,6 +68,7 @@ const fetchInstance = async <T>(
             throw new Error(error instanceof Error ? error.message : "Failed to refresh token");
           }
         }
+
         throw new Error("Unauthorized: No refresh token available");
       } else {
         const error = await response.json().catch(() => ({ message: "Unknown error" }));
