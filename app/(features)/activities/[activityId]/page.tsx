@@ -106,8 +106,8 @@ export default function ActivityPage({ params }: ActivityPageProps) {
         </div>
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
-      <div className="flex flex-col gap-6 lg:flex-row lg:gap-6">
-        <div className="md:w-[455px] lg:w-[790px]">
+      <div className="flex flex-col gap-6 md:flex-row md:gap-6 xl:flex-row xl:gap-6">
+        <div className="w-full">
           <ActivityDescription description={activity.description} />
           <ActivityReviews
             averageRating={reviewsData.averageRating}
@@ -115,7 +115,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
             reviews={reviewsData.reviews}
           />
         </div>
-        <div className="pt-[85px] md:w-[251px] lg:w-[384px]">
+        <div className="pt-[85px] md:w-[251px] xl:w-[384px]">
           <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
         </div>
       </div>
