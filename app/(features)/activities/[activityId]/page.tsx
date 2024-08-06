@@ -90,9 +90,8 @@ export default function ActivityPage({ params }: ActivityPageProps) {
   const images = activity.subImages.map(image => image.imageUrl);
 
   return (
-    <div>
-      Activities
-      <div className="flex items-center justify-between">
+    <div className="container mx-auto px-4">
+      <div className="flex items-center justify-between py-4">
         <div className="flex-1">
           <ActivityTitle
             category={activity.category}
@@ -107,13 +106,19 @@ export default function ActivityPage({ params }: ActivityPageProps) {
         </div>
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
-      <ActivityDescription description={activity.description} />
-      <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
-      <ActivityReviews
-        averageRating={reviewsData.averageRating}
-        totalCount={reviewsData.totalCount}
-        reviews={reviewsData.reviews}
-      />
+      <div className="flex flex-col gap-6 lg:flex-row lg:gap-6">
+        <div className="md:w-[455px] lg:w-[790px]">
+          <ActivityDescription description={activity.description} />
+          <ActivityReviews
+            averageRating={reviewsData.averageRating}
+            totalCount={reviewsData.totalCount}
+            reviews={reviewsData.reviews}
+          />
+        </div>
+        <div className="pt-[85px] md:w-[251px] lg:w-[384px]">
+          <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
+        </div>
+      </div>
     </div>
   );
 }

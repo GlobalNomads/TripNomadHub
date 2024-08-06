@@ -41,7 +41,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   return (
-    <div className="h-auto w-[384px] whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg">
+    <div className="h-auto w-[384px] whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:w-[251]">
       <PriceInfo price={price} />
       <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
       <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
