@@ -3,7 +3,7 @@
 import { UserImageUrl } from "@/types/users.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const postUsersMeImage = async (userImage: File): Promise<UserImageUrl> => {
+const postUsersMeImg = async (userImage: File): Promise<UserImageUrl> => {
   const formData = new FormData();
   formData.append("image", userImage);
 
@@ -24,4 +24,4 @@ const postUsersMeImage = async (userImage: File): Promise<UserImageUrl> => {
   }
 };
 
-export default postUsersMeImage;
+export default postUsersMeImg;

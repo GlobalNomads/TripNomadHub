@@ -1,6 +1,6 @@
 "use client";
 
-// import postSignUp from "@api/postSignup";
+import postUsers from "@api/Users/postUsers";
 import Button from "@button/Button";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -32,7 +32,7 @@ function SigninForm() {
   const onSubmit: SubmitHandler<SignUpValue> = async ({ email, nickname, password }) => {
     try {
       const data = { email, nickname, password };
-      //      await postSignUp(data);
+      await postUsers(data);
       router.push("/signin");
     } catch (error: any) {
       if (error?.message === "중복된 이메일입니다.") {

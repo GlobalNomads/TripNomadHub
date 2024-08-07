@@ -1,6 +1,6 @@
 "use client";
 
-import postSignIn from "@api/postSignin";
+import postLogin from "@api/Auth/postLogin";
 import Button from "@button/Button";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -28,7 +28,7 @@ function SigninForm() {
 
   const onSubmit: SubmitHandler<ISignInValue> = async data => {
     try {
-      await postSignIn(data);
+      await postLogin(data);
       router.push("/");
     } catch (error: any) {
       if (error?.message === "비밀번호가 일치하지 않습니다.") {
