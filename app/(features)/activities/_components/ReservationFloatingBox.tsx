@@ -70,11 +70,11 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   return (
-    <div className="relative h-auto w-full whitespace-nowrap border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:rounded-lg xl:rounded-lg">
+    <div className="relative h-auto w-full whitespace-nowrap border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:rounded-lg">
       {showScheduleSelector && isMobile ? (
         // 모바일에서만 전체화면 모달
         <div className="fixed inset-0 z-50 flex flex-col whitespace-nowrap bg-white px-6 py-10 pt-20">
-          <div className="flex items-center justify-between border-primary-gray-400 p-4 md:border-b md:border-solid xl:border-b xl:border-solid">
+          <div className="flex items-center justify-between border-primary-gray-400 p-4 md:border-b md:border-solid">
             <h3 className="text-xl-bold text-primary-black-100">날짜</h3>
             <button onClick={toggleScheduleSelector} className="text-black">
               X
@@ -84,7 +84,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
-          <div className="border-primary-gray-400 p-4 md:border-t md:border-solid xl:border-t xl:border-solid">
+          <div className="border-primary-gray-400 p-4 md:border-t md:border-solid">
             <Button.Default type="nomadBlack" className="h-14 w-full p-2 text-center" onClick={toggleScheduleSelector}>
               확인
             </Button.Default>
