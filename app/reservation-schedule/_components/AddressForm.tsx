@@ -1,10 +1,15 @@
+/*
+    체험 등록 페이지의 주소(Address) 컴포넌트
+    체험 등록에 필요한 주소를 입력하는 폼
+*/
+
 "use client";
 import React from "react";
 
 const AddressForm: React.FC = () => {
   return (
     <div className="flex w-[343px] flex-col items-start rounded-t-md p-0 md:w-[429px] xl:w-[792px]">
-      <label htmlFor="title" className="mb-2 text-lg font-semibold">
+      <label htmlFor="title" className="mb-2 text-[24px] font-semibold">
         주소
       </label>
       <input

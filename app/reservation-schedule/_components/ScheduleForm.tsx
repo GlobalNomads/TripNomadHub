@@ -1,14 +1,19 @@
+/*
+    미완성
+    체험 등록 페이지의 체험 시간 입력 컴포넌트
+    체험 등록에 필요한 시간을 입력하는 폼
+*/
+
 "use client";
+
 import React, { useState, ChangeEvent } from "react";
-import CalendarIcon from "../../assets/icon/ic_gray_calender.svg";
-import PlusIcon from "../../assets/icon/ic_plus.svg";
 
 // 시간 옵션 생성 함수
 const generateTimeOptions = (): string[] => {
   const times: string[] = [];
   for (let i = 0; i < 24; i++) {
     const hour = i.toString().padStart(2, "0");
-    for (let j = 0; j < 60; j += 30) {
+    for (let j = 0; j < 60; j += 60) {
       const minute = j.toString().padStart(2, "0");
       times.push(`${hour}:${minute}`);
     }
@@ -18,7 +23,6 @@ const generateTimeOptions = (): string[] => {
 
 const timeOptions = generateTimeOptions();
 
-// 일정 타입 인터페이스
 interface Schedule {
   date: string;
   startTime: string;
@@ -36,7 +40,6 @@ const ScheduleForm: React.FC = () => {
     }
   };
 
-  // removeSchedule 함수 정의
   const removeSchedule = (index: number) => {
     const newSchedules = schedules.filter((_, i) => i !== index);
     setSchedules(newSchedules);
@@ -46,26 +49,23 @@ const ScheduleForm: React.FC = () => {
     const { name, value } = e.target;
     setNewSchedule({ ...newSchedule, [name]: value });
   };
+
   return (
-    <div className="flex w-full max-w-[793px] flex-col items-start p-0">
+    <div className="flex w-full max-w-[792px] flex-col items-start p-0">
+      <h2 className="mb-2 text-[24px] font-semibold">예약 가능한 시간대</h2>
       <div className="mb-4 flex w-full items-center space-x-4">
         <div className="relative flex flex-col" style={{ width: "379px" }}>
           <label htmlFor="new-date" className="mb-2 text-lg font-semibold">
             날짜
           </label>
           <input
-            type="date"
+            type="text"
             id="new-date"
             name="date"
             value={newSchedule.date}
             onChange={handleChange}
-            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 pl-10"
-          />
-
-          <img
-            src={CalendarIcon}
-            alt="Calendar"
-            className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform"
+            placeholder="YY/MM/DD"
+            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 pl-6"
           />
         </div>
 
@@ -79,7 +79,7 @@ const ScheduleForm: React.FC = () => {
               name="startTime"
               value={newSchedule.startTime}
               onChange={handleChange}
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              className="h-[56px] w-full overflow-y-scroll rounded border border-gray-700 px-3 py-2"
             >
               <option value="" disabled>
                 00:00
@@ -92,7 +92,7 @@ const ScheduleForm: React.FC = () => {
             </select>
           </div>
 
-          <div className="mt-8">~</div>
+          <div className="flex h-[56px] items-center justify-center text-xl font-semibold">~</div>
 
           <div className="flex flex-col" style={{ width: "140px" }}>
             <label htmlFor="new-endTime" className="mb-2 text-lg font-semibold">
@@ -119,10 +119,18 @@ const ScheduleForm: React.FC = () => {
           <button
             type="button"
             onClick={addSchedule}
-            className="primary-green-300 mt-6 rounded px-4 py-2"
+            className="mt-6 flex items-center justify-center rounded bg-primary-green-300"
             style={{ width: "56px", height: "56px" }}
           >
-            <img src={PlusIcon} alt="Add Schedule" />
+            <svg
+              className="h-[26.5px] w-[26.5px] text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path>
+            </svg>
           </button>
         </div>
       </div>
@@ -132,7 +140,12 @@ const ScheduleForm: React.FC = () => {
       {schedules.map((schedule, index) => (
         <div key={index} className="mb-4 flex w-full items-center space-x-4">
           <div className="flex flex-col" style={{ width: "379px" }}>
-            <input type="text" readOnly className="h-[56px] w-full rounded border border-gray-700 px-3 py-2" />
+            <input
+              type="text"
+              value={schedule.date}
+              readOnly
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+            />
           </div>
 
           <div className="flex items-center space-x-2">
@@ -145,7 +158,7 @@ const ScheduleForm: React.FC = () => {
               />
             </div>
 
-            <div className="mt-8">~</div>
+            <div className="flex h-[56px] items-center justify-center text-xl font-semibold">~</div>
 
             <div className="flex flex-col" style={{ width: "140px" }}>
               <input
@@ -159,9 +172,19 @@ const ScheduleForm: React.FC = () => {
             <button
               type="button"
               onClick={() => removeSchedule(index)}
-              className="mt-6 rounded bg-red-500 bg-red-600 px-4 py-2 text-white"
+              className="mt-6 flex items-center justify-center rounded border border-gray-700 bg-white"
               style={{ width: "56px", height: "56px" }}
-            ></button>
+            >
+              <svg
+                className="text-prmary-gray_700 h-[26.5px] w-[26.5px]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 12H6"></path>
+              </svg>
+            </button>
           </div>
         </div>
       ))}

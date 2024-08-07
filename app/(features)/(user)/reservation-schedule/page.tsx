@@ -4,6 +4,7 @@ import TitleForm from "./_components/TitleForm";
 import PriceForm from "./_components/PriceForm";
 import AddressForm from "./_components/AddressForm";
 import ScheduleForm from "./_components/ScheduleForm";
+import ImageUploadForm from "./_components/ImageUploadForm";
 
 const Page: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
@@ -17,6 +18,7 @@ const Page: React.FC = () => {
       <PriceForm />
       <AddressForm />
       <ScheduleForm />
+      <ImageUploadForm />
     </form>
   );
 };

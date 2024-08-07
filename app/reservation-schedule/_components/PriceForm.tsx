@@ -8,7 +8,7 @@ import React from "react";
 const PriceForm: React.FC = () => {
   return (
     <div className="flex w-[343px] flex-col items-start rounded-t-md p-0 md:w-[429px] xl:w-[792px]">
-      <label htmlFor="title" className="mb-2 text-lg font-semibold">
+      <label htmlFor="title" className="mb-2 text-[24px] font-semibold">
         가격
       </label>
       <input

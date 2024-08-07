@@ -1,14 +1,20 @@
 /*
     체험 등록 페이지의 타이틀 컴포넌트
-    체험 등록에 필요한 제목, 카테고리(드롭다운), 설명을 입력하는 폼
+    체험 등록에 필요한 제목, 카테고리, 설명 입력하는 폼
 */
 
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 const categories = ["문화 예술", "식음료", "스포츠", "투어", "관광", "웰빙"];
 
 const TitleForm: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
   return (
     <div className="flex w-[343px] flex-col items-start rounded-t-md p-0 md:w-[429px] xl:w-[792px]">
       <label htmlFor="title" className="mb-2 text-lg font-semibold"></label>
@@ -25,10 +31,13 @@ const TitleForm: React.FC = () => {
         <select
           id="category"
           name="category"
-          className="h-full w-full appearance-none rounded border border-gray-700 px-3 py-2 text-gray-500"
-          defaultValue=""
+          className={`h-full w-full appearance-none rounded border border-gray-700 px-3 py-2 ${
+            selectedCategory ? "text-primary-black-200" : "text-primary-gray-700"
+          }`}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
         >
-          <option value="" disabled className="text-gray-500">
+          <option value="" disabled>
             카테고리
           </option>
           {categories.map((category, index) => (
@@ -39,7 +48,7 @@ const TitleForm: React.FC = () => {
         </select>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
           <svg
-            className="h-5 w-5 text-gray-500"
+            className="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
