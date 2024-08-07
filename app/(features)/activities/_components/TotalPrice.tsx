@@ -1,4 +1,6 @@
-// app/components/TotalPrice.tsx
+/*
+  체험 예약 총 금액
+*/
 import React from "react";
 
 interface TotalPriceProps {
