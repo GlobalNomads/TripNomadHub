@@ -21,9 +21,9 @@ const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, 
   return (
     <>
       <div className="md-regular pb-[10px]">{category}</div>
-      <div className="pb-[16px] text-2xl-bold md:text-3xl-bold xl:text-3xl-bold">{title}</div>
+      <div className="pb-[16px] text-2xl-bold md:text-3xl-bold">{title}</div>
       <div className="md-regular flex items-center space-x-3">
-        <span className="flex items-center space-x-[4px] md:space-x-[6px] xl:space-x-[6px]">
+        <span className="flex items-center space-x-[4px] md:space-x-[6px]">
           <Image src={star} alt="rating" width={16} height={16} />
           <span>{rating}</span>
           <span>({reviewCount})</span>
