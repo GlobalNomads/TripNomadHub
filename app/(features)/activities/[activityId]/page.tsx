@@ -11,6 +11,7 @@
 import { useEffect, useState } from "react";
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
+import ActivityLocation from "../_components/ActivityLocation";
 import ActivityReviews from "../_components/ActivityReviews";
 import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
@@ -109,6 +110,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
       <div className="flex flex-col gap-6 md:flex-row md:gap-6 xl:flex-row xl:gap-6">
         <div className="w-full">
           <ActivityDescription description={activity.description} />
+          <ActivityLocation address={activity.address} />
           <ActivityReviews
             averageRating={reviewsData.averageRating}
             totalCount={reviewsData.totalCount}
