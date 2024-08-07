@@ -1,6 +1,8 @@
 /*
     예약용 플로팅 박스
 */
+"use client";
+
 import Button from "@button/Button";
 import React, { useEffect, useState } from "react";
 import ParticipantCount from "./ParticipantCount";
@@ -60,7 +62,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   return (
-    <div className="relative h-auto w-full whitespace-nowrap rounded border border-solid border-primary-gray-400 px-6 py-4 shadow-lg">
+    <div className="relative h-auto w-full whitespace-nowrap border border-solid border-primary-gray-400 px-6 py-4 shadow-lg md:rounded-lg xl:rounded-lg">
       {showScheduleSelector && isMobile ? (
         // 모바일에서만 전체화면 모달
         <div className="fixed inset-0 z-50 flex flex-col whitespace-nowrap bg-white px-6 py-10">
@@ -142,7 +144,9 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           </div>
           <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
             {/* TODO: API 연결하며 onClick={handleSubmit} Button에 추가 */}
-            <Button.Submit className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}>예약하기</Button.Submit>
+            <Button.Submit className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`} disabled={!selectedSchedule}>
+              예약하기
+            </Button.Submit>
           </div>
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 가격 */}
