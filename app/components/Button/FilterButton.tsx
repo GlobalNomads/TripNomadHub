@@ -4,7 +4,7 @@
 
 "use client";
 
-import arrow from "@/app/assets/icon/ic_filter_arrow.svg";
+import arrow from "@icon/ic_filter_arrow.svg";
 import Image from "next/image";
 import { FC } from "react";
 import DefaultButton, { DefaultButtonProps } from "./DefaultButton";

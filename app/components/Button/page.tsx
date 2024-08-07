@@ -3,16 +3,16 @@
     default button에 onclick 넣어놔서, 거기 로직 추가하시면 됩니다!
     TODO: 최종 마무리 하기 전에 삭제하기
 */
-
 "use client";
 
 import React from "react";
 import Button from "./Button";
 
-const App: React.FC = () => {
+const ButtonTest: React.FC = () => {
   const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("Category Button Clicked", event);
   };
+
   return (
     <div className="space-y-4">
       <div className="space-x-2">
@@ -41,7 +41,6 @@ const App: React.FC = () => {
       </div>
       <div className="space-x-2">
         {/* LoginButton 예제 */}
-
         <Button.Login type="white" onClick={() => alert("Login Button Clicked")}>
           로그인 하기
         </Button.Login>
@@ -56,7 +55,6 @@ const App: React.FC = () => {
         {/* CategoryButton 예제 */}
         <Button.Category onClick={handleCategoryClick}>문화·예술</Button.Category>
       </div>
-
       <div>
         {/* FilterButton 예제 */}
         <Button.Filter type="white" onClick={() => alert("Filter Button Clicked")}>
@@ -78,8 +76,16 @@ const App: React.FC = () => {
           확인
         </Button.Modal>
       </div>
+      <div>
+        {/* WriteReviewButton 예제 */}
+        <Button.WriteReview onClick={() => alert("Write Review Button Clicked")} />
+      </div>
+      <div>
+        {/* CancelReservationButton 예제 */}
+        <Button.CancelReservation onClick={() => alert("Cancel Reservation Button Clicked")} />
+      </div>
     </div>
   );
 };
 
-export default App;
+export default ButtonTest;
