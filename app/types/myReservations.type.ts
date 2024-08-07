@@ -8,7 +8,7 @@ export interface ReservationsList {
   id: number;
   teamId: string;
   userId: number;
-  activity: ActivityData;
+  activity?: ActivityData;
   scheduleId: number;
   status: string;
   reviewSubmitted: boolean;
@@ -27,21 +27,8 @@ export interface ReservationsData {
   totalCount: number;
 }
 
-export interface PatchReservations {
-  id: number;
-  teamId: string;
-  userId: number;
+export interface PatchReservations extends ReservationsList {
   activityId: number;
-  scheduleId: number;
-  status: string;
-  reviewSubmitted: boolean;
-  totalPrice: number;
-  headCount: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface PostReservations {
