@@ -1,4 +1,4 @@
-import SearchButton from "@/components/Button/SearchButton";
+import SearchButton from "@button/SearchButton";
 import searchicon from "@icon/ic_search.svg";
 import Image from "next/image";
 

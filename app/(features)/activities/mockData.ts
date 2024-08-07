@@ -42,27 +42,45 @@ export const activityData = {
   schedules: [
     {
       id: 7349,
-      date: "2024-12-01",
+      date: "2024-08-10",
       startTime: "12:00",
       endTime: "13:00",
     },
     {
       id: 7350,
-      date: "2024-12-05",
-      startTime: "12:00",
-      endTime: "13:00",
-    },
-    {
-      id: 7351,
-      date: "2024-12-05",
+      date: "2024-08-10",
       startTime: "13:00",
       endTime: "14:00",
     },
     {
-      id: 7352,
-      date: "2024-12-05",
+      id: 7351,
+      date: "2024-08-10",
       startTime: "14:00",
       endTime: "15:00",
+    },
+    {
+      id: 7352,
+      date: "2024-08-10",
+      startTime: "15:00",
+      endTime: "16:00",
+    },
+    {
+      id: 7353,
+      date: "2024-08-11",
+      startTime: "13:00",
+      endTime: "14:00",
+    },
+    {
+      id: 7354,
+      date: "2024-08-12",
+      startTime: "14:00",
+      endTime: "15:00",
+    },
+    {
+      id: 7355,
+      date: "2024-08-15",
+      startTime: "15:00",
+      endTime: "16:00",
     },
   ],
 };

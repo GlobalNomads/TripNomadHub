@@ -1,20 +1,17 @@
 "use server";
 
-import { UserInput } from "@/types/auth.type";
+import { UserData } from "@/types/users.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-export interface User {
-  id?: number;
-  email?: string;
-  nickname?: string;
-  profileImageUrl?: string;
-  createdAt?: string;
-  updatedAt?: string;
+export interface UserInput {
+  email: string;
+  nickname: string;
+  password: string;
 }
 
 const postUsers = async (userInput: UserInput) => {
   try {
-    const data = await fetchInstance<User>("users", {
+    const data = await fetchInstance<UserData>("users", {
       method: "POST",
       body: JSON.stringify(userInput),
     });
@@ -22,9 +19,9 @@ const postUsers = async (userInput: UserInput) => {
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      throw new Error(error.message || "login failed");
+      throw new Error(error.message || "user data failed");
     } else {
-      throw new Error("login failed");
+      throw new Error("user data failed");
     }
   }
 };
