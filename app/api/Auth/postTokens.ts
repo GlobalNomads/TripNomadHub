@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 const postTokens = async () => {
   try {
-    const data = await fetchInstance<RequestToken>("auth/login", {
+    const data = await fetchInstance<RequestToken>("auth/tokens", {
       method: "POST",
     });
 
