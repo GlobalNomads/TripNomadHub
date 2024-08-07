@@ -41,6 +41,14 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     return new Intl.NumberFormat("ko-KR").format(amount);
   };
 
+  const handleParticipantCountChange = (newCount: number) => {
+    if (!selectedSchedule) {
+      alert("체험 일정을 먼저 선택해주세요.");
+      return;
+    }
+    setParticipantCount(newCount);
+  };
+
   // const handleSubmit = async () => {
   //  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/activities/{activityId}/reservations`, {
   //    method: "POST",
@@ -140,7 +148,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 총 인원 */}
           <div className="hidden md:block xl:block">
-            <ParticipantCount count={participantCount} setCount={setParticipantCount} />
+            <ParticipantCount count={participantCount} setCount={handleParticipantCountChange} />
           </div>
           <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
             {/* TODO: API 연결하며 onClick={handleSubmit} Button에 추가 */}
