@@ -94,7 +94,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
         <>
           {showScheduleSelector && (
             // 날짜 선택하기 Modal (Tablet)
-            <div className="absolute left-[-190px] top-0 z-50 flex h-full w-[480px] items-center justify-center whitespace-nowrap">
+            <div className="absolute left-[-180px] top-0 z-50 flex h-full w-[480px] items-center justify-center whitespace-nowrap">
               <div className="relative rounded-lg bg-white p-4 shadow-lg md:w-[400px] xl:w-[600px]">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl-bold text-primary-black-100">날짜</h3>

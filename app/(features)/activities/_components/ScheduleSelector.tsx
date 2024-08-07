@@ -107,7 +107,7 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
               </Button.Default>
             ))
           ) : (
-            <p>선택된 날짜에 예약 가능한 시간이 없습니다.</p>
+            <p className="text-left md:text-center xl:text-left">선택된 날짜에 예약 가능한 시간이 없습니다.</p>
           )}
         </div>
       </div>
