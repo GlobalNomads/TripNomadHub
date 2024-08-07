@@ -12,7 +12,7 @@ interface ParticipantCountProps {
 
 const ParticipantCount: React.FC<ParticipantCountProps> = ({ count, setCount }) => {
   const handleIncrement = () => setCount(count + 1);
-  const handleDecrement = () => setCount(count - 1);
+  const handleDecrement = () => setCount(count > 1 ? count - 1 : 1);
 
   return (
     <div>
