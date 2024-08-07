@@ -112,7 +112,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
           <ActivityDescription description={activity.description} />
           <hr className="my-10 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           <ActivityLocation address={activity.address} />
-          <hr className="my-10 border-t border-primary-black-100 opacity-25 md:block xl:block" />
+          <hr className="my-4 border-t border-primary-black-100 opacity-25 md:my-10 md:block xl:my-10 xl:block" />
           <ActivityReviews
             averageRating={reviewsData.averageRating}
             totalCount={reviewsData.totalCount}
