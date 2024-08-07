@@ -93,7 +93,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
       ) : (
         <>
           {showScheduleSelector && (
-            // 날짜 선택하기 Modal (Tablet, PC)
+            // 날짜 선택하기 Modal (Tablet)
             <div className="absolute left-[-190px] top-0 z-50 flex h-full w-[480px] items-center justify-center whitespace-nowrap">
               <div className="relative rounded-lg bg-white p-4 shadow-lg md:w-[400px] xl:w-[600px]">
                 <div className="flex items-center justify-between">
@@ -127,9 +127,11 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
               {selectedSchedule ? "다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
+          {/*날짜 선택하기(PC)*/}
           <div className="hidden xl:block">
             <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
           </div>
+          {/*스케줄 선택후 보여지는 총 금액(Mobile)*/}
           {selectedSchedule && isMobile && (
             <div className="text-lg-semibold text-primary-black-100">
               <p>
@@ -138,6 +140,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
               <p>{selectedSchedule}</p>
             </div>
           )}
+          {/*선택한 일정 (Tablet, PC)*/}
           {selectedSchedule && !isMobile && (
             <div className="my-4">
               <div className="text-lg text-primary-black-100">
@@ -146,7 +149,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             </div>
           )}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
-          {/* 총 인원 */}
+          {/* 총 인원 조정 컴포넌트 */}
           <div className="hidden md:block xl:block">
             <ParticipantCount count={participantCount} setCount={handleParticipantCountChange} />
           </div>
