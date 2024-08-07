@@ -1,21 +1,18 @@
 "use server";
 
+import { RequestToken } from "@/types/auth.type";
 import fetchInstance from "@/utils/fetchInstance";
 import { cookies } from "next/headers";
 
-interface RequestRefreshToken {
-  accessToken?: string;
-  refreshToken?: string;
-}
-
-const postRefreshToken = async () => {
+const postTokens = async () => {
   try {
-    const data = await fetchInstance<RequestRefreshToken>("auth/login", {
+    const data = await fetchInstance<RequestToken>("auth/tokens", {
       method: "POST",
     });
 
     if (data.accessToken && data.refreshToken) {
       cookies().set("accessToken", data.accessToken);
+      cookies().set("refreshToken", data.refreshToken);
     } else {
       throw new Error("Access token is missing");
     }
@@ -30,4 +27,4 @@ const postRefreshToken = async () => {
   }
 };
 
-export default postRefreshToken;
+export default postTokens;

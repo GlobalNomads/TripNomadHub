@@ -28,7 +28,7 @@ const DropDownMenu: FC = () => {
     <Dropdown
       items={dropdownItems}
       trigger={<Image src={KebabBtn} alt="menu" width={32} height={32} />}
-      itemClassName="w-[140px] xl:h-[58px] md:w-[160px] md:h-[58px] xl:w-[160px] xl:h-[58px]"
+      itemClassName="w-[140px] md:w-[160px] h-[58px]"
     />
   );
 };
