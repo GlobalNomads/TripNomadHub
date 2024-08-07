@@ -18,7 +18,6 @@ const ActivityDescription: FC<ActivityDescriptionProps> = ({ description }) => {
         <div className="text-lg-semibold">{description}</div>
         <hr className="my-4 border-t border-primary-black-100 opacity-25 md:hidden xl:hidden" />
       </div>
-      <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
     </>
   );
 };

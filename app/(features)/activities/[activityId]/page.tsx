@@ -110,7 +110,9 @@ export default function ActivityPage({ params }: ActivityPageProps) {
       <div className="flex flex-col gap-6 md:flex-row md:gap-6 xl:flex-row xl:gap-6">
         <div className="w-full">
           <ActivityDescription description={activity.description} />
+          <hr className="my-10 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           <ActivityLocation address={activity.address} />
+          <hr className="my-10 border-t border-primary-black-100 opacity-25 md:block xl:block" />
           <ActivityReviews
             averageRating={reviewsData.averageRating}
             totalCount={reviewsData.totalCount}

@@ -3,6 +3,8 @@
 */
 "use client";
 
+import LocationMarker from "@icon/ic_location.svg";
+import Image from "next/image";
 import React, { useEffect } from "react";
 
 declare global {
@@ -64,9 +66,13 @@ const ActivityLocation: React.FC<ActivityLocationProps> = ({ address }) => {
   }, [address]);
 
   return (
-    <div className="flex justify-between text-xl-bold text-primary-black-100">
-      <h3>미팅 포인트</h3>
-      <div id="map" style={{ width: "500px", height: "400px" }}></div>
+    <div className="space-y-4 text-primary-black-100">
+      <h3 className="text-xl-bold">미팅 포인트</h3>
+      <div id="map" className="map-container"></div>
+      <div className="flex space-x-2">
+        <Image src={LocationMarker} width={20} alt="location" />
+        <p className="text-md-semibold">{address}</p>
+      </div>
     </div>
   );
 };
