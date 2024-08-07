@@ -70,7 +70,7 @@ const ActivityLocation: React.FC<ActivityLocationProps> = ({ address }) => {
       <h3 className="text-xl-bold">미팅 포인트</h3>
       <div id="map" className="map-container"></div>
       <div className="flex space-x-2">
-        <Image src={LocationMarker} width={20} alt="location" />
+        <Image src={LocationMarker} width={20} height={20} alt="location" />
         <p className="text-md-semibold">{address}</p>
       </div>
     </div>
