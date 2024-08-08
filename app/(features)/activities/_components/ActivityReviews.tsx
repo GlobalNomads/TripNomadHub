@@ -1,11 +1,12 @@
 /*
     체험 상세 페이지 후기 컴포넌트
-    TODO: API 연결(현재: MockData 연결됨). Pagination구현(TanStack Query 적용하면서 구현 예정)
+    TODO: API 연결(현재: MockData 연결됨).
 */
 
+import Pagination from "@/components/Pagination";
 import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useState } from "react";
 import Review from "./Review";
 
 interface ReviewProps {
@@ -23,6 +24,21 @@ const getSatisfactionLabel = (rating: number): string => {
 
 const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, reviews }) => {
   const satisfactionLabel = getSatisfactionLabel(averageRating);
+
+  // 상태 추가: 현재 페이지와 페이지 당 리뷰 수
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 3; // 한 페이지에 표시할 리뷰 수
+
+  // 현재 페이지에 표시할 리뷰 계산
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+
+  // 페이지 변경 함수 정의
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <div className="text-xl-bold text-primary-black-100">후기</div>
@@ -37,12 +53,19 @@ const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, r
         </div>
       </div>
       <div>
-        {reviews.map((review, index) => (
+        {currentReviews.map((review, index) => (
           <div key={review.id}>
             <Review key={review.id} review={review} />
-            {index < reviews.length - 1 && <hr className="my-4 border-t border-primary-black-100 opacity-25" />}
+            {index < currentReviews.length - 1 && <hr className="my-4 border-t border-primary-black-100 opacity-25" />}
           </div>
         ))}
+      </div>
+      <div className="mt-10 md:mt-[90px] xl:mt-[72px]">
+        <Pagination
+          totalPages={Math.ceil(reviews.length / reviewsPerPage)}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </div>
     </>
   );

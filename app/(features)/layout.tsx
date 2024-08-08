@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
+import Footer from "@footer/Footer";
+import Header from "@header/Header";
 
 export default function FeaturesLayout({
   children,
