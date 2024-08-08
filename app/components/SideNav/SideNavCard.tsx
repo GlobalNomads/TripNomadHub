@@ -1,6 +1,4 @@
 "use client";
-import ButtonWithHover from "@/myreservations/_components/ButtonWithHover";
-import ProfileImage from "@/myreservations/_components/ProfileImage";
 import AccountCheck from "@icon/ic_account_check_outline.svg";
 import Calender from "@icon/ic_calendar_check_outline.svg";
 import Cog from "@icon/ic_cog_outline.svg";
@@ -12,6 +10,8 @@ import Pencil from "@icon/ic_pencil.svg";
 import TextBoxCheck from "@icon/ic_text_box_check_outline.svg";
 import Image from "next/image";
 import React from "react";
+import ButtonWithHover from "./ButtonWithHover";
+import ProfileImage from "./ProfileImage";
 
 function SideNavCard(): React.JSX.Element {
   return (

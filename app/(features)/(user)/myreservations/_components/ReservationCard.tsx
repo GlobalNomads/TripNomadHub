@@ -21,7 +21,9 @@ const ReservationCard = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  if (!data?.reservations) {
+  console.log(data);
+
+  if (data?.reservations.length === 0) {
     return <EmptyPage />;
   }
 
