@@ -15,7 +15,7 @@ const PaginationButton: React.FC<PaginationButtonProps> = ({ isActive = false, c
 
   return (
     <DefaultButton
-      className={`flex h-10 w-10 items-center justify-center p-0 ${isActive ? activeClasses : defaultClasses}`}
+      className={`flex h-10 w-10 items-center justify-center rounded-lg p-0 ${isActive ? activeClasses : defaultClasses}`}
       {...props}
     >
       {children}
