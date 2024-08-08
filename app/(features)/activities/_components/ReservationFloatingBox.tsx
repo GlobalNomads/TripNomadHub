@@ -3,24 +3,13 @@
 */
 "use client";
 
+import { ReservationFloatingBoxProps } from "@/types/activities.type";
 import Button from "@button/Button";
 import React, { useEffect, useState } from "react";
 import ParticipantCount from "./ParticipantCount";
 import PriceInfo from "./PriceInfo";
 import ScheduleSelector from "./ScheduleSelector";
 import TotalPrice from "./TotalPrice";
-
-interface Schedule {
-  id: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
-interface ReservationFloatingBoxProps {
-  schedules: Schedule[];
-  price: number;
-}
 
 const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedules, price }) => {
   const [participantCount, setParticipantCount] = useState<number>(1);

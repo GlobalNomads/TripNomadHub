@@ -1,11 +1,8 @@
 /*
     체험 예약 총 금액 정보
 */
+import { PriceInfoProps } from "@/types/activities.type";
 import React from "react";
-
-interface PriceInfoProps {
-  price: number;
-}
 
 const PriceInfo: React.FC<PriceInfoProps> = ({ price }) => {
   const formattedPrice = new Intl.NumberFormat("en-US", { style: "currency", currency: "KRW" }).format(price);

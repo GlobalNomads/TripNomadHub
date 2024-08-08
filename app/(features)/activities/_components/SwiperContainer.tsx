@@ -2,6 +2,7 @@
     체험 상세 페이지의 mobile 버전 이미지 갤러리
 */
 
+import { SwiperContainerProps } from "@/types/activities.type";
 import React from "react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -9,10 +10,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-interface SwiperContainerProps {
-  images: string[];
-}
 
 const SwiperContainer: React.FC<SwiperContainerProps> = ({ images }) => {
   return (

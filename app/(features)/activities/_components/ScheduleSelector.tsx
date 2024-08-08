@@ -1,6 +1,7 @@
 /*
     date-picker 이용해서 체험 날짜 & 시간 선택
 */
+import { ScheduleSelectorProps } from "@/types/activities.type";
 import Button from "@button/Button";
 import { Locale, format } from "date-fns";
 import ko from "date-fns/locale/ko";
@@ -12,18 +13,6 @@ import "./DatePickerStyles.css";
 registerLocale("ko", ko as unknown as Locale);
 
 type ButtonType = "white" | "nomadBlack";
-
-interface Schedule {
-  id: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
-interface ScheduleSelectorProps {
-  schedules: Schedule[];
-  setSelectedSchedule: (schedule: string) => void;
-}
 
 const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], setSelectedSchedule }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
