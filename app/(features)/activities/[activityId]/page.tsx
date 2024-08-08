@@ -3,9 +3,10 @@
 /*
   체험 상세 페이지
   Todo: 
-    (1)카카오 지도 연결,
-    (2)예약 관리,
-    (3)MockData 없애고 실제 API와 데이터 연결하기
+    (1)MockData 없애고 실제 API와 데이터 연결하기
+    (2)Dropdown menu- '내가만든 체험인 경우에만 나타나도록 적용
+    (3)내가 만든 체험인 경우 예약카드 보이지 않게하기
+    (4)예약완료시 예약완료 모달창 연결
 */
 
 import { useEffect, useState } from "react";

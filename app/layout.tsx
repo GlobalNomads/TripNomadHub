@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
@@ -29,9 +30,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
-      <body className={`${pretendardStd.variable} ${inter.variable}`}>
-        <QueryProvider>{children}</QueryProvider>
-      </body>
+ <body className={`${pretendardStd.variable} ${inter.variable}`}>
+      <AuthProvider>
+        <QueryProvider>
+          {children}
+        </QueryProvider>
+      </AuthProvider>
+    </body>
     </html>
   );
 }
