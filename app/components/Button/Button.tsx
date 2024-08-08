@@ -5,6 +5,7 @@ import DefaultButton from "./DefaultButton";
 import FilterButton from "./FilterButton";
 import LoginButton from "./LoginButton";
 import ModalButton from "./ModalButton";
+import PaginationButton from "./PaginationButton";
 import { CancelReservationButton, WriteReviewButton } from "./ReservationButtons";
 import SearchButton from "./SearchButton";
 import SubmitButton from "./SubmitButton";
@@ -17,6 +18,7 @@ const Button = Object.assign(DefaultButton, {
   Search: SearchButton,
   Submit: SubmitButton,
   Modal: ModalButton,
+  Pagination: PaginationButton,
   WriteReview: WriteReviewButton,
   CancelReservation: CancelReservationButton,
 });
