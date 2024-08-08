@@ -1,6 +1,5 @@
 /*
     체험 상세 페이지 후기 컴포넌트
-    TODO: API 연결(현재: MockData 연결됨).
 */
 
 import Pagination from "@/components/Pagination";
