@@ -3,13 +3,15 @@
 /*
   체험 상세 페이지
   Todo: 
-    (1)MockData 없애고 실제 API와 데이터 연결하기
+    (1)MockData 없애기
     (2)Dropdown menu- '내가만든 체험인 경우에만 나타나도록 적용
     (3)내가 만든 체험인 경우 예약카드 보이지 않게하기
     (4)예약완료시 예약완료 모달창 연결
 */
 
 import { Activity, ActivityPageProps, Reviews } from "@/types/activities.type";
+import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수
+import getActivitiesIdRev from "@api/Activities/getActivitiesIdRev"; // API 함수
 import { useEffect, useState } from "react";
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
@@ -18,17 +20,10 @@ import ActivityReviews from "../_components/ActivityReviews";
 import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
-import { activityData, reviewData } from "../mockData";
 
-async function getActivityData(activityId: string): Promise<{ activity: Activity; reviewsData: Reviews }> {
-  // 실제 데이터 패칭 로직 추가 필요
-  const activity = activityData; // 예제에서는 mockData 사용
-  const reviews = reviewData.reviews.filter(review => review.activityId.toString() === activityId);
-  const reviewsData: Reviews = {
-    averageRating: reviewData.averageRating,
-    totalCount: reviewData.totalCount,
-    reviews,
-  };
+async function getActivityData(activityId: number): Promise<{ activity: Activity; reviewsData: Reviews }> {
+  const activity = await getActivitiesId(activityId);
+  const reviewsData = await getActivitiesIdRev(activityId);
   return { activity, reviewsData };
 }
 
@@ -38,7 +33,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
   const [data, setData] = useState<{ activity: Activity; reviewsData: Reviews } | null>(null);
 
   useEffect(() => {
-    getActivityData(activityId).then(fetchedData => {
+    getActivityData(Number(activityId)).then(fetchedData => {
       setData(fetchedData);
     });
   }, [activityId]);
