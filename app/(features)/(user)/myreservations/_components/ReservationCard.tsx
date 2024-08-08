@@ -23,7 +23,7 @@ const ReservationCard = () => {
 
   console.log(data);
 
-  if (data?.reservations.length === 0) {
+  if (!data || data.reservations.length === 0) {
     return <EmptyPage />;
   }
 
