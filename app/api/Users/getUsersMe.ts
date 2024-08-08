@@ -3,7 +3,7 @@
 import { UserData } from "@/types/users.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const postUsers = async () => {
+const getUsersMe = async () => {
   try {
     const data = await fetchInstance<UserData>("users/me", {
       method: "GET",
@@ -19,4 +19,4 @@ const postUsers = async () => {
   }
 };
 
-export default postUsers;
+export default getUsersMe;

@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
 import "./styles/globals.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
