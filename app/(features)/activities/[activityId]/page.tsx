@@ -9,6 +9,7 @@
     (4)예약완료시 예약완료 모달창 연결
 */
 
+import { Activity, ActivityPageProps, Reviews } from "@/types/activities.type";
 import { useEffect, useState } from "react";
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
@@ -18,47 +19,6 @@ import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
 import { activityData, reviewData } from "../mockData";
-
-interface Activity {
-  id: number;
-  userId: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  address: string;
-  bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-  subImages: { id: number; imageUrl: string }[];
-  schedules: { id: number; date: string; startTime: string; endTime: string }[];
-}
-
-interface Review {
-  id: number;
-  user: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
-  activityId: number;
-  rating: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Reviews {
-  averageRating: number;
-  totalCount: number;
-  reviews: Review[];
-}
-
-interface ActivityPageProps {
-  params: { activityId: string };
-}
 
 async function getActivityData(activityId: string): Promise<{ activity: Activity; reviewsData: Reviews }> {
   // 실제 데이터 패칭 로직 추가 필요

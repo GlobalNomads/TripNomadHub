@@ -6,17 +6,13 @@
 
 "use client";
 
+import { ImageGalleryProps } from "@/types/activities.type";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
 // SwiperContainer를 동적으로 가져옵니다.
 const DynamicSwiperContainer = dynamic(() => import("./SwiperContainer"), { ssr: false });
-
-interface ImageGalleryProps {
-  images: string[];
-  bannerImage: string;
-}
 
 const ActivityImageGallery: React.FC<ImageGalleryProps> = ({ images, bannerImage }) => {
   return (

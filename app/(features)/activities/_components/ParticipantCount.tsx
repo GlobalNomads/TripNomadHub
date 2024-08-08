@@ -3,12 +3,8 @@
 */
 
 "use client";
+import { ParticipantCountProps } from "@/types/activities.type";
 import React from "react";
-
-interface ParticipantCountProps {
-  count: number;
-  setCount: (count: number) => void;
-}
 
 const ParticipantCount: React.FC<ParticipantCountProps> = ({ count, setCount }) => {
   const handleIncrement = () => setCount(count + 1);

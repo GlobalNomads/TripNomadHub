@@ -2,10 +2,11 @@
     후기 컴포넌트
 */
 
+import { Review } from "@/types/activities.type";
 import Image from "next/image";
 import { FC } from "react";
 
-const Review: FC<{ review: any }> = ({ review }) => {
+const Review: FC<{ review: Review }> = ({ review }) => {
   return (
     <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">

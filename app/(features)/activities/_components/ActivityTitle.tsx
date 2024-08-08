@@ -4,18 +4,11 @@
     Todo: API 연결
 */
 
+import { ActivityTitleProps } from "@/types/activities.type";
 import locationIcon from "@icon/ic_location.svg";
 import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
 import React from "react";
-
-interface ActivityTitleProps {
-  category: string;
-  title: string;
-  rating: number;
-  reviewCount: number;
-  location: string;
-}
 
 const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, reviewCount, location }) => {
   return (
