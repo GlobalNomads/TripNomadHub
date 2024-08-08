@@ -1,7 +1,6 @@
 /*
     체험상세(activities) 페이지의 갤러리(ActivityImageGallery) 컴포넌트
     체험상세 page에서 받아온 정보 중 bannerImage와 subImages의 url을 전달받아 display
-    Todo: API 연결 - 현재 mock data와 연동되어있음
 */
 
 "use client";

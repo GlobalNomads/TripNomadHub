@@ -1,7 +1,6 @@
 /*
     체험상세(activities) 페이지의 제목(Title) 컴포넌트
     체험상세 page에서 받아온 정보 중 category, title, rating, reviewCount, address를 전달받음
-    Todo: API 연결
 */
 
 import { ActivityTitleProps } from "@/types/activities.type";
