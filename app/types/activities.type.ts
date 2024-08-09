@@ -29,7 +29,7 @@ export interface ReviewUser {
   id: number;
 }
 
-export interface Review {
+export interface ReviewList {
   id: number;
   user: ReviewUser;
   activityId: number;
@@ -39,7 +39,7 @@ export interface Review {
   updatedAt: string;
 }
 
-export interface Reviews {
+export interface ActivitiesReviewData {
   averageRating: number;
   totalCount: number;
   reviews: ReviewList[];
@@ -68,17 +68,16 @@ export interface Schedules {
   endTime: string;
 }
 
-export interface Activity {
-  id: number;
-  userId: number;
+export interface ActivitiesDataProp {
+  id?: number;
+  userId?: number;
   title: string;
   description: string;
   category: string;
   price: number;
   address: string;
   bannerImageUrl: string;
-  subImageUrls?: SubImageUrls[];
-  subImages?: SubImageUrls[];
+  subImageUrls: SubImageUrls[];
   reviewCount?: number;
   rating?: number;
   createdAt?: string;
@@ -89,6 +88,6 @@ export interface ActivitiesIdData extends ActivitiesDataProp {
   schedules: Schedules[];
 }
 
-export interface PostActiviites {
+export interface PostActivities {
   schedules: ScheduleData[];
 }
