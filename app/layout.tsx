@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/context/AuthContext";
+import Header from "@header/Header";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
@@ -30,13 +31,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
- <body className={`${pretendardStd.variable} ${inter.variable}`}>
-      <AuthProvider>
-        <QueryProvider>
+      <body className={`${pretendardStd.variable} ${inter.variable}`}>
+        <AuthProvider>
+          <QueryProvider>
+          <Header />
           {children}
-        </QueryProvider>
-      </AuthProvider>
-    </body>
+          </QueryProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

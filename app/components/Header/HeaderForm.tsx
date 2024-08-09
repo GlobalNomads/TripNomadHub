@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import useToggle from "@/hooks/useToggle";
 import Link from "next/link";
 import { useEffect } from "react";
+import MessageAlarm from "./Alarm/MessageAlarm";
 import UserProfileDropDown from "./UserProfileDropDown";
 
 function HeaderForm() {
@@ -21,6 +22,12 @@ function HeaderForm() {
       {user ? (
         <div className="z-3">
           <div className="flex items-center gap-4 text-primary-gray-400">
+            <MessageAlarm
+              toggle={alarmToggle}
+              oppositeToggle={menuToggle}
+              setToggle={setAlarmToggle}
+              setOppositeToggle={setMenuToggle}
+            />
             <UserProfileDropDown
               toggle={menuToggle}
               oppositeToggle={alarmToggle}
