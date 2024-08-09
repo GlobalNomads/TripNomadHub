@@ -1,5 +1,4 @@
 import Footer from "@footer/Footer";
-import Header from "@header/Header";
 
 export default function FeaturesLayout({
   children,
@@ -8,7 +7,6 @@ export default function FeaturesLayout({
 }>) {
   return (
     <>
-      <Header />
       <main className="main-layout">{children}</main>
       <Footer />
     </>
