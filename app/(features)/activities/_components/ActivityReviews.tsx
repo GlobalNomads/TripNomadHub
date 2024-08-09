@@ -1,19 +1,13 @@
 /*
     체험 상세 페이지 후기 컴포넌트
-    TODO: API 연결(현재: MockData 연결됨).
 */
 
 import Pagination from "@/components/Pagination";
+import { ActivitiesReviewData } from "@/types/activities.type";
 import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
 import { FC, useState } from "react";
 import Review from "./Review";
-
-interface ReviewProps {
-  averageRating?: number;
-  totalCount: number;
-  reviews: any[];
-}
 
 const getSatisfactionLabel = (rating: number): string => {
   if (rating >= 4) return "매우 만족🤗";
@@ -22,7 +16,7 @@ const getSatisfactionLabel = (rating: number): string => {
   return "불만족😥";
 };
 
-const ActivityReviews: FC<ReviewProps> = ({ averageRating = 0, totalCount = 0, reviews }) => {
+const ActivityReviews: FC<ActivitiesReviewData> = ({ averageRating = 0, totalCount = 0, reviews }) => {
   const satisfactionLabel = getSatisfactionLabel(averageRating);
 
   // 상태 추가: 현재 페이지와 페이지 당 리뷰 수

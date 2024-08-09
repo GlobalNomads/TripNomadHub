@@ -1,23 +1,15 @@
 /*
     체험상세(activities) 페이지의 제목(Title) 컴포넌트
     체험상세 page에서 받아온 정보 중 category, title, rating, reviewCount, address를 전달받음
-    Todo: API 연결
 */
 
+import { ActivityTitleProps } from "@/types/activities.type";
 import locationIcon from "@icon/ic_location.svg";
 import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
 import React from "react";
 
-interface ActivityTitleProps {
-  category: string;
-  title: string;
-  rating: number;
-  reviewCount: number;
-  location: string;
-}
-
-const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, reviewCount, location }) => {
+const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, reviewCount, address }) => {
   return (
     <>
       <div className="md-regular pb-[10px]">{category}</div>
@@ -30,7 +22,7 @@ const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, 
         </span>
         <span className="flex items-center space-x-[2px]">
           <Image src={locationIcon} alt="location" width={18} height={18} />
-          <span>{location}</span>
+          <span>{address}</span>
         </span>
       </div>
     </>

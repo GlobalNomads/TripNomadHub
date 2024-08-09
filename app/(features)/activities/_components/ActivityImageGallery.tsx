@@ -1,22 +1,17 @@
 /*
     체험상세(activities) 페이지의 갤러리(ActivityImageGallery) 컴포넌트
     체험상세 page에서 받아온 정보 중 bannerImage와 subImages의 url을 전달받아 display
-    Todo: API 연결 - 현재 mock data와 연동되어있음
 */
 
 "use client";
 
+import { ImageGalleryProps } from "@/types/activities.type";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
 // SwiperContainer를 동적으로 가져옵니다.
 const DynamicSwiperContainer = dynamic(() => import("./SwiperContainer"), { ssr: false });
-
-interface ImageGalleryProps {
-  images: string[];
-  bannerImage: string;
-}
 
 const ActivityImageGallery: React.FC<ImageGalleryProps> = ({ images, bannerImage }) => {
   return (

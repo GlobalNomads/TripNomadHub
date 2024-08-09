@@ -1,13 +1,9 @@
 /*
     체험 상세 페이지 체험 설명 컴포넌트
-    TODO: API 연결(현재: MockData 연결됨)
 */
 
+import { ActivityDescriptionProps } from "@/types/activities.type";
 import { FC } from "react";
-
-interface ActivityDescriptionProps {
-  description: string;
-}
 
 const ActivityDescription: FC<ActivityDescriptionProps> = ({ description }) => {
   return (

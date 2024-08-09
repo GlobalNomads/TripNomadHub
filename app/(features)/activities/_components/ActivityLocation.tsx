@@ -3,6 +3,7 @@
 */
 "use client";
 
+import { ActivityLocationProps } from "@/types/activities.type";
 import LocationMarker from "@icon/ic_location.svg";
 import Image from "next/image";
 import React, { useEffect } from "react";
@@ -11,10 +12,6 @@ declare global {
   interface Window {
     kakao: any;
   }
-}
-
-interface ActivityLocationProps {
-  address: string;
 }
 
 const ActivityLocation: React.FC<ActivityLocationProps> = ({ address }) => {

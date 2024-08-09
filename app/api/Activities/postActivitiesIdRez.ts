@@ -1,16 +1,11 @@
 "use server";
 
-import { PatchReservations } from "@/types/myReservations.type";
+import { ReservationRequest } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-export interface ActivityRez {
-  scheduleId: number;
-  headCount: number;
-}
-
-const postActivitiesIdRez = async (ActivityData: ActivityRez, activityId: number) => {
+const postActivitiesIdRez = async (activityId: number, ActivityData: ReservationRequest) => {
   try {
-    const data = await fetchInstance<PatchReservations>(`activities/${activityId}/reviews`, {
+    const data = await fetchInstance<ReservationRequest>(`activities/${activityId}/reservations`, {
       method: "POST",
       body: JSON.stringify(ActivityData),
     });

@@ -62,24 +62,32 @@ export interface SubImageUrls {
 }
 
 export interface Schedules {
-  id?: number;
+  id?: number | undefined;
   date: string;
   startTime: string;
   endTime: string;
 }
 
-export interface ActivitiesDataProp {
+//체험 상세 페이지
+export interface ActivityTitleProps extends ActivityLocationProps {
+  category: string;
+  title: string;
+  rating?: number;
+  reviewCount?: number;
+}
+
+export interface ActivityLocationProps {
+  address: string;
+}
+
+export interface ActivitiesDataProp extends ActivityTitleProps {
   id?: number;
   userId?: number;
-  title: string;
   description: string;
-  category: string;
   price: number;
-  address: string;
   bannerImageUrl: string;
-  subImageUrls: SubImageUrls[];
-  reviewCount?: number;
-  rating?: number;
+  subImages?: SubImageUrls[];
+  subImageUrls?: SubImageUrls[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -88,6 +96,53 @@ export interface ActivitiesIdData extends ActivitiesDataProp {
   schedules: Schedules[];
 }
 
+export interface ActivityDescriptionProps {
+  description: string;
+}
+
+export interface ImageGalleryProps {
+  images: string[];
+  bannerImage: string;
+}
+
+export interface SwiperContainerProps {
+  images: string[];
+}
+
+// Reservation Floating Box
+export interface ParticipantCountProps {
+  count: number;
+  setCount: (count: number) => void;
+}
+
+export interface PriceInfoProps {
+  price: number;
+}
+
+export interface TotalPriceProps extends PriceInfoProps {
+  count: number;
+}
+
+export interface ActivityPageProps {
+  params: { activityId: string };
+}
+
 export interface PostActivities {
   schedules: ScheduleData[];
+}
+
+export interface ReservationFloatingBoxProps extends PriceInfoProps {
+  schedules: Schedules[];
+  activityId: number;
+}
+
+export interface ScheduleSelectorProps {
+  schedules: Schedules[];
+  setSelectedScheduleId: (scheduleId: number) => void;
+}
+
+export interface ReservationRequest {
+  activityId: number;
+  scheduleId: number;
+  headCount: number;
 }

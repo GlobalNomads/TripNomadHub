@@ -3,12 +3,15 @@
 /*
   체험 상세 페이지
   Todo: 
-    (1)MockData 없애고 실제 API와 데이터 연결하기
+    (1)MockData 없애기
     (2)Dropdown menu- '내가만든 체험인 경우에만 나타나도록 적용
     (3)내가 만든 체험인 경우 예약카드 보이지 않게하기
     (4)예약완료시 예약완료 모달창 연결
 */
 
+import { ActivitiesIdData, ActivitiesReviewData, ActivityPageProps } from "@/types/activities.type";
+import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수
+import getActivitiesIdRev from "@api/Activities/getActivitiesIdRev"; // API 함수
 import { useEffect, useState } from "react";
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
@@ -17,68 +20,22 @@ import ActivityReviews from "../_components/ActivityReviews";
 import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
-import { activityData, reviewData } from "../mockData";
 
-interface Activity {
-  id: number;
-  userId: number;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  address: string;
-  bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-  subImages: { id: number; imageUrl: string }[];
-  schedules: { id: number; date: string; startTime: string; endTime: string }[];
-}
-
-interface Review {
-  id: number;
-  user: {
-    profileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
-  activityId: number;
-  rating: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Reviews {
-  averageRating: number;
-  totalCount: number;
-  reviews: Review[];
-}
-
-interface ActivityPageProps {
-  params: { activityId: string };
-}
-
-async function getActivityData(activityId: string): Promise<{ activity: Activity; reviewsData: Reviews }> {
-  // 실제 데이터 패칭 로직 추가 필요
-  const activity = activityData; // 예제에서는 mockData 사용
-  const reviews = reviewData.reviews.filter(review => review.activityId.toString() === activityId);
-  const reviewsData: Reviews = {
-    averageRating: reviewData.averageRating,
-    totalCount: reviewData.totalCount,
-    reviews,
-  };
+async function getActivityData(
+  activityId: number,
+): Promise<{ activity: ActivitiesIdData; reviewsData: ActivitiesReviewData }> {
+  const activity = await getActivitiesId(activityId);
+  const reviewsData = await getActivitiesIdRev(activityId);
   return { activity, reviewsData };
 }
 
 export default function ActivityPage({ params }: ActivityPageProps) {
   const { activityId } = params;
 
-  const [data, setData] = useState<{ activity: Activity; reviewsData: Reviews } | null>(null);
+  const [data, setData] = useState<{ activity: ActivitiesIdData; reviewsData: ActivitiesReviewData } | null>(null);
 
   useEffect(() => {
-    getActivityData(activityId).then(fetchedData => {
+    getActivityData(Number(activityId)).then(fetchedData => {
       setData(fetchedData);
     });
   }, [activityId]);
@@ -89,7 +46,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
 
   const { activity, reviewsData } = data;
 
-  const images = activity.subImages.map(image => image.imageUrl);
+  const images = activity.subImages?.map(image => image.imageUrl) ?? [];
 
   return (
     <div className="container mx-auto px-4">
@@ -100,7 +57,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
             title={activity.title}
             rating={activity.rating}
             reviewCount={activity.reviewCount}
-            location={activity.address}
+            address={activity.address}
           />
         </div>
         <div className="flex-none">
@@ -122,7 +79,11 @@ export default function ActivityPage({ params }: ActivityPageProps) {
         </div>
         <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
           <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
-            <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
+            <ReservationFloatingBox
+              activityId={Number(activityId)}
+              schedules={activity.schedules}
+              price={activity.price}
+            />
           </div>
         </div>
       </div>
