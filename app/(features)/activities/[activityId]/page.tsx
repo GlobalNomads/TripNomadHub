@@ -46,7 +46,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
 
   const { activity, reviewsData } = data;
 
-  const images = activity.subImageUrls.map(image => image.imageUrl);
+  const images = activity.subImages?.map(image => image.imageUrl) ?? [];
 
   return (
     <div className="container mx-auto px-4">

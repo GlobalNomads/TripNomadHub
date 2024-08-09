@@ -51,6 +51,13 @@ export interface ScheduleTimeList {
   id: number;
 }
 
+export interface Schedules {
+  id?: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
 export interface ScheduleData {
   date: string;
   times: ScheduleTimeList[];
@@ -59,13 +66,6 @@ export interface ScheduleData {
 export interface SubImageUrls {
   id?: number;
   imageUrl: string;
-}
-
-export interface Schedules {
-  id?: number;
-  date: string;
-  startTime: string;
-  endTime: string;
 }
 
 export interface ActivitiesDataProp {
@@ -77,7 +77,8 @@ export interface ActivitiesDataProp {
   price: number;
   address: string;
   bannerImageUrl: string;
-  subImageUrls: SubImageUrls[];
+  subImageUrls?: SubImageUrls[];
+  subImages?: SubImageUrls[];
   reviewCount?: number;
   rating?: number;
   createdAt?: string;
@@ -104,15 +105,6 @@ export interface ActivityTitleProps {
   location: string;
 }
 
-export interface ParticipantCountProps {
-  count: number;
-  setCount: (count: number) => void;
-}
-
-export interface PriceInfoProps {
-  price: number;
-}
-
 export interface ReservationFloatingBoxProps {
   schedules: Schedules[];
   price: number;
@@ -123,8 +115,16 @@ export interface ScheduleSelectorProps {
   setSelectedSchedule: (schedule: string) => void;
 }
 
-export interface TotalPriceProps {
+export interface ParticipantCountProps {
+  count: number;
+  setCount: (count: number) => void;
+}
+
+export interface PriceProps {
   price: number;
+}
+
+export interface TotalPriceProps extends PriceProps {
   count: number;
 }
 
