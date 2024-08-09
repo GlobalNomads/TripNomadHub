@@ -2,7 +2,7 @@
     후기 컴포넌트
 */
 
-import { ReviewList as ReviewProps } from "@/types/activities.type";
+import { Review as ReviewProps } from "@/types/activities.type";
 import Image from "next/image";
 import { FC } from "react";
 

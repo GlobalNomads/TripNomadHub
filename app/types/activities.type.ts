@@ -29,7 +29,7 @@ export interface ReviewUser {
   id: number;
 }
 
-export interface ReviewList {
+export interface Review {
   id: number;
   user: ReviewUser;
   activityId: number;
@@ -39,7 +39,7 @@ export interface ReviewList {
   updatedAt: string;
 }
 
-export interface ActivitiesReviewData {
+export interface Reviews {
   averageRating: number;
   totalCount: number;
   reviews: ReviewList[];
@@ -49,13 +49,6 @@ export interface ScheduleTimeList {
   endTime: string;
   startTime: string;
   id: number;
-}
-
-export interface Schedules {
-  id?: number;
-  date: string;
-  startTime: string;
-  endTime: string;
 }
 
 export interface ScheduleData {
@@ -68,9 +61,16 @@ export interface SubImageUrls {
   imageUrl: string;
 }
 
-export interface ActivitiesDataProp {
+export interface Schedules {
   id?: number;
-  userId?: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Activity {
+  id: number;
+  userId: number;
   title: string;
   description: string;
   category: string;
@@ -91,61 +91,4 @@ export interface ActivitiesIdData extends ActivitiesDataProp {
 
 export interface PostActiviites {
   schedules: ScheduleData[];
-}
-
-export interface ActivityPageProps {
-  params: { activityId: string };
-}
-
-export interface ActivityTitleProps {
-  category: string;
-  title: string;
-  rating: number | undefined;
-  reviewCount: number | undefined;
-  location: string;
-}
-
-export interface ReservationFloatingBoxProps {
-  schedules: Schedules[];
-  price: number;
-}
-
-export interface ScheduleSelectorProps {
-  schedules: Schedules[];
-  setSelectedSchedule: (schedule: string) => void;
-}
-
-export interface ParticipantCountProps {
-  count: number;
-  setCount: (count: number) => void;
-}
-
-export interface PriceProps {
-  price: number;
-}
-
-export interface TotalPriceProps extends PriceProps {
-  count: number;
-}
-
-export interface ActivityDescriptionProps {
-  description: string;
-}
-
-export interface ImageGalleryProps {
-  images: string[];
-  bannerImage: string;
-}
-
-export interface ActivityLocationProps {
-  address: string;
-}
-
-export interface SwiperContainerProps {
-  images: string[];
-}
-
-export interface ReservationRequest {
-  scheduleId: number;
-  headCount: number;
 }
