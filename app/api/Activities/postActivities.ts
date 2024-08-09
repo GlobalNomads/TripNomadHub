@@ -1,9 +1,9 @@
 "use server";
 
-import { Activity, PostActivities } from "@/types/activities.type";
+import { ActivitiesIdData, PostActivities } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const postActivities = async (ActivityData: Activity) => {
+const postActivities = async (ActivityData: ActivitiesIdData) => {
   try {
     const data = await fetchInstance<PostActivities>("activities", {
       method: "POST",

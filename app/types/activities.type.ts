@@ -62,7 +62,7 @@ export interface SubImageUrls {
 }
 
 export interface Schedules {
-  id?: number;
+  id?: number | undefined;
   date: string;
   startTime: string;
   endTime: string;
@@ -137,5 +137,10 @@ export interface ReservationFloatingBoxProps extends PriceInfoProps {
 
 export interface ScheduleSelectorProps {
   schedules: Schedules[];
-  setSelectedSchedule: (schedule: string) => void;
+  setSelectedScheduleId: (scheduleId: number) => void;
+}
+
+export interface ReservationRequest {
+  scheduleId: number;
+  headCount: number;
 }
