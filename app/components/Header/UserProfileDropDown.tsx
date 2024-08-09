@@ -46,7 +46,7 @@ function UserProfileDropdown({
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 border-l-2 border-solid border-primary-gray-200 pl-4">
       <div className="relative aspect-[1/1] h-[32px] w-[32px] border-none">
         <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" />
       </div>
@@ -56,14 +56,14 @@ function UserProfileDropdown({
       </button>
 
       {toggle && (
-        <div className="absolute right-[5%] top-[70%] mt-2.5 flex h-[90px] w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]">
+        <div className="absolute top-[70%] mt-2.5 flex h-[90px] w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]">
           <span>
             <Link
               href="/myprofile"
               onMouseDown={e => {
                 e.preventDefault();
               }}
-              className="flex items-center text-primary-gray-800"
+              className="flex items-center text-md-medium text-primary-gray-800"
             >
               마이 페이지
             </Link>
