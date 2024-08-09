@@ -3,8 +3,10 @@
 */
 "use client";
 
-import { ReservationFloatingBoxProps } from "@/types/activities.type";
+import postActivitiesIdRez from "@/api/Activities/postActivitiesIdRez";
+import { ReservationFloatingBoxProps, ReservationRequest } from "@/types/activities.type";
 import Button from "@button/Button";
+import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import ParticipantCount from "./ParticipantCount";
 import PriceInfo from "./PriceInfo";
@@ -38,21 +40,28 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
     setParticipantCount(newCount);
   };
 
-  // const handleSubmit = async () => {
-  //  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/activities/{activityId}/reservations`, {
-  //    method: "POST",
-  //    headers: {
-  //      "Content-Type": "application/json",
-  //    },
-  //    body: JSON.stringify({ count: participantCount, schedule: selectedSchedule }),
-  //  });
+  const reservationMutation = useMutation({
+    mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(newReservation, Number(selectedSchedule)),
+    onSuccess: () => {
+      alert("예약 성공! 😍");
+    },
+    onError: (err: Error) => {
+      alert(`예약 실패! 😥: ${err.message}`);
+    },
+  });
 
-  //    if (response.ok) {
-  //      alert("예약 성공! 😍");
-  //    } else {
-  //      alert("예약 실패! 😥");
-  //    }
-  //  };
+  const handleReservation = () => {
+    const scheduleId = Number(selectedSchedule);
+    if (!scheduleId || participantCount < 1) {
+      alert("모든 정보를 올바르게 입력해주세요.");
+      return;
+    }
+    const reservationData = {
+      scheduleId: Number(selectedSchedule),
+      headCount: participantCount,
+    };
+    reservationMutation.mutate(reservationData);
+  };
 
   const toggleScheduleSelector = () => {
     setShowScheduleSelector(!showScheduleSelector);

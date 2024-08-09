@@ -144,3 +144,8 @@ export interface ActivityLocationProps {
 export interface SwiperContainerProps {
   images: string[];
 }
+
+export interface ReservationRequest {
+  scheduleId: number;
+  headCount: number;
+}
