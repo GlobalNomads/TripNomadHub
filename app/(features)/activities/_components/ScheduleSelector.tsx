@@ -14,7 +14,7 @@ registerLocale("ko", ko as unknown as Locale);
 
 type ButtonType = "white" | "nomadBlack";
 
-const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], setSelectedSchedule }) => {
+const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], setSelectedScheduleId }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>("");
 
@@ -25,10 +25,12 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
     }
   };
 
-  const handleTimeSelect = (time: string) => {
-    console.log("Selected time:", time);
-    setSelectedTime(time);
-    setSelectedSchedule(`${format(selectedDate!, "yyyy-MM-dd")} ${time}`); // 날짜 형식을 'yyyy-MM-dd'로 맞춤
+  const handleTimeSelect = (scheduleId: number | undefined) => {
+    if (scheduleId === undefined) {
+      console.error("Schedule ID is undefined");
+      return;
+    }
+    setSelectedScheduleId(scheduleId); // 선택된 스케줄 ID를 설정합니다.
   };
 
   const today = new Date();
@@ -82,19 +84,22 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
         <h3 className="pb-3 text-xl-bold text-primary-black-100">예약 가능한 시간</h3>
         <div className="space-x-3 overflow-x-auto whitespace-nowrap text-left">
           {filteredSchedules.length > 0 ? (
-            filteredSchedules.map((schedule, index) => (
-              <Button.Default
-                key={`${schedule.id}-${index}`}
-                type={selectedTime === `${schedule.startTime}~${schedule.endTime}` ? "nomadBlack" : "white"}
-                onClick={() => {
-                  console.log(`Button clicked for ${schedule.startTime}~${schedule.endTime}`);
-                  handleTimeSelect(`${schedule.startTime}~${schedule.endTime}`);
-                }}
-                className={`w-[120px] rounded-[8px] px-3 py-2 text-lg-semibold`}
-              >
-                {schedule.startTime}~{schedule.endTime}
-              </Button.Default>
-            ))
+            filteredSchedules.flatMap(schedule =>
+              filteredSchedules.map(schedule => (
+                <Button.Default
+                  key={schedule.id}
+                  type={selectedTime === `${schedule.startTime}~${schedule.endTime}` ? "nomadBlack" : "white"}
+                  onClick={() => {
+                    console.log(`Button clicked for ${schedule.startTime}~${schedule.endTime}`);
+                    handleTimeSelect(schedule.id);
+                    setSelectedTime(`${schedule.startTime}~${schedule.endTime}`); // 선택된 시간을 설정
+                  }}
+                  className={`w-[120px] rounded-[8px] px-3 py-2 text-lg-semibold`}
+                >
+                  {schedule.startTime}~{schedule.endTime}
+                </Button.Default>
+              )),
+            )
           ) : (
             <p className="text-left md:text-center xl:text-left">선택된 날짜에 예약 가능한 시간이 없습니다.</p>
           )}

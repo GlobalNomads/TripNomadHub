@@ -3,7 +3,7 @@
 import { ReservationRequest } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const postActivitiesIdRez = async (ActivityData: ReservationRequest, activityId: number) => {
+const postActivitiesIdRez = async (activityId: number, ActivityData: ReservationRequest) => {
   try {
     const data = await fetchInstance<ReservationRequest>(`activities/${activityId}/reservations`, {
       method: "POST",

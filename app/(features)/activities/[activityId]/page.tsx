@@ -79,7 +79,11 @@ export default function ActivityPage({ params }: ActivityPageProps) {
         </div>
         <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
           <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
-            <ReservationFloatingBox schedules={activity.schedules} price={activity.price} />
+            <ReservationFloatingBox
+              activityId={Number(activityId)}
+              schedules={activity.schedules}
+              price={activity.price}
+            />
           </div>
         </div>
       </div>

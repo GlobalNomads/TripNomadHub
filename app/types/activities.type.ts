@@ -133,6 +133,7 @@ export interface PostActivities {
 
 export interface ReservationFloatingBoxProps extends PriceInfoProps {
   schedules: Schedules[];
+  activityId: number;
 }
 
 export interface ScheduleSelectorProps {
@@ -141,6 +142,7 @@ export interface ScheduleSelectorProps {
 }
 
 export interface ReservationRequest {
+  activityId: number;
   scheduleId: number;
   headCount: number;
 }

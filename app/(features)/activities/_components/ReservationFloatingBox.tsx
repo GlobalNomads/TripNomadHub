@@ -13,9 +13,10 @@ import PriceInfo from "./PriceInfo";
 import ScheduleSelector from "./ScheduleSelector";
 import TotalPrice from "./TotalPrice";
 
-const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedules, price }) => {
+const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activityId, schedules, price }) => {
   const [participantCount, setParticipantCount] = useState<number>(1);
-  const [selectedSchedule, setSelectedSchedule] = useState<string>("");
+  const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
+  const selectedSchedule = schedules.find(schedule => schedule.id === selectedScheduleId);
   const [showScheduleSelector, setShowScheduleSelector] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -33,7 +34,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   const handleParticipantCountChange = (newCount: number) => {
-    if (!selectedSchedule) {
+    if (!selectedScheduleId) {
       alert("체험 일정을 먼저 선택해주세요.");
       return;
     }
@@ -41,7 +42,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   };
 
   const reservationMutation = useMutation({
-    mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(newReservation, Number(selectedSchedule)),
+    mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(activityId, newReservation),
     onSuccess: () => {
       alert("예약 성공! 😍");
     },
@@ -51,15 +52,23 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
   });
 
   const handleReservation = () => {
-    const scheduleId = Number(selectedSchedule);
+    const scheduleId = Number(selectedScheduleId);
+    if (isNaN(scheduleId)) {
+      console.error("Invalid schedule ID:", selectedScheduleId);
+      alert("선택된 스케줄 ID가 유효하지 않습니다.");
+      return;
+    }
     if (!scheduleId || participantCount < 1) {
       alert("모든 정보를 올바르게 입력해주세요.");
       return;
     }
     const reservationData = {
-      scheduleId: Number(selectedSchedule),
+      activityId: activityId,
+      scheduleId: scheduleId, //Number(selectedScheduleId),
       headCount: participantCount,
     };
+    console.log("Reservation data being sent:", reservationData);
+
     reservationMutation.mutate(reservationData);
   };
 
@@ -79,7 +88,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             </button>
           </div>
           <div className="flex-1 space-y-4 overflow-auto p-4">
-            <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+            <ScheduleSelector schedules={schedules} setSelectedScheduleId={setSelectedScheduleId} />
             <ParticipantCount count={participantCount} setCount={setParticipantCount} />
           </div>
           <div className="border-primary-gray-400 p-4 md:border-t md:border-solid">
@@ -101,7 +110,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
                   </button>
                 </div>
                 <div className="text-center">
-                  <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+                  <ScheduleSelector schedules={schedules} setSelectedScheduleId={setSelectedScheduleId} />
                 </div>
                 <Button.Default onClick={toggleScheduleSelector} className="mt-4 w-full border-0 bg-primary-gray-100">
                   확인
@@ -110,24 +119,24 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             </div>
           )}
           {/* 가격 (모바일에서는 일정 선택 전에만 보이게) */}
-          {isMobile && !selectedSchedule && <PriceInfo price={price} />}
+          {isMobile && !selectedScheduleId && <PriceInfo price={price} />}
           {!isMobile && <PriceInfo price={price} />}
           <hr className="my-4 hidden border-t border-primary-black-100 opacity-25 md:block xl:block" />
           {/* 날짜 */}
           <h3 className="hidden pb-3 text-xl-bold text-primary-black-100 md:block xl:block">날짜</h3>
           <div className="block md:hidden">
             <Button.Default onClick={toggleScheduleSelector} className="border-0 font-bold underline">
-              {selectedSchedule ? "다시 선택하기" : "날짜 선택하기"}
+              {selectedScheduleId ? "다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
           <div className="hidden md:block xl:hidden">
             <Button.Default onClick={toggleScheduleSelector} className="border-0 font-bold underline">
-              {selectedSchedule ? "다시 선택하기" : "날짜 선택하기"}
+              {selectedScheduleId ? "다시 선택하기" : "날짜 선택하기"}
             </Button.Default>
           </div>
           {/*날짜 선택하기(PC)*/}
           <div className="hidden xl:block">
-            <ScheduleSelector schedules={schedules} setSelectedSchedule={setSelectedSchedule} />
+            <ScheduleSelector schedules={schedules} setSelectedScheduleId={setSelectedScheduleId} />
           </div>
           {/*스케줄 선택후 보여지는 총 금액(Mobile)*/}
           {selectedSchedule && isMobile && (
@@ -135,14 +144,14 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
               <p>
                 ₩ {formatPrice(price * participantCount)} / 총 {participantCount}인
               </p>
-              <p>{selectedSchedule}</p>
+              <p>{`${selectedSchedule.date} ${selectedSchedule.startTime}~${selectedSchedule.endTime}`}</p>
             </div>
           )}
           {/*선택한 일정 (Tablet, PC)*/}
           {selectedSchedule && !isMobile && (
             <div className="my-4">
               <div className="text-lg text-primary-black-100">
-                <p>{selectedSchedule}</p>
+                <p>{`${selectedSchedule.date} ${selectedSchedule.startTime}~${selectedSchedule.endTime}`}</p>
               </div>
             </div>
           )}
@@ -152,8 +161,11 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ schedul
             <ParticipantCount count={participantCount} setCount={handleParticipantCountChange} />
           </div>
           <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
-            {/* TODO: API 연결하며 onClick={handleSubmit} Button에 추가 */}
-            <Button.Submit className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`} disabled={!selectedSchedule}>
+            <Button.Submit
+              onClick={handleReservation}
+              className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}
+              disabled={!selectedScheduleId}
+            >
               예약하기
             </Button.Submit>
           </div>
