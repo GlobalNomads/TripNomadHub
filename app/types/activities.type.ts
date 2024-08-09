@@ -88,7 +88,7 @@ export interface ActivitiesIdData extends ActivitiesDataProp {
   schedules: Schedules[];
 }
 
-export interface PostActivities {
+export interface PostActiviites {
   schedules: ScheduleData[];
 }
 

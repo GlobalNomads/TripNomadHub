@@ -1,11 +1,11 @@
 "use server";
 
-import { Activity } from "@/types/activities.type";
+import { ActivitiesIdData } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
 const getActivitiesId = async (activityId: number) => {
   try {
-    const data = await fetchInstance<Activity>(`activities/${activityId}`, {
+    const data = await fetchInstance<ActivitiesIdData>(`activities/${activityId}`, {
       method: "GET",
     });
 
