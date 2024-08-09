@@ -57,7 +57,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
             title={activity.title}
             rating={activity.rating}
             reviewCount={activity.reviewCount}
-            location={activity.address}
+            address={activity.address}
           />
         </div>
         <div className="flex-none">

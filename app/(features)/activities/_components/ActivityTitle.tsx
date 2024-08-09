@@ -9,7 +9,7 @@ import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
 import React from "react";
 
-const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, reviewCount, location }) => {
+const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, reviewCount, address }) => {
   return (
     <>
       <div className="md-regular pb-[10px]">{category}</div>
@@ -22,7 +22,7 @@ const ActivityTitle: React.FC<ActivityTitleProps> = ({ category, title, rating, 
         </span>
         <span className="flex items-center space-x-[2px]">
           <Image src={locationIcon} alt="location" width={18} height={18} />
-          <span>{location}</span>
+          <span>{address}</span>
         </span>
       </div>
     </>
