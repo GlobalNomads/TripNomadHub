@@ -9,7 +9,7 @@
     (4)예약완료시 예약완료 모달창 연결
 */
 
-import { Activity, ActivityPageProps, Reviews } from "@/types/activities.type";
+import { ActivitiesIdData, ActivitiesReviewData, ActivityPageProps } from "@/types/activities.type";
 import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수
 import getActivitiesIdRev from "@api/Activities/getActivitiesIdRev"; // API 함수
 import { useEffect, useState } from "react";
@@ -21,7 +21,9 @@ import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
 
-async function getActivityData(activityId: number): Promise<{ activity: Activity; reviewsData: Reviews }> {
+async function getActivityData(
+  activityId: number,
+): Promise<{ activity: ActivitiesIdData; reviewsData: ActivitiesReviewData }> {
   const activity = await getActivitiesId(activityId);
   const reviewsData = await getActivitiesIdRev(activityId);
   return { activity, reviewsData };
@@ -30,7 +32,7 @@ async function getActivityData(activityId: number): Promise<{ activity: Activity
 export default function ActivityPage({ params }: ActivityPageProps) {
   const { activityId } = params;
 
-  const [data, setData] = useState<{ activity: Activity; reviewsData: Reviews } | null>(null);
+  const [data, setData] = useState<{ activity: ActivitiesIdData; reviewsData: ActivitiesReviewData } | null>(null);
 
   useEffect(() => {
     getActivityData(Number(activityId)).then(fetchedData => {
@@ -44,7 +46,7 @@ export default function ActivityPage({ params }: ActivityPageProps) {
 
   const { activity, reviewsData } = data;
 
-  const images = activity.subImages.map(image => image.imageUrl);
+  const images = activity.subImageUrls.map(image => image.imageUrl);
 
   return (
     <div className="container mx-auto px-4">

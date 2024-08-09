@@ -3,7 +3,7 @@
 */
 
 import Pagination from "@/components/Pagination";
-import { Reviews } from "@/types/activities.type";
+import { ActivitiesReviewData } from "@/types/activities.type";
 import star from "@icon/ic_star_on.svg";
 import Image from "next/image";
 import { FC, useState } from "react";
@@ -16,7 +16,7 @@ const getSatisfactionLabel = (rating: number): string => {
   return "불만족😥";
 };
 
-const ActivityReviews: FC<Reviews> = ({ averageRating = 0, totalCount = 0, reviews }) => {
+const ActivityReviews: FC<ActivitiesReviewData> = ({ averageRating = 0, totalCount = 0, reviews }) => {
   const satisfactionLabel = getSatisfactionLabel(averageRating);
 
   // 상태 추가: 현재 페이지와 페이지 당 리뷰 수

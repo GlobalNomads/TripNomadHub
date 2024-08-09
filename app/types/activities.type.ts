@@ -29,7 +29,7 @@ export interface ReviewUser {
   id: number;
 }
 
-export interface Review {
+export interface ReviewList {
   id: number;
   user: ReviewUser;
   activityId: number;
@@ -39,32 +39,53 @@ export interface Review {
   updatedAt: string;
 }
 
-export interface Reviews {
+export interface ActivitiesReviewData {
   averageRating: number;
   totalCount: number;
-  reviews: Review[];
+  reviews: ReviewList[];
+}
+
+export interface ScheduleTimeList {
+  endTime: string;
+  startTime: string;
+  id: number;
 }
 
 export interface ScheduleData {
   date: string;
-  times: Schedule[];
+  times: ScheduleTimeList[];
 }
 
-export interface Activity {
-  id: number;
-  userId: number;
+export interface SubImageUrls {
+  id?: number;
+  imageUrl: string;
+}
+
+export interface Schedules {
+  id?: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface ActivitiesDataProp {
+  id?: number;
+  userId?: number;
   title: string;
   description: string;
   category: string;
   price: number;
   address: string;
   bannerImageUrl: string;
-  rating: number;
-  reviewCount: number;
-  createdAt: string;
-  updatedAt: string;
-  subImages: { id: number; imageUrl: string }[];
-  schedules: { id: number; date: string; startTime: string; endTime: string }[];
+  subImageUrls: SubImageUrls[];
+  reviewCount?: number;
+  rating?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ActivitiesIdData extends ActivitiesDataProp {
+  schedules: Schedules[];
 }
 
 export interface PostActivities {
@@ -78,8 +99,8 @@ export interface ActivityPageProps {
 export interface ActivityTitleProps {
   category: string;
   title: string;
-  rating: number;
-  reviewCount: number;
+  rating: number | undefined;
+  reviewCount: number | undefined;
   location: string;
 }
 
@@ -92,20 +113,13 @@ export interface PriceInfoProps {
   price: number;
 }
 
-export interface Schedule {
-  id: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
 export interface ReservationFloatingBoxProps {
-  schedules: Schedule[];
+  schedules: Schedules[];
   price: number;
 }
 
 export interface ScheduleSelectorProps {
-  schedules: Schedule[];
+  schedules: Schedules[];
   setSelectedSchedule: (schedule: string) => void;
 }
 
