@@ -1,17 +1,8 @@
 import { AuthProvider } from "@/context/AuthContext";
+import Header from "@header/Header";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import localFont from "next/font/local";
 import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
-
-const pretendardStd = localFont({
-  src: "./assets/fonts/PretendardStdVariable.woff2",
-  display: "swap",
-  variable: "--font-pretendard-std",
-});
-
-const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "GlobalNomad",
@@ -30,13 +21,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
- <body className={`${pretendardStd.variable} ${inter.variable}`}>
-      <AuthProvider>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
-      </AuthProvider>
-    </body>
+      <body>
+        <AuthProvider>
+          <QueryProvider>
+            <Header />
+            {children}
+          </QueryProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
