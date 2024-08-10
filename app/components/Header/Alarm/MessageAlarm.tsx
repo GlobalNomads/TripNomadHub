@@ -74,6 +74,7 @@ export default function MessageAlarm({
           <Image src={Alarm} alt="알람 이미지" />
         </div>
       </button>
+
       {toggle && (
         <ul
           style={{ zIndex: 3 }}
