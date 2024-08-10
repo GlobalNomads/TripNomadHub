@@ -34,8 +34,9 @@ const PencilButton = () => {
         queryKey: ["getUsersMe"],
       });
     } catch (err) {
-      console.error("Error uploading image:", err);
       setError("Failed to upload image and update profile.");
+      console.error(error);
+      alert("프로필 사진 변경을 실패했습니다");
     } finally {
       setLoading(false);
     }
@@ -49,13 +50,12 @@ const PencilButton = () => {
             type="file"
             accept="image/*"
             onChange={handleImageChange} // 이미지 선택 후 handleImageChange 호출
+            disabled={loading}
             className="hidden"
           />
           <Image className="absolute right-14 top-[-68px] xl:right-28" src={Pencil} width={44} height={44} alt="연필" />
         </label>
       </div>
-      {loading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
     </div>
   );
 };

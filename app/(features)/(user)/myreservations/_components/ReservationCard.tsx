@@ -38,11 +38,11 @@ const ReservationCard = () => {
   };
 
   return (
-    <div className="mx-auto flex-row">
+    <div className="mx-auto flex flex-col gap-2 md:gap-4 xl:gap-6">
       {data.reservations.map(reservation => (
         <div
           key={reservation.id}
-          className="flex h-[128px] w-[344px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
+          className="flex h-[128px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
         >
           <div className="relative h-[128px] w-[128px] overflow-hidden rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]">
             {reservation.activity && (
@@ -77,9 +77,11 @@ const ReservationCard = () => {
             </div>
             <div className="mb-1 flex w-[190px] items-center justify-between md:w-[245px] xl:mb-0 xl:mt-4 xl:w-[540px]">
               <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">₩{reservation.totalPrice}</div>
-              <div>
-                <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
-              </div>
+              {reservation.status === "completed" && (
+                <div className="">
+                  <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -52,7 +52,7 @@ const ProfileImage = () => {
     enabled: typeof window !== "undefined",
   });
 
-  if (isLoading) return <span>Profile Loading...</span>;
+  if (isLoading) return <div>Profile Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
