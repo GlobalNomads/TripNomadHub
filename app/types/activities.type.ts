@@ -31,8 +31,8 @@ export interface ReviewUser {
 
 export interface ReviewList {
   id: number;
-  user: ReviewUser;
   activityId: number;
+  user: ReviewUser;
   rating: number;
   content: string;
   createdAt: string;
