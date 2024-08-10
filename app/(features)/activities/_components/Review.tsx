@@ -10,10 +10,6 @@ import { FC } from "react";
 const Review: FC<{ review: ReviewList }> = ({ review }) => {
   const profileImageUrl = review.user.profileImageUrl || defaultProfile.src; // 기본 이미지 경로 설정
 
-  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = defaultProfile.src; // 이미지 로딩 실패 시 기본 이미지로 대체
-  };
-
   return (
     <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">
@@ -24,7 +20,6 @@ const Review: FC<{ review: ReviewList }> = ({ review }) => {
             height={45}
             alt={review.user.nickname}
             className="object-cover"
-            onError={handleImageError} // 이미지 로딩 오류 처리
           />
         </div>
       </div>
