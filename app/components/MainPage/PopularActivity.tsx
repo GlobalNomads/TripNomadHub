@@ -1,19 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import miniStar from "@icon/mini_star.svg";
+import { useState } from "react";
+import type { ActivityList } from "@/types/activities.type"; // 새로운 타입을 사용
 
-import type { Activites } from "./types";
-
-const PopularActivity = ({ data }: { data: Activites }) => {
+const PopularActivity = ({ data }: { data: ActivityList }) => {
   const { id, title, price, rating, reviewCount, bannerImageUrl } = data;
+
+  // bannerImageUrl이 null일 경우 대체 이미지 사용
+  const [imageSrc, setImageSrc] = useState(bannerImageUrl || "/assets/image/empty.svg");
+
+  const handleImageError = () => {
+    setImageSrc("/assets/image/empty.svg");
+  };
 
   return (
     <Link
       href={`/activity/${id}`}
       className="relative size-[186px] flex-shrink-0 rounded-[20px] px-[20px] pb-[24px] text-white shadow-none transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg hover:shadow-primary-gray-300 md:size-[384px]"
     >
-      <Image src={bannerImageUrl} alt="banner" fill className="absolute -z-10 rounded-[20px] brightness-75 filter" />
+      <Image
+        src={imageSrc}
+        alt="banner"
+        fill
+        priority
+        onError={handleImageError}
+        className="absolute -z-10 rounded-[20px] brightness-75 filter"
+      />
 
       <div className="mt-[48px] flex items-center gap-5 text-md-semibold leading-[24px] md:mt-[174px]">
         <Image src={miniStar} alt="Star" width={16} height={16} />

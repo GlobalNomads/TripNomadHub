@@ -1,63 +1,83 @@
-"use client"; // 파일 상단에 추가
+"use client";
 
-import React, { useState } from "react";
-
-//--------------------------components
+import React, { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
-import Pagination from "./Pagination";
+import Pagination from "@/components/Pagination";
 import CategoryFilter from "./CategoryFilter";
-import PopularActivity from "./PopularActivity";
-import Activity from "./Activity";
-import { Activites } from "./types";
+import PopularActivities from "./PopularActivities";
+import AllActivities from "./AllActivities";
+import getActivities from "@/api/Activities/getActivities";
+import { ActivitiesData } from "@/types/activities.type";
 
-//--------------------------MockData
-export const activityData: Activites = {
-  id: 1932,
-  userId: 694,
-  title: "함께 하면 즐거운 곽철이와 함께 춤을",
-  description:
-    "둠칫 둠칫 두둠칫 날이면 날마다 오는 체험이 아니다! 곽철이와 함께 댄스를 출 수 있는 특별한 기회! 특별한 가격에 모십니다! 곽철이와 함께 춤을!! 💃🕺",
-  category: "투어", // Category 타입에 맞는 값이어야 합니다.
-  price: 1000000,
-  address: "서울특별시 강남구 테헤란로 427",
-  bannerImageUrl:
-    "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/activity_registration_image/6-11_694_1721994832772.jpeg",
-  rating: 4.8,
-  reviewCount: 589,
-  createdAt: "2024-07-26T13:49:15.140Z",
-  updatedAt: "2024-07-26T13:49:15.140Z",
-};
-
-//----------------------------Main
 const MainPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
+  const [popularActivities, setPopularActivities] = useState<ActivitiesData | undefined>(undefined);
+  const [allActivities, setAllActivities] = useState<ActivitiesData | undefined>(undefined);
+
+  // 인기 체험 데이터를 가져오는 함수
+  useEffect(() => {
+    const fetchPopularActivities = async () => {
+      try {
+        const data = await getActivities({
+          method: "offset", // "offset" 페이지네이션 방식 사용
+          sort: "most_reviewed",
+          size: 10,
+        });
+        setPopularActivities(data);
+      } catch (error) {
+        console.error("Failed to fetch popular activities:", error);
+      }
+    };
+
+    fetchPopularActivities();
+  }, []);
+
+  // 모든 체험 데이터를 가져오는 함수
+  useEffect(() => {
+    const fetchAllActivities = async () => {
+      try {
+        const data = await getActivities({
+          method: "offset", // "offset" 페이지네이션 방식 사용
+          sort: "latest",
+          page: currentPage,
+          size: 10,
+          keyword: searchKeyword || undefined, // searchKeyword가 빈 문자열일 경우 undefined 전달
+        });
+        setAllActivities(data);
+        setTotalPages(Math.ceil(data.totalCount / 10));
+      } catch (error) {
+        console.error("Failed to fetch all activities:", error);
+      }
+    };
+
+    fetchAllActivities();
+  }, [currentPage, searchKeyword]);
+
+  const handleSearch = (keyword: string) => {
+    setSearchKeyword(keyword || undefined); // 빈 검색어를 처리
+    setCurrentPage(1); // 새 검색 시 첫 페이지로 리셋
+  };
 
   return (
     <>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <div className="mt-12 md:mt-12 xl:mt-12">
         <h1 className="xs:text-2xl-bold mb-4 text-lg-semibold font-semibold text-primary-black-200 sm:text-2xl-bold md:text-2xl-bold">
           🔥인기 체험
         </h1>
-        <div className="no-scrollbar -m-5 flex gap-4 overflow-x-auto p-5 md:gap-8 xl:gap-6">
-          <PopularActivity data={activityData} />
-          <PopularActivity data={activityData} />
-          <PopularActivity data={activityData} />
-        </div>
+        {/* 인기 체험 섹션 */}
+        <PopularActivities data={popularActivities || undefined} />
       </div>
+
       <div className="mt-12 md:mt-32 xl:mt-40">
         <CategoryFilter />
-        {/* 카테고리 메뉴 드롭 다운 */}
+        {/* 모든 체험 섹션 */}
         <h1 className="xs:text-2xl-bold my-6 font-semibold text-primary-black-200 sm:text-2xl-bold md:mb-8 md:mt-9">
           🌍 모든 체험
         </h1>
-        <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 md:gap-x-16 md:gap-y-32 xl:grid-cols-4 xl:gap-x-12 xl:gap-y-24">
-          <Activity data={activityData} />
-          <Activity data={activityData} />
-          <Activity data={activityData} />
-          <Activity data={activityData} />
-        </div>
+        <AllActivities data={allActivities || undefined} /> {/* 모든 체험을 렌더링 */}
       </div>
 
       <div className="mb-30 md:mt-18 my-12 mt-10 flex justify-center md:mb-[165px] xl:mb-[85px] xl:mt-16">
