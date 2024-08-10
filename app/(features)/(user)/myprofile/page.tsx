@@ -1,5 +1,11 @@
+import MyProfileForm from "./_components/MyProfileForm";
+
 function MyProfile() {
-  return <div>MyProfile</div>;
+  return (
+    <div>
+      <MyProfileForm />
+    </div>
+  );
 }
 
 export default MyProfile;
