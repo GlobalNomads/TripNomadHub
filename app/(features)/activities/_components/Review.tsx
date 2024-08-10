@@ -14,13 +14,7 @@ const Review: FC<{ review: ReviewList }> = ({ review }) => {
     <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">
         <div className="h-[45px] w-[45px] overflow-hidden rounded-full">
-          <Image
-            src={review.user.profileImageUrl || defaultProfile.src}
-            width={45}
-            height={45}
-            alt={review.user.nickname}
-            className="object-cover"
-          />
+          <Image src={profileImageUrl} width={45} height={45} alt={review.user.nickname} className="object-cover" />
         </div>
       </div>
       <div className="flex-grow">
