@@ -1,4 +1,6 @@
-// components/ActivityLocationClient.tsx
+/*
+  미팅포인트(ActivityLocation)의 Client 컴포넌트
+*/
 "use client";
 
 import { ActivityLocationProps } from "@/types/activities.type";
@@ -63,7 +65,7 @@ const ActivityLocationClient: React.FC<ActivityLocationProps> = ({ address }) =>
   return (
     <div className="space-y-4 text-primary-black-100">
       <h3 className="text-xl-bold">미팅 포인트</h3>
-      <div id="map" className="map-container" style={{ height: "400px" }}></div>
+      <div id="map" className="map-container"></div>
       <div className="flex space-x-2">
         <div style={{ width: "20px", height: "20px", position: "relative" }}>
           <Image src={LocationMarker} alt="Location marker" fill />

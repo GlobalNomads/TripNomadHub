@@ -1,4 +1,6 @@
-// components/ActivityReviewClient.tsx
+/*
+  체험 후기(Activity Review)의 client 컴포넌트
+*/
 "use client";
 
 import Pagination from "@/components/Pagination";

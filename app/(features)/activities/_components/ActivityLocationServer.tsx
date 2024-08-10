@@ -1,4 +1,6 @@
-// components/ActivityLocationServer.tsx
+/*
+  미팅포인트(ActivityLocation)의 서버 컴포넌트
+*/
 
 import ActivityLocationClient from "./ActivityLocationClient";
 

@@ -1,4 +1,7 @@
-// components/ActivityReviewServer.tsx
+/*
+  체험 후기(Activity Review)의 Server 컴포넌트
+*/
+
 import { ReviewList } from "@/types/activities.type";
 import ActivityReviewClient from "./ActivityReviewClient";
 
