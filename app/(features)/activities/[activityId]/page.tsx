@@ -46,14 +46,16 @@ export default async function ActivityPage({ params }: { params: { activityId: s
           <hr className="my-10 hidden border-t border-primary-black-100 opacity-25 md:block" />
           <ActivityLocationServer address={activity.address} />
           <hr className="my-4 border-t border-primary-black-100 opacity-25 md:my-10 md:block" />
-          <ActivityReviewServer
-            averageRating={reviewsData.averageRating}
-            totalCount={reviewsData.totalCount}
-            reviews={reviewsData.reviews}
-            currentPage={1} // 초기 페이지 번호
-            totalPages={Math.ceil(reviewsData.reviews.length / 3)} // 페이지 수 계산
-            activityId={activity.id ?? 0} // 페이지네이션에 필요, undefined를 허용하지 않도록 확인
-          />
+          {reviewsData && (
+            <ActivityReviewServer
+              averageRating={reviewsData.averageRating}
+              totalCount={reviewsData.totalCount}
+              reviews={reviewsData.reviews}
+              currentPage={1} // 초기 페이지 번호
+              totalPages={Math.ceil(reviewsData.reviews.length / 3)} // 페이지 수 계산
+              activityId={activity.id ?? 0} // 페이지네이션에 필요, undefined를 허용하지 않도록 확인
+            />
+          )}
         </div>
         <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
           <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">

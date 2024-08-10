@@ -49,12 +49,13 @@ const ActivityReviewClient: React.FC<ActivityReviewClientProps> = ({
         </div>
       </div>
       <div>
-        {reviews.map((review, index) => (
-          <div key={review.id}>
-            <Review key={review.id} review={review} />
-            {index < reviews.length - 1 && <hr className="my-4 border-t border-primary-black-100 opacity-25" />}
-          </div>
-        ))}
+        {reviews &&
+          reviews.map((review, index) => (
+            <div key={review.id}>
+              <Review key={review.id} review={review} />
+              {index < reviews.length - 1 && <hr className="my-4 border-t border-primary-black-100 opacity-25" />}
+            </div>
+          ))}
       </div>
       <div className="mt-10 md:mt-[90px] xl:mt-[72px]">
         <Pagination
