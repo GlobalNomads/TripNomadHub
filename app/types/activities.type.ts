@@ -31,11 +31,8 @@ export interface ReviewUser {
 
 export interface ReviewList {
   id: number;
-  user: {
-    id: number;
-    profileImageUrl: string;
-    nickname: string;
-  };
+  activityId: number;
+  user: ReviewUser;
   rating: number;
   content: string;
   createdAt: string;
