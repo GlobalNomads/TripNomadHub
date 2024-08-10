@@ -1,7 +1,8 @@
 "use client";
 
+import patchUsersMe from "@/api/Users/patchUsersMe";
 import Button from "@button/Button";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
 import Label from "./Label";
@@ -19,13 +20,20 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i; //이메
 function SigninForm() {
   const {
     register,
+    watch,
+    handleSubmit,
     formState: { isSubmitting, errors, isValid },
   } = useForm<PatchUserData>({ mode: "onChange" });
 
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
+  const onSubmit: SubmitHandler<PatchUserData> = async ({ nickname, profileImageUrl, newPassword }) => {
+    const data = { nickname, profileImageUrl, newPassword };
+    await patchUsersMe(data);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-4">
         <div className="flex items-center justify-between">
           <div className="text-3xl-bold">내 정보</div>
@@ -94,11 +102,12 @@ function SigninForm() {
               id="password"
               placeholder="비밀번호를 입력해 주세요"
               {...register("passwordConfirmation", {
-                required: "8자 이상 작성해 주세요",
+                required: true,
                 minLength: {
                   value: 8,
                   message: "8자 이상 작성해 주세요",
                 },
+                validate: value => (value === watch("newPassword") ? true : "비밀번호가 일치하지 않습니다."),
               })}
               validationCheck={!!errors.passwordConfirmation}
             />
