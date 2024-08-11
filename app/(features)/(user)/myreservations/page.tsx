@@ -1,13 +1,13 @@
 import React from "react";
-import SideNavCard from "../../../components/SideNav/SideNavCard";
 import ReservationCard from "./_components/ReservationCard";
 
 const MyReservations: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="mb-3 text-3xl-bold">예약 내역</div>
-      <SideNavCard />
-      <ReservationCard />
+      <div className="h-full w-full">
+        <ReservationCard />
+      </div>
     </div>
   );
 };

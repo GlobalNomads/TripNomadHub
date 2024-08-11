@@ -1,5 +1,4 @@
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
+import Footer from "@footer/Footer";
 
 export default function FeaturesLayout({
   children,
@@ -8,7 +7,6 @@ export default function FeaturesLayout({
 }>) {
   return (
     <>
-      <Header />
       <main className="main-layout">{children}</main>
       <Footer />
     </>

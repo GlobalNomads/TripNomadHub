@@ -1,4 +1,7 @@
+import { AuthProvider } from "@/context/AuthContext";
+import Header from "@header/Header";
 import type { Metadata } from "next";
+import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +21,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head />
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <QueryProvider>
+            <Header />
+            {children}
+          </QueryProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
