@@ -17,6 +17,11 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPage
     }
   };
 
+  // 페이지가 0일 때는 페이지네이션을 표시하지 않음
+  if (totalPages === 0) {
+    return null;
+  }
+
   return (
     <div className="flex flex-row items-center justify-center gap-2">
       <Button.Pagination
