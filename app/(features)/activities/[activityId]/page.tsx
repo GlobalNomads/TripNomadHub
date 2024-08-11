@@ -8,7 +8,6 @@
 */
 
 import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수
-import getActivitiesIdRev from "@api/Activities/getActivitiesIdRev"; // API 함수
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
 import ActivityLocationServer from "../_components/ActivityLocationServer";
@@ -19,8 +18,6 @@ import ReservationFloatingBox from "../_components/ReservationFloatingBox";
 
 export default async function ActivityPage({ params }: { params: { activityId: string } }) {
   const activity = await getActivitiesId(Number(params.activityId));
-  const reviewsData = await getActivitiesIdRev(Number(params.activityId));
-
   const images = activity.subImages?.map(image => image.imageUrl) ?? [];
 
   return (
@@ -46,16 +43,7 @@ export default async function ActivityPage({ params }: { params: { activityId: s
           <hr className="my-10 hidden border-t border-primary-black-100 opacity-25 md:block" />
           <ActivityLocationServer address={activity.address} />
           <hr className="my-4 border-t border-primary-black-100 opacity-25 md:my-10 md:block" />
-          {reviewsData && (
-            <ActivityReviewServer
-              averageRating={reviewsData.averageRating}
-              totalCount={reviewsData.totalCount}
-              reviews={reviewsData.reviews}
-              currentPage={1} // 초기 페이지 번호
-              totalPages={Math.ceil(reviewsData.reviews.length / 3)} // 페이지 수 계산
-              activityId={activity.id ?? 0} // 페이지네이션에 필요, undefined를 허용하지 않도록 확인
-            />
-          )}
+          <ActivityReviewServer activityId={activity.id ?? 0} />
         </div>
         <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
           <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
