@@ -15,7 +15,7 @@ interface ActivityReviewClientProps {
   activityId: number;
 }
 
-const ActivityReviewClient: React.FC<ActivityReviewClientProps> = ({ activityId }) => {
+const ActivityReview: React.FC<ActivityReviewClientProps> = ({ activityId }) => {
   const [reviewsData, setReviewsData] = useState<{
     averageRating: number;
     totalCount: number;
@@ -35,15 +35,15 @@ const ActivityReviewClient: React.FC<ActivityReviewClientProps> = ({ activityId 
     return <div>Loading reviews...</div>;
   }
 
-  const getSatisfactionLabel = (rating: number): string => {
+  const getSatisfactionLabel = (rating: number, totalCount: number): string => {
+    if (totalCount === 0) return "🌷 첫 번째 리뷰를 작성해 주세요!";
     if (rating >= 4) return "매우 만족🤗";
     if (rating >= 3) return "만족😊";
     if (rating >= 2) return "보통🙂";
     return "불만족😥";
   };
 
-  const satisfactionLabel = getSatisfactionLabel(reviewsData.averageRating);
-
+  const satisfactionLabel = getSatisfactionLabel(reviewsData.averageRating, reviewsData.totalCount);
   return (
     <>
       <div className="text-xl-bold text-primary-black-100">후기</div>
@@ -80,4 +80,4 @@ const ActivityReviewClient: React.FC<ActivityReviewClientProps> = ({ activityId 
   );
 };
 
-export default ActivityReviewClient;
+export default ActivityReview;

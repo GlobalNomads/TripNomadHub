@@ -11,7 +11,7 @@ import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
 import ActivityLocationServer from "../_components/ActivityLocationServer";
-import ActivityReviewClient from "../_components/ActivityReviewClient"; //
+import ActivityReview from "../_components/ActivityReview"; //
 import ActivityTitle from "../_components/ActivityTitle";
 import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
@@ -43,7 +43,7 @@ export default async function ActivityPage({ params }: { params: { activityId: s
           <hr className="my-10 hidden border-t border-primary-black-100 opacity-25 md:block" />
           <ActivityLocationServer address={activity.address} />
           <hr className="my-4 border-t border-primary-black-100 opacity-25 md:my-10 md:block" />
-          <ActivityReviewClient activityId={activity.id ?? 0} />
+          <ActivityReview activityId={activity.id ?? 0} />
         </div>
         <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
           <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
