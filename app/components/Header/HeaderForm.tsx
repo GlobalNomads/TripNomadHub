@@ -12,6 +12,7 @@ function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
   const [alarmToggle, setAlarmToggle] = useToggle(false);
   const [menuToggle, setMenuToggle] = useToggle(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [isStatus, setIsStatus] = useState(loginStatus);
 
   //모바일 사이즈때 다른 화면 구조를 맞추기 위해 사이즈 판별용(useEffect)
   useEffect(() => {
@@ -33,7 +34,7 @@ function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
 
   return (
     <AlarmProvider>
-      {loginStatus ? (
+      {isStatus ? (
         <div className="z-3">
           <div className="flex items-center gap-4 text-primary-gray-400">
             <MessageAlarm
@@ -47,6 +48,7 @@ function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
               oppositeToggle={alarmToggle}
               setToggle={setMenuToggle}
               setOppositeToggle={setAlarmToggle}
+              setIsStatus={() => setIsStatus(!isStatus)}
             />
           </div>
         </div>
