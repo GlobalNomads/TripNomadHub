@@ -1,19 +1,20 @@
 "use client";
-import Button from "@/components/Button/Button";
+import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { ReservationsData } from "@/types/myReservations.type";
 import getMyReservations from "@api/MyReservations/getMyReservations";
+import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
-import EmptyPage from "./EmptyPage";
-import ReviewModal from "./OpenModal";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
 const ReservationCard = () => {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const { data, error, isLoading } = useQuery<ReservationsData>({
     queryKey: ["reservations"],
-    queryFn: () => getMyReservations({ size: 10 }),
+    queryFn: () => getMyReservations({ size: 20 }),
     staleTime: 60000,
     retry: 2,
   });
@@ -80,13 +81,36 @@ const ReservationCard = () => {
               {reservation.status === "completed" && (
                 <div className="">
                   <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
+                  <Modal.Review
+                    isOpen={isReviewModalOpen}
+                    onClose={() => setReviewModalOpen(false)}
+                    onSubmit={() => {
+                      setReviewModalOpen(false);
+                    }}
+                  >
+                    <></> {/* 빈 React Fragment를 children으로 전달 */}
+                  </Modal.Review>
+                </div>
+              )}
+              {reservation.status === "pending" && (
+                <div className="">
+                  <Button.CancelReservation onClick={() => setCancelModalOpen(true)} />
+                  <Modal.Cancel
+                    isOpen={isCancelModalOpen}
+                    onClose={() => setCancelModalOpen(false)}
+                    onCancel={() => {
+                      setCancelModalOpen(false);
+                    }}
+                    description="예약을 취소하시겠어요?"
+                  >
+                    <></> {/* 빈 React Fragment를 children으로 전달 */}
+                  </Modal.Cancel>
                 </div>
               )}
             </div>
           </div>
         </div>
       ))}
-      <ReviewModal isOpen={isReviewModalOpen} onClose={() => setReviewModalOpen(false)} />
     </div>
   );
 };
