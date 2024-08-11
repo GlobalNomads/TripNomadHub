@@ -25,7 +25,7 @@ function SigninForm() {
   } = useForm<ISignInValue>({ mode: "onChange" });
 
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
   const router = useRouter();
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
@@ -34,7 +34,7 @@ function SigninForm() {
       await postLogin(data);
       router.push("/");
     } catch (error: any) {
-      setErrorMessage(error?.message);
+      setModalMessage(error?.message);
       setConfirmModalOpen(true);
     }
   };
@@ -89,7 +89,7 @@ function SigninForm() {
         onConfirm={() => {
           setConfirmModalOpen(false);
         }}
-        message={errorMessage}
+        message={modalMessage}
       >
         <></>
       </Modal.Confirm>
