@@ -1,7 +1,6 @@
 "use client";
 
 import { AlarmProvider } from "@/context/AlarmContext";
-import { useAuth } from "@/context/AuthContext";
 import useToggle from "@/hooks/useToggle";
 import debounce from "@/utils/debounce";
 import Link from "next/link";
@@ -9,9 +8,7 @@ import { useEffect, useState } from "react";
 import MessageAlarm from "./Alarm/MessageAlarm";
 import UserProfileDropDown from "./UserProfileDropDown";
 
-function HeaderForm() {
-  const { user, getUser } = useAuth();
-
+function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
   const [alarmToggle, setAlarmToggle] = useToggle(false);
   const [menuToggle, setMenuToggle] = useToggle(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -34,13 +31,9 @@ function HeaderForm() {
     };
   }, [windowWidth]);
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   return (
     <AlarmProvider>
-      {user ? (
+      {loginStatus ? (
         <div className="z-3">
           <div className="flex items-center gap-4 text-primary-gray-400">
             <MessageAlarm
@@ -54,8 +47,6 @@ function HeaderForm() {
               oppositeToggle={alarmToggle}
               setToggle={setMenuToggle}
               setOppositeToggle={setAlarmToggle}
-              profileName={user?.nickname}
-              profileImage={user?.profileImageUrl}
             />
           </div>
         </div>

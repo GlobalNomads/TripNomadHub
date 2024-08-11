@@ -70,9 +70,7 @@ export default function MessageAlarm({
             {count}
           </div>
         )}
-        <div className="h-[20px] w-[20px] border-none">
-          <Image src={Alarm} alt="알람 이미지" />
-        </div>
+        <Image src={Alarm} alt="알람 이미지" className="w-[35px]" />
       </button>
 
       {toggle && (
