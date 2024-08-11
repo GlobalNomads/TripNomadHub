@@ -3,7 +3,7 @@
 */
 
 import { ReviewList } from "@/types/activities.type";
-import defaultProfile from "@icon/ic_review_default.png";
+import defaultProfile from "@icon/ic_default_reviewprofile.png";
 import Image from "next/image";
 import { FC } from "react";
 
