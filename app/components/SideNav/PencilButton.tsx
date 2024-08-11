@@ -19,7 +19,6 @@ const PencilButton = () => {
     setError(null);
 
     try {
-      // Upload the image and get the new image URL
       const { profileImageUrl } = await postUsersMeImg(file);
 
       // Patch the user data with the new image URL
@@ -27,9 +26,8 @@ const PencilButton = () => {
         profileImageUrl,
       });
 
-      // Show success alert
-      alert("프로필 사진을 변경했습니다.");
-      // Invalidate cache for getUsersMe query and refetch data
+      alert("프로필 사진을 변경합니다.");
+
       queryClient.invalidateQueries({
         queryKey: ["getUsersMe"],
       });
@@ -53,7 +51,7 @@ const PencilButton = () => {
             disabled={loading}
             className="hidden"
           />
-          <Image className="absolute right-14 top-[-68px] xl:right-28" src={Pencil} width={44} height={44} alt="연필" />
+          <Image className="absolute right-14 top-[-45px] xl:right-28" src={Pencil} width={44} height={44} alt="연필" />
         </label>
       </div>
     </div>

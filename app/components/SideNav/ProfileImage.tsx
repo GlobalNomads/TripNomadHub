@@ -52,15 +52,12 @@ const ProfileImage = () => {
     enabled: typeof window !== "undefined",
   });
 
-  if (isLoading) return <div>Profile Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
-      {userData?.profileImageUrl ? (
-        <Image src={userData.profileImageUrl} priority alt="Profile picture" layout="fill" objectFit="cover" />
-      ) : (
+      {isLoading || error || !userData?.profileImageUrl ? (
         <div className="flex h-full w-full items-center justify-center bg-primary-gray-300"></div>
+      ) : (
+        <Image src={userData.profileImageUrl} priority alt="Profile picture" layout="fill" objectFit="cover" />
       )}
     </div>
   );
