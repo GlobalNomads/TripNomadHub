@@ -1,7 +1,12 @@
 "use client";
 
 import patchUsersMe from "@/api/Users/patchUsersMe";
+import postUsersMeImg from "@/api/Users/postUsersMeImg";
 import Button from "@button/Button";
+import Pencil from "@icon/ic_pencil.svg";
+import UserProfile from "@icon/userProfileIcon.svg";
+import Image from "next/image";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
@@ -17,7 +22,7 @@ interface PatchUserData {
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i; //이메일 방식 선언
 
-function SigninForm() {
+function MyProfileFrom() {
   const {
     register,
     watch,
@@ -27,9 +32,36 @@ function SigninForm() {
 
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
+  const [preview, setPreview] = useState<string | null>();
+  const [formData, setFormData] = useState({});
+
+  //이미지 경로 변환 작업
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const responseData = await postUsersMeImg(file);
+      if (responseData) {
+        setPreview(responseData.profileImageUrl);
+        handleChange({
+          target: { name: "profileImageUrl", value: responseData.profileImageUrl },
+        } as React.ChangeEvent<HTMLInputElement>);
+      }
+    }
+  };
+
+  //이미지 경로 집어넣기 위한 핸들러
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const onSubmit: SubmitHandler<PatchUserData> = async ({ nickname, profileImageUrl, newPassword }) => {
     const data = { nickname, profileImageUrl, newPassword };
-    await patchUsersMe(data);
+    setFormData(data);
+    await patchUsersMe(formData);
   };
 
   return (
@@ -43,6 +75,28 @@ function SigninForm() {
         </div>
 
         <div className="grid gap-6">
+          <Label htmlFor="profileImage" className="grid w-[140px] gap-[10px] text-2xl-bold">
+            프로필 이미지
+            <div className="relative h-[140px] w-[140px] object-cover">
+              <Image className="rounded-full" width={140} height={140} src={preview || UserProfile} alt="프로필" />
+              <Input
+                type="file"
+                accept="image/*"
+                id="profileImage"
+                name="profileImage"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+              <Image
+                className="absolute left-[75%] top-[60%] rounded-full"
+                width={40}
+                height={40}
+                src={Pencil}
+                alt="연필 버튼"
+              />
+            </div>
+          </Label>
+
           <div className="grid gap-[10px]">
             <Label htmlFor="nickname">닉네임</Label>
             <Input
@@ -79,16 +133,16 @@ function SigninForm() {
             {errors.email?.message && <ErrorText>{errors.email?.message}</ErrorText>}
           </div>
           <div className="grid gap-[10px]">
-            <Label htmlFor="password">비밀번호</Label>
+            <Label htmlFor="newPassword">비밀번호</Label>
             <Input
               type="password"
-              id="password"
+              id="newPassword"
               placeholder="비밀번호를 입력해 주세요"
               {...register("newPassword", {
-                required: "8자 이상 작성해 주세요",
+                required: "8자 이상 입력해 주세요",
                 minLength: {
                   value: 8,
-                  message: "8자 이상 작성해 주세요",
+                  message: "8자 이상 입력해 주세요",
                 },
               })}
               validationCheck={!!errors.newPassword}
@@ -96,16 +150,16 @@ function SigninForm() {
             {errors.newPassword && <ErrorText>{errors.newPassword?.message}</ErrorText>}
           </div>
           <div className="grid gap-[10px]">
-            <Label htmlFor="password">비밀번호</Label>
+            <Label htmlFor="passwordConfirmation">비밀번호 재입력</Label>
             <Input
               type="password"
-              id="password"
-              placeholder="비밀번호를 입력해 주세요"
+              id="passwordConfirmation"
+              placeholder="비밀번호를 한번 더 입력해 주세요"
               {...register("passwordConfirmation", {
                 required: true,
                 minLength: {
                   value: 8,
-                  message: "8자 이상 작성해 주세요",
+                  message: "8자 이상 입력해 주세요",
                 },
                 validate: value => (value === watch("newPassword") ? true : "비밀번호가 일치하지 않습니다."),
               })}
@@ -119,4 +173,4 @@ function SigninForm() {
   );
 }
 
-export default SigninForm;
+export default MyProfileFrom;
