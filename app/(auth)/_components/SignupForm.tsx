@@ -1,9 +1,9 @@
 "use client";
 
-import Modal from "@/components/Modal/Modal";
 import { UserData } from "@/types/users.type";
 import postUsers from "@api/Users/postUsers";
 import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -136,9 +136,7 @@ function SigninForm() {
           router.push("/signin");
         }}
         message={modalMessage}
-      >
-        <></>
-      </Modal.Confirm>
+      />
     </>
   );
 }

@@ -87,9 +87,7 @@ const ReservationCard = () => {
                     onSubmit={() => {
                       setReviewModalOpen(false);
                     }}
-                  >
-                    <></> {/* 빈 React Fragment를 children으로 전달 */}
-                  </Modal.Review>
+                  />
                 </div>
               )}
               {reservation.status === "pending" && (
@@ -102,9 +100,7 @@ const ReservationCard = () => {
                       setCancelModalOpen(false);
                     }}
                     description="예약을 취소하시겠어요?"
-                  >
-                    <></> {/* 빈 React Fragment를 children으로 전달 */}
-                  </Modal.Cancel>
+                  />
                 </div>
               )}
             </div>

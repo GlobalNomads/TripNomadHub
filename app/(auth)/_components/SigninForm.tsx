@@ -1,8 +1,8 @@
 "use client";
 
-import Modal from "@/components/Modal/Modal";
 import postLogin from "@api/Auth/postLogin";
 import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -86,13 +86,9 @@ function SigninForm() {
       <Modal.Confirm
         isOpen={isConfirmModalOpen}
         onClose={() => setConfirmModalOpen(false)}
-        onConfirm={() => {
-          setConfirmModalOpen(false);
-        }}
+        onConfirm={() => setConfirmModalOpen(false)}
         message={modalMessage}
-      >
-        <></>
-      </Modal.Confirm>
+      />
     </>
   );
 }
