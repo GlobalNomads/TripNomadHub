@@ -10,7 +10,6 @@ import GrayTextBoxCheck from "@icon/ic_gray_text_box_check_outline.svg";
 import TextBoxCheck from "@icon/ic_text_box_check_outline.svg";
 import React from "react";
 import ButtonWithHover from "./ButtonWithHover";
-import PencilButton from "./PencilButton";
 import ProfileImage from "./ProfileImage";
 
 function SideNavCard(): React.JSX.Element {
@@ -19,7 +18,6 @@ function SideNavCard(): React.JSX.Element {
       <div className="relative mx-auto mt-6 items-center justify-center">
         <ProfileImage />
       </div>
-      <PencilButton />
       <div className="mx-auto mt-6 flex flex-col gap-2 text-primary-gray-450 xl:h-[200px] xl:w-[336px]">
         <ButtonWithHover href={"/myprofile"} defaultIcon={GrayAccountCheck} hoverIcon={AccountCheck}>
           내 정보
