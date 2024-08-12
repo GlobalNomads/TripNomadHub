@@ -1,18 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import miniStar from "@icon/mini_star.svg";
-import { useState } from "react";
-import type { ActivityList } from "@/types/activities.type"; // 새로운 타입을 사용
+import useImageLoad from "@/hooks/useImageLoad";
+import EmptyImage from "@image/empty.svg";
+
+import type { ActivityList } from "@/types/activities.type";
 
 const PopularActivity = ({ data }: { data: ActivityList }) => {
   const { id, title, price, rating, reviewCount, bannerImageUrl } = data;
 
-  // bannerImageUrl이 null일 경우 대체 이미지 사용
-  const [imageSrc, setImageSrc] = useState(bannerImageUrl || "/assets/image/empty.svg");
+  // useImageLoad 훅을 사용하여 이미지 로드 상태를 확인.
+  const imageError = useImageLoad(bannerImageUrl);
 
-  const handleImageError = () => {
-    setImageSrc("/assets/image/empty.svg");
-  };
+  // 이미지 오류가 있을 경우 대체 이미지를 사용하도록 설정.
+  const displayImage = imageError && bannerImageUrl ? EmptyImage : bannerImageUrl;
 
   return (
     <Link
@@ -20,11 +21,9 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
       className="relative size-[186px] flex-shrink-0 rounded-[20px] px-[20px] pb-[24px] text-white shadow-none transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg hover:shadow-primary-gray-300 md:size-[384px]"
     >
       <Image
-        src={imageSrc}
+        src={displayImage || EmptyImage}
         alt="banner"
         fill
-        priority
-        onError={handleImageError}
         className="absolute -z-10 rounded-[20px] brightness-75 filter"
       />
 
