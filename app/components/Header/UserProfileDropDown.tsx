@@ -51,12 +51,12 @@ function UserProfileDropdown({
 
   return (
     <div className="flex gap-2 border-l-2 border-solid border-primary-gray-200 pl-4">
-      <div className="relative aspect-[1/1] h-[32px] w-[32px] border-none">
-        <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" />
-      </div>
+      <button onClick={toggleDropdown} onBlur={closeToggle} className="flex items-center gap-4">
+        <div className="relative aspect-[1/1] h-[32px] w-[32px] border-none">
+          <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" />
+        </div>
 
-      <button onClick={toggleDropdown} onBlur={closeToggle}>
-        <div className="border-none text-md-medium text-primary-gray-800">{data?.nickname}</div>
+        <div className="text-md-medium text-primary-gray-800">{data?.nickname}</div>
       </button>
 
       {toggle && (
