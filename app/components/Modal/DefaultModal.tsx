@@ -12,7 +12,7 @@
 
 import closebtn from "@icon/ic_btn_X_bold.svg";
 import Image from "next/image";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export interface ModalFunctionProps {
@@ -45,6 +45,19 @@ const DefaultModal: FC<ModalFunctionProps & ModalDesignProps> = ({
   backgroundColor = "bg-white",
   padding = "p-6",
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    // Clean up function to reset the overflow when the modal is closed
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return createPortal(
