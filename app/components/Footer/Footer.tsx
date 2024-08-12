@@ -1,4 +1,3 @@
-import Link from "next/link";
 import FooterLink from "./FooterLink";
 
 import FacebookIcon from "@icon/FacebookIcon";
@@ -12,12 +11,8 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col items-center px-8 md:flex-row md:justify-between md:px-16 lg:px-32">
         <div className="text-sm text-gray-600 md:mb-0">&copy;codeit - 2023</div>
         <div className="flex gap-8 md:mb-0">
-          <Link href="/privacypolicy" className="text-sm text-gray-400">
-            Privacy Policy
-          </Link>
-          <Link href="/faq" className="text-sm text-gray-400">
-            FAQ
-          </Link>
+          <span className="text-sm text-gray-400">Privacy Policy</span>
+          <span className="text-sm text-gray-400">FAQ</span>
         </div>
         <div className="flex gap-4">
           <FooterLink href="https://www.facebook.com/">
