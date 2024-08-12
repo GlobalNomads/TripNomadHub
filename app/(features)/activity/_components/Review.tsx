@@ -3,21 +3,18 @@
 */
 
 import { ReviewList } from "@/types/activities.type";
+import defaultProfile from "@icon/ic_default_reviewprofile.png";
 import Image from "next/image";
 import { FC } from "react";
 
 const Review: FC<{ review: ReviewList }> = ({ review }) => {
+  const profileImageUrl = review.user.profileImageUrl || defaultProfile.src; // 기본 이미지 경로 설정
+
   return (
     <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">
         <div className="h-[45px] w-[45px] overflow-hidden rounded-full">
-          <Image
-            src={review.user.profileImageUrl}
-            width={45}
-            height={45}
-            alt={review.user.nickname}
-            className="object-cover"
-          />
+          <Image src={profileImageUrl} width={45} height={45} alt={review.user.nickname} className="object-cover" />
         </div>
       </div>
       <div className="flex-grow">

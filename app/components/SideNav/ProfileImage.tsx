@@ -1,35 +1,29 @@
 "use client";
+
 import getUsersMe from "@/api/Users/getUsersMe";
-import { UserData } from "@/types/users.type";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const ProfileImage = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["getUsersMe"],
+    queryFn: () => getUsersMe(),
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getUsersMe();
-        setUserData(data);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (!userData) return <div>Loading...</div>;
+    enabled: typeof window !== "undefined",
+  });
 
   return (
     <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
-      {userData.profileImageUrl ? (
-        <Image src={userData.profileImageUrl} priority alt="Profile picture" layout="fill" objectFit="cover" />
-      ) : (
+      {isLoading || error || !userData?.profileImageUrl ? (
         <div className="flex h-full w-full items-center justify-center bg-primary-gray-300"></div>
+      ) : (
+        <Image src={userData.profileImageUrl} priority alt="Profile picture" layout="fill" objectFit="cover" />
       )}
     </div>
   );
 };
-
 export default ProfileImage;
