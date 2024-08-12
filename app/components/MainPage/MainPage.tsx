@@ -23,7 +23,7 @@ const MainPage = () => {
         const data = await getActivities({
           method: "offset", // "offset" 페이지네이션 방식 사용
           sort: "most_reviewed",
-          size: 10,
+          size: 4,
         });
         setPopularActivities(data);
       } catch (error) {
@@ -42,7 +42,7 @@ const MainPage = () => {
           method: "offset", // "offset" 페이지네이션 방식 사용
           sort: "latest",
           page: currentPage,
-          size: 10,
+          size: 8,
           keyword: searchKeyword || undefined, // searchKeyword가 빈 문자열일 경우 undefined 전달
         });
         setAllActivities(data);
@@ -64,9 +64,9 @@ const MainPage = () => {
     <>
       <SearchBar onSearch={handleSearch} />
       <div className="mt-12 md:mt-12 xl:mt-12">
-        <h1 className="xs:text-2xl-bold mb-4 text-lg-semibold font-semibold text-primary-black-200 sm:text-2xl-bold md:text-2xl-bold">
+        <h2 className="xs:text-2xl-bold mb-4 text-lg-semibold font-semibold text-primary-black-200 sm:text-2xl-bold md:text-2xl-bold">
           🔥인기 체험
-        </h1>
+        </h2>
         {/* 인기 체험 섹션 */}
         <PopularActivities data={popularActivities || undefined} />
       </div>
@@ -74,9 +74,9 @@ const MainPage = () => {
       <div className="mt-12 md:mt-32 xl:mt-40">
         <CategoryFilter />
         {/* 모든 체험 섹션 */}
-        <h1 className="xs:text-2xl-bold my-6 font-semibold text-primary-black-200 sm:text-2xl-bold md:mb-8 md:mt-9">
+        <h2 className="xs:text-2xl-bold my-6 font-semibold text-primary-black-200 sm:text-2xl-bold md:mb-8 md:mt-9">
           🌍 모든 체험
-        </h1>
+        </h2>
         <AllActivities data={allActivities || undefined} /> {/* 모든 체험을 렌더링 */}
       </div>
 
