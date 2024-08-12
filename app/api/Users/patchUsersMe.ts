@@ -4,9 +4,9 @@ import { UserData } from "@/types/users.type";
 import fetchInstance from "@/utils/fetchInstance";
 
 export interface patchUserData {
-  nickname: string;
-  profileImageUrl: string | null;
-  newPassword: string;
+  nickname?: string | null;
+  profileImageUrl?: string | null;
+  newPassword?: string | null;
 }
 
 const patchUsersMe = async (patchUserData: patchUserData) => {
