@@ -59,11 +59,12 @@ export const DropdownTrigger: FC<
 export const DropdownItem: FC<{ onClick: () => void; children: ReactNode } & React.HTMLAttributes<HTMLDivElement>> = ({
   onClick,
   children,
+  className = "",
   ...rest
 }) => (
   <div
     onClick={onClick}
-    className="md-medium w-full cursor-pointer rounded border border-solid border-primary-gray-300 p-2 px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
+    className={`md-medium w-full cursor-pointer p-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium ${className}`}
     {...rest}
   >
     {children}

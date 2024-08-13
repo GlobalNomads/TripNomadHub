@@ -30,10 +30,10 @@ const DropDownMenu: FC = () => {
         </DropdownTrigger>
       }
     >
-      <DropdownItem onClick={handleEdit} className="h-[58px] w-[140px] md:w-[160px]">
+      <DropdownItem onClick={handleEdit} className="w-[140px] p-4 md:w-[160px]">
         수정하기
       </DropdownItem>
-      <DropdownItem onClick={handleDelete} className="h-[58px] w-[140px] md:w-[160px]">
+      <DropdownItem onClick={handleDelete} className="w-[140px] p-4 md:w-[160px]">
         삭제하기
       </DropdownItem>
     </Dropdown>
