@@ -58,7 +58,7 @@ export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ ti
   <div className="mb-4 flex w-full items-center justify-between">
     <h2>{title}</h2>
     <button onClick={onClose}>
-      <Image src={close_x_button} className="md:w-10 xl:w-10" alt="닫기" />
+      <Image src={close_x_button} className="md:w-10" alt="닫기" />
     </button>
   </div>
 );
