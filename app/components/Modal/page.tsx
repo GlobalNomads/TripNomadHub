@@ -41,6 +41,15 @@ const ModalTest: React.FC = () => {
           onSubmit={() => setReviewModalOpen(false)}
         />
       </div>
+
+      <div>
+        <Button.Default onClick={() => setReviewModalOpen(true)}>후기 작성하기(예약 정보 모달)</Button.Default>
+        <Modal.CurrentReservations
+          isOpen={isReviewModalOpen}
+          onClose={() => setReviewModalOpen(false)}
+          onSubmit={() => setReviewModalOpen(false)}
+        />
+      </div>
     </div>
   );
 };
