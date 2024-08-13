@@ -5,7 +5,7 @@ import patchUsersMe from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
 import Button from "@button/Button";
 import Pencil from "@icon/ic_pencil.svg";
-import UserProfile from "@icon/userProfileIcon.svg";
+import DefalutProfile from "@icon/userProfileIcon.svg";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -40,6 +40,7 @@ function MyProfileFrom() {
   });
 
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
+  const UserProfile = userData?.profileImageUrl || DefalutProfile;
 
   const [preview, setPreview] = useState<string | null>();
   const [formData, setFormData] = useState({});
@@ -88,10 +89,10 @@ function MyProfileFrom() {
             프로필 이미지
             <div className="relative h-[140px] w-[140px] object-cover">
               <Image
-                className="rounded-full border-[1px] border-solid border-primary-gray-600 grayscale"
+                className="rounded-full border-[1px] border-solid border-primary-gray-600"
                 width={140}
                 height={140}
-                src={userData?.profileImageUrl || preview || UserProfile}
+                src={preview || UserProfile}
                 alt="프로필 이미지"
               />
               <Input
@@ -133,7 +134,7 @@ function MyProfileFrom() {
           {/* 이메일은 변경불가능 값이므로 제한 처리 */}
           <div className="grid gap-[10px]">
             <Label htmlFor="email">이메일</Label>
-            <Input type="text" id="email" defaultValue={userData?.email} disabled />
+            <Input type="text" id="email" disabledCheck={true} defaultValue={userData?.email} disabled />
           </div>
 
           <div className="grid gap-[10px]">

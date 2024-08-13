@@ -2,10 +2,11 @@ import React, { forwardRef } from "react";
 
 interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   validationCheck?: boolean;
+  disabledCheck?: boolean;
 }
 
 export default forwardRef(function Input(
-  { validationCheck, ...rest }: IInputProps,
+  { validationCheck, disabledCheck, ...rest }: IInputProps,
   ref: React.LegacyRef<HTMLInputElement>,
 ) {
   return (
@@ -15,7 +16,7 @@ export default forwardRef(function Input(
         validationCheck
           ? "bg-primary-red-100 focus:border-primary-red-100 focus:bg-primary-red-100"
           : "bg-primary-gray-100 focus:border-primary-green-200 focus:bg-white"
-      }`}
+      } ${disabledCheck && "bg-primary-gray-200 text-primary-gray-700"}`}
       ref={ref}
       {...rest}
     />

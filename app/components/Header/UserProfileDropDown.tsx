@@ -66,17 +66,13 @@ function UserProfileDropdown({
 
       {toggle && (
         <div
-          className={`${isMoblie ? "right-4 h-[220px]" : "h-[90px]"} absolute top-[70%] mt-2.5 flex w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]`}
+          className={`${isMoblie && "right-4"} absolute top-[70%] mt-2.5 flex h-[220px] w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]`}
         >
           <DropDownBox href={"/myprofile"}>마이 페이지</DropDownBox>
+          <DropDownBox href={"/myreservations"}>예약 내역</DropDownBox>
+          <DropDownBox href={"/myactivities"}>내 체험 관리</DropDownBox>
+          <DropDownBox href={"/reservation-schedule"}>예약 현황</DropDownBox>
 
-          {isMoblie && (
-            <>
-              <DropDownBox href={"/myreservations"}>예약 내역</DropDownBox>
-              <DropDownBox href={"/myactivities"}>내 체험 관리</DropDownBox>
-              <DropDownBox href={"/reservation-schedule"}>예약 현황</DropDownBox>
-            </>
-          )}
           <button
             onClick={handleLogout}
             onMouseDown={e => {
