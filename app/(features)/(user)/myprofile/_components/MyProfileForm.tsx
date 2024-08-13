@@ -1,10 +1,12 @@
 "use client";
 
+import getUsersMe from "@/api/Users/getUsersMe";
 import patchUsersMe from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
 import Button from "@button/Button";
 import Pencil from "@icon/ic_pencil.svg";
 import UserProfile from "@icon/userProfileIcon.svg";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -29,6 +31,13 @@ function MyProfileFrom() {
     handleSubmit,
     formState: { isSubmitting, errors, isValid },
   } = useForm<PatchUserData>({ mode: "onChange" });
+
+  const { data: userData } = useQuery({
+    queryKey: ["getUsersMe"],
+    queryFn: () => getUsersMe(),
+
+    enabled: typeof window !== "undefined",
+  });
 
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
@@ -78,7 +87,13 @@ function MyProfileFrom() {
           <Label htmlFor="profileImage" className="grid w-[140px] gap-[10px] text-2xl-bold">
             프로필 이미지
             <div className="relative h-[140px] w-[140px] object-cover">
-              <Image className="rounded-full" width={140} height={140} src={preview || UserProfile} alt="프로필" />
+              <Image
+                className="rounded-full border-[1px] border-solid border-primary-gray-600 grayscale"
+                width={140}
+                height={140}
+                src={userData?.profileImageUrl || preview || UserProfile}
+                alt="프로필 이미지"
+              />
               <Input
                 type="file"
                 accept="image/*"
@@ -92,7 +107,7 @@ function MyProfileFrom() {
                 width={40}
                 height={40}
                 src={Pencil}
-                alt="연필 버튼"
+                alt="프로필 편집 아이콘"
               />
             </div>
           </Label>
@@ -102,9 +117,9 @@ function MyProfileFrom() {
             <Input
               type="text"
               id="nickname"
-              placeholder="닉네임을 입력해 주세요"
+              defaultValue={userData?.nickname}
               {...register("nickname", {
-                required: "열 자 이하로 작성해주세요.",
+                required: true,
                 maxLength: {
                   value: 10,
                   message: "열 자 이하로 작성해주세요.",
@@ -115,31 +130,20 @@ function MyProfileFrom() {
             {errors.nickname?.message && <ErrorText>{errors.nickname?.message}</ErrorText>}
           </div>
 
+          {/* 이메일은 변경불가능 값이므로 제한 처리 */}
           <div className="grid gap-[10px]">
             <Label htmlFor="email">이메일</Label>
-            <Input
-              type="text"
-              id="email"
-              placeholder="이메일을 입력해 주세요"
-              {...register("email", {
-                required: "이메일 형식으로 작성해 주세요",
-                pattern: {
-                  value: EMAIL_REGEX,
-                  message: "이메일 형식으로 작성해 주세요",
-                },
-              })}
-              validationCheck={!!errors.email}
-            />
-            {errors.email?.message && <ErrorText>{errors.email?.message}</ErrorText>}
+            <Input type="text" id="email" defaultValue={userData?.email} disabled />
           </div>
+
           <div className="grid gap-[10px]">
             <Label htmlFor="newPassword">비밀번호</Label>
             <Input
               type="password"
               id="newPassword"
-              placeholder="비밀번호를 입력해 주세요"
+              placeholder="8자 이상 입력해 주세요"
               {...register("newPassword", {
-                required: "8자 이상 입력해 주세요",
+                required: true,
                 minLength: {
                   value: 8,
                   message: "8자 이상 입력해 주세요",
@@ -154,7 +158,7 @@ function MyProfileFrom() {
             <Input
               type="password"
               id="passwordConfirmation"
-              placeholder="비밀번호를 한번 더 입력해 주세요"
+              placeholder="비밀번호를 한번 더 입력해 주십시요"
               {...register("passwordConfirmation", {
                 required: true,
                 minLength: {

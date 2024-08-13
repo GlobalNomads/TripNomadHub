@@ -66,7 +66,7 @@ function UserProfileDropdown({
 
       {toggle && (
         <div
-          className={`${isMoblie ? "right-4 h-[220px]" : "h-[80px]"} absolute top-[70%] mt-2.5 flex w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]`}
+          className={`${isMoblie ? "right-4 h-[220px]" : "h-[90px]"} absolute top-[70%] mt-2.5 flex w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]`}
         >
           <DropDownBox href={"/myprofile"}>마이 페이지</DropDownBox>
 
