@@ -10,9 +10,8 @@ const postTokens = async () => {
       method: "POST",
     });
 
-    if (data.accessToken && data.refreshToken) {
+    if (data.accessToken) {
       cookies().set("accessToken", data.accessToken);
-      cookies().set("refreshToken", data.refreshToken);
     } else {
       throw new Error("Access token is missing");
     }

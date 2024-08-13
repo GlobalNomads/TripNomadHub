@@ -2,13 +2,14 @@
 
 import getUsersMe from "@/api/Users/getUsersMe";
 import useImageLoad from "@/hooks/useImageLoad";
+import useWindowSize from "@/hooks/useWindowSize";
 import { UserData } from "@/types/users.type";
 import postLogout from "@api/Auth/postLogout";
 import UserProfile from "@icon/userProfileIcon.svg";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import DropDownBox from "./DropDownBox";
 
 function UserProfileDropdown({
   toggle,
@@ -34,6 +35,10 @@ function UserProfileDropdown({
 
   // 로그인 유저 이미지 판단(에러나 파일 미 등록시 디폴트 이미지 선정)
   const userProfileImage = !imageError && profileImage ? profileImage : UserProfile;
+  const windowWidth = useWindowSize();
+  const isMoblie = windowWidth < 451;
+
+  console.log(windowWidth);
 
   const handleLogout = async () => {
     await postLogout();
@@ -60,18 +65,13 @@ function UserProfileDropdown({
       </button>
 
       {toggle && (
-        <div className="absolute top-[70%] mt-2.5 flex h-[90px] w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]">
-          <span>
-            <Link
-              href="/myprofile"
-              onMouseDown={e => {
-                e.preventDefault();
-              }}
-              className="flex items-center text-md-medium text-primary-gray-800"
-            >
-              마이 페이지
-            </Link>
-          </span>
+        <div
+          className={`${isMoblie && "right-4"} absolute top-[70%] mt-2.5 flex h-[220px] w-[120px] flex-col items-center gap-y-5 rounded-lg bg-white pb-2.5 pt-2.5 shadow-[0px_4px_20px_0px_#00000014]`}
+        >
+          <DropDownBox href={"/myprofile"}>마이 페이지</DropDownBox>
+          <DropDownBox href={"/myreservations"}>예약 내역</DropDownBox>
+          <DropDownBox href={"/myactivities"}>내 체험 관리</DropDownBox>
+          <DropDownBox href={"/reservation-schedule"}>예약 현황</DropDownBox>
 
           <button
             onClick={handleLogout}
