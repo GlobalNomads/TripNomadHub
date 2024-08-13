@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+//------------------------------------------components
 import SearchBar from "./SearchBar";
 import Pagination from "@/components/Pagination";
 import CategoryFilter from "./CategoryFilter";
@@ -8,22 +9,44 @@ import PopularActivities from "./PopularActivities";
 import AllActivities from "./AllActivities";
 import getActivities from "@/api/Activities/getActivities";
 import { ActivitiesData } from "@/types/activities.type";
-
+//-------------------------------------------MainPage
 const MainPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState<string | undefined>(undefined);
   const [popularActivities, setPopularActivities] = useState<ActivitiesData | undefined>(undefined);
   const [allActivities, setAllActivities] = useState<ActivitiesData | undefined>(undefined);
+  const [activitySize, setActivitySize] = useState(4);
+
+  // 화면 크기 변경에 따른 size 조정
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setActivitySize(4); // PC 크기
+      } else if (width >= 768) {
+        setActivitySize(3); // 태블릿 크기
+      } else {
+        setActivitySize(2); // 모바일 크기
+      }
+    };
+
+    updateSize(); // 초기 로드 시 설정
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
 
   // 인기 체험 데이터를 가져오는 함수
   useEffect(() => {
     const fetchPopularActivities = async () => {
       try {
         const data = await getActivities({
-          method: "offset", // "offset" 페이지네이션 방식 사용
+          method: "offset",
           sort: "most_reviewed",
-          size: 4,
+          size: activitySize, // 화면 크기에 따라 size 동적 조정
         });
         setPopularActivities(data);
       } catch (error) {
@@ -32,28 +55,28 @@ const MainPage = () => {
     };
 
     fetchPopularActivities();
-  }, []);
+  }, [activitySize]);
 
   // 모든 체험 데이터를 가져오는 함수
   useEffect(() => {
     const fetchAllActivities = async () => {
       try {
         const data = await getActivities({
-          method: "offset", // "offset" 페이지네이션 방식 사용
+          method: "offset",
           sort: "latest",
           page: currentPage,
-          size: 8,
+          size: activitySize * 2, // 화면 크기에 따라 size 동적 조정
           keyword: searchKeyword || undefined, // searchKeyword가 빈 문자열일 경우 undefined 전달
         });
         setAllActivities(data);
-        setTotalPages(Math.ceil(data.totalCount / 10));
+        setTotalPages(Math.ceil(data.totalCount / (activitySize * 2)));
       } catch (error) {
         console.error("Failed to fetch all activities:", error);
       }
     };
 
     fetchAllActivities();
-  }, [currentPage, searchKeyword]);
+  }, [currentPage, searchKeyword, activitySize]);
 
   const handleSearch = (keyword: string) => {
     setSearchKeyword(keyword || undefined); // 빈 검색어를 처리
@@ -77,7 +100,7 @@ const MainPage = () => {
         <h2 className="xs:text-2xl-bold my-6 font-semibold text-primary-black-200 sm:text-2xl-bold md:mb-8 md:mt-9">
           🌍 모든 체험
         </h2>
-        <AllActivities data={allActivities || undefined} /> {/* 모든 체험을 렌더링 */}
+        <AllActivities data={allActivities || undefined} />
       </div>
 
       <div className="mb-30 md:mt-18 my-12 mt-10 flex justify-center md:mb-[165px] xl:mb-[85px] xl:mt-16">
