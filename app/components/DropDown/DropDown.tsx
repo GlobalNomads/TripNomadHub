@@ -3,7 +3,7 @@
 */
 "use client";
 
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 
 // Dropdown 관련 인터페이스
 interface DropdownProps {
@@ -22,6 +22,8 @@ const Dropdown: FC<DropdownProps & React.HTMLAttributes<HTMLDivElement>> = ({
   ...rest
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [dropdownWidth, setDropdownWidth] = useState<string | number>("auto");
 
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -30,18 +32,36 @@ const Dropdown: FC<DropdownProps & React.HTMLAttributes<HTMLDivElement>> = ({
   };
 
   useEffect(() => {
+    if (isOpen && triggerRef.current) {
+      // 트리거 요소의 너비로 드롭다운 너비를 설정
+      setDropdownWidth(triggerRef.current.offsetWidth);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
     }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
   return (
-    <div className="relative inline-block" ref={menuRef} {...rest}>
+    <div className="relative inline-block" ref={triggerRef} {...rest}>
       <div>{trigger}</div>
-      {isOpen && <div className="absolute right-0 z-10 mt-2 rounded bg-white shadow-lg">{children}</div>}
+      {isOpen && (
+        <div
+          ref={menuRef}
+          className="absolute right-0 z-10 mt-2 rounded bg-white shadow-lg"
+          style={{ width: dropdownWidth }}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 };
