@@ -35,7 +35,12 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
   }));
 
   return (
-    <Modal.Default isOpen={isOpen} onClose={onClose} className="h-full w-full overflow-auto md:h-[750px] md:w-[480px]">
+    <Modal.Default
+      isOpen={isOpen}
+      onClose={onClose}
+      className="h-full w-full overflow-auto border border-solid border-primary-gray-300 md:h-[750px] md:w-[480px]"
+      overlayBackground=""
+    >
       <Modal.Header
         title={<h2 className="h-10 py-3 text-2xl-bold text-primary-black-200">예약 정보</h2>}
         onClose={onClose}
