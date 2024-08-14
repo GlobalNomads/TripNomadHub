@@ -76,7 +76,7 @@ const DefaultModal: FC<ModalFunctionProps & ModalDesignProps> = ({
             </div>
           </div>
         )}
-        <div className="relative flex flex-grow items-center justify-center">{children}</div>
+        <div className="relative flex flex-grow items-center justify-center overflow-y-auto">{children}</div>
         {footer && (
           <div className="mt-4 flex w-full" style={{ marginTop: "auto" }}>
             {footer}
