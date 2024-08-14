@@ -8,6 +8,7 @@ const ModalTest: React.FC = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isCurrentReservationsOpen, setCurrentReservationsOpen] = useState(false);
 
   console.log("ModalTest 컴포넌트 렌더링");
 
@@ -43,11 +44,10 @@ const ModalTest: React.FC = () => {
       </div>
 
       <div>
-        <Button.Default onClick={() => setReviewModalOpen(true)}>후기 작성하기(예약 정보 모달)</Button.Default>
+        <Button.Default onClick={() => setCurrentReservationsOpen(true)}>예약 정보 모달</Button.Default>
         <Modal.CurrentReservations
-          isOpen={isReviewModalOpen}
-          onClose={() => setReviewModalOpen(false)}
-          onSubmit={() => setReviewModalOpen(false)}
+          isOpen={isCurrentReservationsOpen}
+          onClose={() => setCurrentReservationsOpen(false)}
         />
       </div>
     </div>
