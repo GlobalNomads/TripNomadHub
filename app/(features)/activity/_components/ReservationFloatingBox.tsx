@@ -6,6 +6,7 @@
 import postActivitiesIdRez from "@/api/Activities/postActivitiesIdRez";
 import { ReservationFloatingBoxProps, ReservationRequest } from "@/types/activities.type";
 import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import ParticipantCount from "./ParticipantCount";
@@ -19,6 +20,11 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const selectedSchedule = schedules.find(schedule => schedule.id === selectedScheduleId);
   const [showScheduleSelector, setShowScheduleSelector] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  //모달 상태 관리
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmModalMessage, setConfirmModalMessage] = useState("");
+  const [onConfirmAction, setOnConfirmAction] = useState<() => void>(() => () => {});
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,7 +41,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
 
   const handleParticipantCountChange = (newCount: number) => {
     if (!selectedScheduleId) {
-      alert("체험 일정을 먼저 선택해주세요.");
+      openConfirmModal("체험 일정을 먼저 선택해주세요.", () => {});
       return;
     }
     setParticipantCount(newCount);
@@ -44,22 +50,25 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const reservationMutation = useMutation({
     mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(activityId, newReservation),
     onSuccess: () => {
-      alert("예약 성공! 😍");
+      openConfirmModal("예약 성공! 😍", () => {
+        setConfirmModalOpen(false);
+      });
     },
     onError: (err: Error) => {
-      alert(`예약 실패! 😥: ${err.message}`);
+      openConfirmModal(`예약 실패! 😥: ${err.message}`, () => {
+        setConfirmModalOpen(false);
+      });
     },
   });
 
   const handleReservation = () => {
     const scheduleId = Number(selectedScheduleId);
     if (isNaN(scheduleId)) {
-      console.error("Invalid schedule ID:", selectedScheduleId);
-      alert("선택된 스케줄 ID가 유효하지 않습니다.");
+      openConfirmModal("선택된 스케줄 ID가 유효하지 않습니다.", () => {});
       return;
     }
     if (!scheduleId || participantCount < 1) {
-      alert("모든 정보를 올바르게 입력해주세요.");
+      openConfirmModal("모든 정보를 올바르게 입력해주세요.", () => {});
       return;
     }
     const reservationData = {
@@ -70,6 +79,13 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
     console.log("Reservation data being sent:", reservationData);
 
     reservationMutation.mutate(reservationData);
+  };
+
+  //모달 열기 함수
+  const openConfirmModal = (message: string, onConfirm: () => void) => {
+    setConfirmModalMessage(message);
+    setOnConfirmAction(() => onConfirm);
+    setConfirmModalOpen(true);
   };
 
   const toggleScheduleSelector = () => {
@@ -176,6 +192,16 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
           </div>
         </>
       )}
+      {/* ConfirmModal 렌더링 */}
+      <Modal.Confirm
+        isOpen={isConfirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        onConfirm={() => {
+          onConfirmAction();
+          setConfirmModalOpen(false);
+        }}
+        message={confirmModalMessage}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/components/Modal/Modal";
+import Modal from "@modal/Modal";
 import React from "react";
 
 interface ReviewModalProps {
@@ -16,9 +16,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
       onSubmit={() => {
         onClose();
       }}
-    >
-      <></> {/* 빈 React Fragment를 children으로 전달 */}
-    </Modal.Review>
+    />
   );
 };
 
