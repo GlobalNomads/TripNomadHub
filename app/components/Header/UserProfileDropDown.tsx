@@ -38,8 +38,6 @@ function UserProfileDropdown({
   const windowWidth = useWindowSize();
   const isMoblie = windowWidth < 451;
 
-  console.log(windowWidth);
-
   const handleLogout = async () => {
     await postLogout();
     router.push("/");
