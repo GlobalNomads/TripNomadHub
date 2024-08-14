@@ -56,11 +56,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
             <SelectBoxReservationsList schedules={scheduleData} onSelectChange={setSelectedScheduleId} />
           </div>
           <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 내역</h3>
-          {transformedReservations.length === 0 ? (
-            <div className="text-center text-primary-gray-700">예약 내역이 없습니다 😅</div>
-          ) : (
-            <ReservationList reservations={transformedReservations} />
-          )}
+          <ReservationList reservations={transformedReservations} />
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-between text-2xl-bold text-primary-black-200">
