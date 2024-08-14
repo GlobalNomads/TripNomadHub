@@ -42,7 +42,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
       overlayBackground=""
     >
       <Modal.Header
-        title={<h2 className="h-10 py-3 text-2xl-bold text-primary-black-200">예약 정보</h2>}
+        title={<div className="h-10 py-3 text-2xl-bold text-primary-black-200">예약 정보</div>}
         onClose={onClose}
       />
       <Modal.Body>
