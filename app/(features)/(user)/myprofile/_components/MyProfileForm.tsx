@@ -3,11 +3,10 @@
 import getUsersMe from "@/api/Users/getUsersMe";
 import patchUsersMe from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
-import Modal from "@/components/Modal/Modal";
-import { UserData } from "@/types/users.type";
 import Button from "@button/Button";
 import Pencil from "@icon/ic_pencil.svg";
 import DefalutProfile from "@icon/userProfileIcon.svg";
+import Modal from "@modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -75,12 +74,7 @@ function MyProfileFrom() {
       const data = { nickname, profileImageUrl, newPassword };
       setFormData(data);
 
-      const returnData = useQuery<UserData>({
-        queryKey: ["patchUsersMe"],
-        queryFn: () => patchUsersMe(formData),
-        staleTime: 60000,
-        retry: 2,
-      });
+      const returnData = await patchUsersMe(formData);
 
       if (returnData) {
         setModalMessage("수정이 완료되었습니다.");

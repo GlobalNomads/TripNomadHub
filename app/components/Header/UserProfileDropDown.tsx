@@ -16,11 +16,13 @@ function UserProfileDropdown({
   oppositeToggle,
   setToggle,
   setOppositeToggle,
+  setUserStatus,
 }: {
   toggle: boolean;
   oppositeToggle: boolean;
   setToggle: () => void;
   setOppositeToggle: () => void;
+  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data } = useQuery<UserData>({
     queryKey: ["users"],
@@ -40,6 +42,7 @@ function UserProfileDropdown({
 
   const handleLogout = async () => {
     await postLogout();
+    setUserStatus(false);
     router.push("/");
   };
 
