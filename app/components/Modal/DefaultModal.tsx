@@ -11,7 +11,7 @@
 
 import close_x_button from "@icon/ic_btn_X_bold.svg";
 import Image from "next/image";
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 interface DefaultModalProps {
@@ -30,18 +30,6 @@ const DefaultModal: FC<DefaultModalProps> = ({
   className = "",
   ...rest
 }) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   return createPortal(
@@ -64,7 +52,7 @@ export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ ti
 );
 
 export const ModalBody: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="relative flex flex-grow items-center justify-center">{children}</div>
+  <div className="relative flex flex-grow items-center justify-center overflow-y-auto">{children}</div>
 );
 
 export const ModalFooter: FC<{
