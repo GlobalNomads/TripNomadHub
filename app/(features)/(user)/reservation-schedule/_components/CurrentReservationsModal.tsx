@@ -64,7 +64,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-between text-2xl-bold text-primary-black-200">
-        <h2>예약 현황</h2>
+        <div>예약 현황</div>
         <div>{reservationData[activeTab].length}</div> {/* 활성 탭에 따라 예약 총 건수를 표시 */}
       </Modal.Footer>
     </Modal.Default>
