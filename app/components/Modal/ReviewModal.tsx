@@ -6,40 +6,75 @@
 
 "use client";
 
+import RatingStar from "@/(features)/(user)/myreservations/_components/Modal/MakeStar";
+import ReservationInfo from "@/(features)/(user)/myreservations/_components/Modal/ReservationInfo";
+import postMyReservations, { ReservationInput } from "@/api/MyReservations/postMyReservations";
+import { ReservationsList } from "@/types/myActivities.type";
 import Button from "@button/Button";
-import StarOff from "@icon/ic_star_off.svg";
-import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import DefaultModal, { ModalBody, ModalFooter, ModalHeader } from "./DefaultModal";
 
 interface ReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+
+  reservation: ReservationsList | null;
+  onSuccess: () => void;
 }
 
-const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuccess = () => {} }) => {
+  const [rating, setRaing] = useState<number>(0);
+  const [content, setContent] = useState<string>("");
+
+  useEffect(() => {
+    if (isOpen) {
+      setRaing(0);
+      setContent("");
+    }
+  }, [isOpen, reservation]);
+
+  const handleRatingChange = (newRating: number) => {
+    setRaing(newRating);
+  };
+
+  const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(event.target.value);
+  };
+  //작성하기 버튼 눌렀을 때
+  const onSubmit = async () => {
+    if (reservation && rating > 0 && content.trim() !== "") {
+      const reservationInput: ReservationInput = { rating, content };
+
+      try {
+        await postMyReservations(reservationInput, reservation.id);
+        alert("후기를 저장했습니다");
+        onSuccess();
+        onClose();
+      } catch (error) {
+        console.error(error);
+        alert("Error: 후기 저장을 실패했습니다");
+      }
+    } else {
+      alert("별점과 후기 모두 입력해주세요");
+    }
+  };
   return (
     <DefaultModal isOpen={isOpen} onClose={onClose} className="md:h-[750px] md:w-[480px]">
       <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
       <ModalBody>
         <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center overflow-y-auto">
-          <div className="h-[140px] w-full bg-primary-green-100">{/* 체험정보 불러오는 란 */}</div>
-          <div className="mb-[24px] mt-[24px] flex h-[100px] w-full items-center justify-center gap-[5px]">
-            <Image src={StarOff} alt="빈 별" width={56} height={56} />
-            <Image src={StarOff} alt="빈 별" width={56} height={56} />
-            <Image src={StarOff} alt="빈 별" width={56} height={56} />
-            <Image src={StarOff} alt="빈 별" width={56} height={56} />
-            <Image src={StarOff} alt="빈 별" width={56} height={56} />
-          </div>
+          <ReservationInfo reservation={reservation} />
+          <RatingStar onRatingChange={handleRatingChange} currentRating={rating} />
           <textarea
-            className="mt-4 h-24 w-full border border-primary-gray-700 px-4 py-2 md:h-60"
+            value={content}
+            onChange={handleContentChange}
+            className="h-[346px] w-full border border-primary-gray-700 px-4 py-2 md:h-60"
             placeholder="후기를 작성해주세요"
           />
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button.Default type="nomadBlack" onClick={onSubmit} className="h-[38px] w-full p-[7px] md:h-[56px]">
+        <Button.Default type="nomadBlack" onClick={onSubmit} className="h-[54px] w-full p-[7px] md:h-[56px]">
           작성하기
         </Button.Default>
       </ModalFooter>

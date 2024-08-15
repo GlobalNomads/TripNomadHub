@@ -64,7 +64,7 @@ export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ ti
 );
 
 export const ModalBody: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="relative flex flex-grow items-center justify-center">{children}</div>
+  <div className="relative flex flex-grow items-center justify-center overflow-y-auto">{children}</div>
 );
 
 export const ModalFooter: FC<{
