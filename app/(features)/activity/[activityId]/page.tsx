@@ -33,7 +33,7 @@ export default async function ActivityPage({ params }: { params: { activityId: s
           />
         </div>
         <div className="flex-none">
-          <DropDownMenu />
+          <DropDownMenu activityId={Number(params.activityId)} />
         </div>
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
