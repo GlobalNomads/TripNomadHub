@@ -22,7 +22,7 @@ export default forwardRef(function Input(
   };
 
   return (
-    <div>
+    <div className="relative">
       <input
         type={inputType}
         autoComplete="off"

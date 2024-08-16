@@ -43,7 +43,9 @@ function UserProfileDropdown({
   const handleLogout = async () => {
     await postLogout();
     setUserStatus(false);
+    setToggle();
     router.push("/");
+    setUserStatus(true);
   };
 
   const toggleDropdown = () => {
