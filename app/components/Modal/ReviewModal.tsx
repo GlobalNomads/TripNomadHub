@@ -20,7 +20,7 @@ interface ReviewModalProps {
 
 const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, onSubmit }) => {
   return (
-    <DefaultModal isOpen={isOpen} onClose={onClose} className="md:h-[750px] md:w-[480px]">
+    <DefaultModal isOpen={isOpen} onClose={onClose} className="rounded-3xl md:h-[750px] md:w-[480px]">
       <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
       <ModalBody>
         <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center overflow-y-auto">
