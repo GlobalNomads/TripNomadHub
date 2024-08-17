@@ -5,7 +5,7 @@ import useImageLoad from "@/hooks/useImageLoad";
 import useWindowSize from "@/hooks/useWindowSize";
 import { UserData } from "@/types/users.type";
 import postLogout from "@api/Auth/postLogout";
-import UserProfile from "@icon/userProfileIcon.svg";
+import UserProfile from "@icon/ic_default_reviewprofile.png";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ function UserProfileDropdown({
   setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data } = useQuery<UserData>({
-    queryKey: ["users"],
+    queryKey: ["getUsersMe"],
     queryFn: () => getUsersMe(),
     staleTime: 60000,
     retry: 2,

@@ -1,13 +1,13 @@
 "use client";
 
 import getUsersMe from "@/api/Users/getUsersMe";
-import patchUsersMe from "@/api/Users/patchUsersMe";
+import patchUsersMe, { patchUserData } from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
 import Button from "@button/Button";
+import DefalutProfile from "@icon/ic_default_reviewprofile.png";
 import Pencil from "@icon/ic_pencil.svg";
-import DefalutProfile from "@icon/userProfileIcon.svg";
 import Modal from "@modal/Modal";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -34,12 +34,28 @@ function MyProfileFrom() {
   const { data: userData } = useQuery({
     queryKey: ["getUsersMe"],
     queryFn: () => getUsersMe(),
+    staleTime: 60000,
+    retry: 2,
+  });
 
-    enabled: typeof window !== "undefined",
+  // 데이터 빠른 반영을 위한 mutate 처리
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (returnData: patchUserData) => patchUsersMe(returnData),
+    onSuccess: () => {
+      // 관련 쿼리를 무효화하여 데이터가 다시 로드되도록 함
+      queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
+      setModalMessage("수정이 완료되었습니다.");
+      setConfirmModalOpen(true);
+    },
+    onError: (error: any) => {
+      setModalMessage(error?.message);
+      setConfirmModalOpen(true);
+    },
   });
 
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
-  const UserProfile = userData?.profileImageUrl || DefalutProfile;
+  const UserProfile = userData?.profileImageUrl || DefalutProfile.src;
 
   const [preview, setPreview] = useState<string | null>();
   const [formData, setFormData] = useState({});
@@ -70,19 +86,9 @@ function MyProfileFrom() {
   };
 
   const onSubmit: SubmitHandler<PatchUserData> = async ({ nickname, profileImageUrl, newPassword }) => {
-    try {
-      const data = { nickname, profileImageUrl, newPassword };
-      setFormData(data);
-
-      const returnData = await patchUsersMe(formData);
-
-      if (returnData) {
-        setModalMessage("수정이 완료되었습니다.");
-      }
-    } catch (error: any) {
-      setModalMessage(error?.message);
-    }
-    setConfirmModalOpen(true);
+    const data = { nickname, profileImageUrl, newPassword };
+    setFormData(data);
+    mutate(formData);
   };
 
   return (
