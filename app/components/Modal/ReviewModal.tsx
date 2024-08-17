@@ -64,7 +64,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
       </div>
       <ModalBody>
-        <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center">
+        <div className="flex flex-grow flex-col items-center">
           <div className="md:mb-[24px]">
             <ReservationInfo reservation={reservation} />
           </div>
