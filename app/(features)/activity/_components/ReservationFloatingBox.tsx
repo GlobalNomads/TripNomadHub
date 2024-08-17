@@ -44,7 +44,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const reservationMutation = useMutation({
     mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(activityId, newReservation),
     onSuccess: () => {
-      openConfirmModal("예약 성공! 😍", () => {
+      openConfirmModal("예약 신청 성공! 😍 예약 확정을 알림을 기다려주세요.", () => {
         setConfirmModalOpen(false);
       });
     },
