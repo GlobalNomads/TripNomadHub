@@ -4,11 +4,12 @@
 "use client";
 
 import postActivitiesIdRez from "@/api/Activities/postActivitiesIdRez";
+import useWindowSize from "@/hooks/useWindowSize"; // 화면 사이즈 변경시 컴포넌트 내 요소 사이즈 조정 커스텀 훅
 import { ReservationFloatingBoxProps, ReservationRequest } from "@/types/activities.type";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
 import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ParticipantCount from "./ParticipantCount";
 import PriceInfo from "./PriceInfo";
 import ScheduleSelector from "./ScheduleSelector";
@@ -19,21 +20,14 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
   const selectedSchedule = schedules.find(schedule => schedule.id === selectedScheduleId);
   const [showScheduleSelector, setShowScheduleSelector] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const windowSize = useWindowSize(); // 커스텀 훅 사용
+  const isMobile = windowSize < 768; // 모바일인지 판단하는 조건
 
   //모달 상태 관리
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [confirmModalMessage, setConfirmModalMessage] = useState("");
   const [onConfirmAction, setOnConfirmAction] = useState<() => void>(() => () => {});
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat("ko-KR").format(amount);
