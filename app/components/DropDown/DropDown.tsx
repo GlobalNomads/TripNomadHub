@@ -1,69 +1,94 @@
 /*
   DropDown 메뉴 만들기 위한 공용 컴포넌트
 */
+"use client";
 
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
 
-export interface DropdownItem {
-  label: string;
-  action: () => void;
-}
-
-export interface DropdownProps {
-  items: DropdownItem[];
-  dropdownClassName?: string;
-  itemClassName?: string;
+// Dropdown 관련 인터페이스
+interface DropdownProps {
   trigger: ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
 }
 
-const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, trigger }) => {
-  const [isOpen, setIsOpen] = useState(false);
+// Dropdown 컴포넌트
+const Dropdown: FC<DropdownProps & React.HTMLAttributes<HTMLDivElement>> = ({
+  trigger,
+  isOpen,
+  onClose,
+  children,
+  ...rest
+}) => {
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [dropdownWidth, setDropdownWidth] = useState<string | number>("auto");
 
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
+      onClose();
     }
   };
 
-  const handleClickActionBtn = (action: () => void) => {
-    // 공통적인 부분 처리
-    // action 실행
-    action?.();
-  };
+  useEffect(() => {
+    if (isOpen && triggerRef.current) {
+      // 트리거 요소의 너비로 드롭다운 너비를 설정
+      setDropdownWidth(triggerRef.current.offsetWidth);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
 
   return (
-    <div className="relative inline-block" ref={menuRef}>
-      <button onClick={toggleDropdown} className="flex items-center justify-center">
-        {trigger}
-      </button>
+    <div className="relative inline-block" ref={triggerRef} {...rest}>
+      <div>{trigger}</div>
       {isOpen && (
-        <ul className={`absolute right-0 z-10 mt-2 rounded bg-white shadow-lg ${dropdownClassName}`}>
-          {items.map((item, index) => (
-            <li key={index} className={`rounded border border-solid border-primary-gray-300 p-2 ${itemClassName}`}>
-              <button
-                onClick={() => handleClickActionBtn(item.action)}
-                className="md-medium w-full rounded px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
-              >
-                {item.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div
+          ref={menuRef}
+          className="absolute right-0 z-10 mt-2 rounded bg-white shadow-lg"
+          style={{ width: dropdownWidth }}
+        >
+          {children}
+        </div>
       )}
     </div>
   );
 };
+
+// Dropdown Trigger 컴포넌트
+export const DropdownTrigger: FC<
+  { onClick: () => void; children: ReactNode } & React.HTMLAttributes<HTMLButtonElement>
+> = ({ onClick, children, ...rest }) => (
+  <button onClick={onClick} {...rest}>
+    {children}
+  </button>
+);
+
+// Dropdown Item 컴포넌트
+export const DropdownItem: FC<{ onClick: () => void; children: ReactNode } & React.HTMLAttributes<HTMLDivElement>> = ({
+  onClick,
+  children,
+  className = "",
+  ...rest
+}) => (
+  <div
+    onClick={onClick}
+    className={`md-medium w-full cursor-pointer p-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium ${className}`}
+    {...rest}
+  >
+    {children}
+  </div>
+);
 
 export default Dropdown;
