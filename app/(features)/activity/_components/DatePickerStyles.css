@@ -23,7 +23,7 @@
 /* 오늘(today) 강조 */
 .react-datepicker__day--today {
   font-weight: bold;
-  background-color: #ced8d5;
+  background-color: #ffe4e0;
   border-radius: 8px;
   color: #0b3b2d;
 }
@@ -47,6 +47,7 @@
 
 /* schedule 없는 날 */
 .non-selectable-day {
-  color: gray;
+  color: CBC9CF;
+  text-decoration: line-through;
   pointer-events: none;
 }
