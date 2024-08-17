@@ -11,7 +11,7 @@ import ReservationInfo from "@/(features)/(user)/myreservations/_components/Moda
 import postMyReservations, { ReservationInput } from "@/api/MyReservations/postMyReservations";
 import { ReservationsList } from "@/types/myActivities.type";
 import Button from "@button/Button";
-import { FC, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import DefaultModal, { ModalBody, ModalFooter, ModalHeader } from "./DefaultModal";
 
 interface ReviewModalProps {
@@ -19,6 +19,7 @@ interface ReviewModalProps {
   onClose: () => void;
   reservation: ReservationsList | null;
   onSuccess: () => void;
+  children?: ReactNode;
 }
 
 const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuccess = () => {} }) => {
