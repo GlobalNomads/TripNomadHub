@@ -59,16 +59,20 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
     }
   };
   return (
-    <DefaultModal isOpen={isOpen} onClose={onClose} className="md:h-[750px] md:w-[480px]">
-      <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
+    <DefaultModal isOpen={isOpen} onClose={onClose} className="max-h-[100vh] overflow-y-auto md:h-[750px] md:w-[480px]">
+      <div className="md:mb-[41px]">
+        <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
+      </div>
       <ModalBody>
-        <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center overflow-y-auto">
-          <ReservationInfo reservation={reservation} />
+        <div className="flex max-h-[calc(100vh-200px)] flex-grow flex-col items-center">
+          <div className="md:mb-[24px]">
+            <ReservationInfo reservation={reservation} />
+          </div>
           <RatingStar onRatingChange={handleRatingChange} currentRating={rating} />
           <textarea
             value={content}
             onChange={handleContentChange}
-            className="h-[346px] w-full border border-primary-gray-700 px-4 py-2 md:h-60"
+            className="h-[346px] w-full border border-primary-gray-700 px-4 py-2 md:mb-[24px] md:h-[240px] md:w-[432px]"
             placeholder="후기를 작성해주세요"
           />
         </div>
