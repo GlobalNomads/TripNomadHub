@@ -18,7 +18,7 @@ interface CancelModalProps {
 
 const CancelModal: FC<CancelModalProps> = ({ isOpen, onClose, onCancel, description }) => {
   return (
-    <DefaultModal isOpen={isOpen} onClose={onClose} className="h-[184px] w-[300px]">
+    <DefaultModal isOpen={isOpen} onClose={onClose} className="h-[184px] w-[300px] rounded-lg">
       <ModalBody>
         <div className="flex flex-col items-center">
           <Image src={check} width={24} alt="확인메시지" className="mb-4" />
