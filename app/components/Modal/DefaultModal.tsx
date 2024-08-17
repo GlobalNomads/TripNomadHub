@@ -34,7 +34,7 @@ const DefaultModal: FC<DefaultModalProps> = ({
 
   return createPortal(
     <div className={`fixed inset-0 z-50 flex items-center justify-center ${overlayBackground}`} onClick={onClose}>
-      <div className={`relative ${className} rounded-lg bg-white p-6`} onClick={e => e.stopPropagation()}>
+      <div className={`relative ${className} bg-white p-6`} onClick={e => e.stopPropagation()}>
         {children}
       </div>
     </div>,
