@@ -20,7 +20,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose, onConfirm, messa
     <DefaultModal
       isOpen={isOpen}
       onClose={onClose}
-      className="flex h-[220px] w-[320px] flex-col items-center justify-center md:h-[250px] md:w-[540px]"
+      className="flex h-[220px] w-[320px] flex-col items-center justify-center rounded-lg md:h-[250px] md:w-[540px]"
     >
       <ModalHeader onClose={onClose} />
       <ModalBody>
