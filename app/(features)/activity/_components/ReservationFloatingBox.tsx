@@ -184,7 +184,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
           <div className="hidden md:block xl:block">
             <ParticipantCount count={participantCount} setCount={handleParticipantCountChange} />
           </div>
-          <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
+          <div className={`pt-4 ${isMobile ? "fixed bottom-14 right-4" : ""}`}>
             <Button.Submit
               onClick={handleReservation}
               className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}

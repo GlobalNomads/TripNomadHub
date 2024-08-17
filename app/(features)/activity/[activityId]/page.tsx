@@ -60,7 +60,7 @@ export default async function ActivityPage({ params }: { params: { activityId: s
         </div>
         {!isOwner && ( // isOwner가 아닌 경우에만 ReservationFloatingBox 렌더링
           <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
-            <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
+            <div className="fixed bottom-10 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
               <ReservationFloatingBox
                 activityId={activity.id as number}
                 schedules={activity.schedules}
