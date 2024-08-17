@@ -8,7 +8,7 @@ export interface ReservationsList {
   id: number;
   teamId: string;
   userId: number;
-  activityId?: number;
+  activityId: number;
   activity?: ActivityData;
   scheduleId: number;
   status: string;
