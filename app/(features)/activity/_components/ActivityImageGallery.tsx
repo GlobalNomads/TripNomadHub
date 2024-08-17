@@ -1,24 +1,20 @@
 /*
-    체험상세(activities) 페이지의 갤러리(ActivityImageGallery) 컴포넌트
-    체험상세 page에서 받아온 정보 중 bannerImage와 subImages의 url을 전달받아 display
-*/
-
-"use client";
+ *체험상세(activity) 페이지의 갤러리(ActivityImageGallery) 컴포넌트
+ *체험상세 page에서 받아온 정보 중 bannerImage와 subImages의 url을 전달받아 display
+ *성능 최적화를 위해 동적 기능(swiper)이 필요한 모바일 버전의 갤러리를 client component로분리함: SwiperContainerClient
+ */
 
 import { ImageGalleryProps } from "@/types/activities.type";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
-
-// SwiperContainer를 동적으로 가져옵니다.
-const DynamicSwiperContainer = dynamic(() => import("./SwiperContainer"), { ssr: false });
+import SwiperContainerClient from "./SwiperContainerClient";
 
 const ActivityImageGallery: React.FC<ImageGalleryProps> = ({ images, bannerImage }) => {
   return (
     <>
       {/* 모바일 Swiper */}
       <div className="block md:hidden">
-        <DynamicSwiperContainer images={[bannerImage, ...images]} />
+        <SwiperContainerClient images={[bannerImage, ...images]} />
       </div>
 
       {/* 태블릿과 데스크탑 그리드 */}
