@@ -13,8 +13,14 @@ const Review: FC<{ review: ReviewList }> = ({ review }) => {
   return (
     <div className="flex rounded-lg border">
       <div className="mr-4 flex-shrink-0">
-        <div className="h-[45px] w-[45px] overflow-hidden rounded-full">
-          <Image src={profileImageUrl} width={45} height={45} alt={review.user.nickname} className="object-cover" />
+        <div className="relative h-[45px] w-[45px] overflow-hidden rounded-full">
+          <Image
+            src={profileImageUrl}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
+            alt={review.user.nickname}
+            className="object-cover object-center"
+          />
         </div>
       </div>
       <div className="flex-grow">
