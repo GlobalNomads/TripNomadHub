@@ -48,8 +48,22 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
         setConfirmModalOpen(false);
       });
     },
-    onError: (err: Error) => {
-      openConfirmModal(`예약 실패! 😥: ${err.message}`, () => {
+    onError: (err: any) => {
+      let errorMessage = "예약 실패! 😥";
+
+      // 에러 메시지를 err.message에서 가져오기
+      const serverMessage = err.message;
+
+      console.log("Error message:", serverMessage);
+
+      // 500 에러와 관련된 경우 로그인 에러 메시지 처리
+      if (serverMessage.includes("Unauthorized: No refresh token available")) {
+        errorMessage = "로그인 후 예약해주세요. 😊";
+      } else if (serverMessage) {
+        errorMessage = `예약 실패! 😥: ${serverMessage}`;
+      }
+
+      openConfirmModal(errorMessage, () => {
         setConfirmModalOpen(false);
       });
     },
