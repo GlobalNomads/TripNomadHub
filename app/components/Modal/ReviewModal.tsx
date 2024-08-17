@@ -17,7 +17,6 @@ import DefaultModal, { ModalBody, ModalFooter, ModalHeader } from "./DefaultModa
 interface ReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-
   reservation: ReservationsList | null;
   onSuccess: () => void;
 }
@@ -41,7 +40,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
     setContent(event.target.value);
   };
   //작성하기 버튼 눌렀을 때
-  const onSubmit = async () => {
+  const handleSubmit = async () => {
     if (reservation && rating > 0 && content.trim() !== "") {
       const reservationInput: ReservationInput = { rating, content };
 
@@ -59,7 +58,11 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
     }
   };
   return (
-    <DefaultModal isOpen={isOpen} onClose={onClose} className="max-h-[100vh] overflow-y-auto md:h-[750px] md:w-[480px]">
+    <DefaultModal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="h-full max-h-[100vh] w-full overflow-y-auto md:h-[750px] md:w-[480px] md:rounded-3xl"
+    >
       <div className="md:mb-[41px]">
         <ModalHeader title={<div className="text-2xl-bold">후기 작성</div>} onClose={onClose} />
       </div>
@@ -78,7 +81,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button.Default type="nomadBlack" onClick={onSubmit} className="h-[54px] w-full p-[7px] md:h-[56px]">
+        <Button.Default type="nomadBlack" onClick={handleSubmit} className="h-[54px] w-full p-[7px] md:h-[56px]">
           작성하기
         </Button.Default>
       </ModalFooter>
