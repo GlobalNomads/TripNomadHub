@@ -1,9 +1,9 @@
 "use client";
-import Dropdown from "@/components/DropDown/DropDown";
-import filterArrow from "@icon/ic_filter_arrow.svg";
-import Image from "next/image";
+// import Dropdown from "@/components/DropDown/DropDown";
+// import filterArrow from "@icon/ic_filter_arrow.svg";
+// import Image from "next/image";
 import React from "react";
-import dropdownItems from "./_components/DropdownItems";
+// import dropdownItems from "./_components/DropdownItems";
 import ReservationCard from "./_components/ReservationCard";
 
 const MyReservations: React.FC = () => {
@@ -12,7 +12,7 @@ const MyReservations: React.FC = () => {
       <div className="mb-4 flex items-center justify-between">
         <div className="mb-3 text-3xl-bold">예약 내역</div>
         <div>
-          <Dropdown
+          {/* <Dropdown
             items={dropdownItems}
             trigger={
               <button className="hidden h-[53px] w-40 rounded-[15px] border border-solid border-primary-green-300 px-5 py-[13.5px] text-primary-green-300 xl:block">
@@ -23,7 +23,7 @@ const MyReservations: React.FC = () => {
               </button>
             }
             itemClassName="w-40 "
-          />
+          /> */}
         </div>
       </div>
 

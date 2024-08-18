@@ -1,32 +1,34 @@
-const handleDropdownItemClick = (reservation: Reservation) => {
-  // update the state based on the dropdown item clicked
-  switch (reservation.status) {
-    case "pending":
-      // handle 예약 신청
-      break;
-    case "canceled":
-      // handle 예약 취소
-      break;
-    case "declined":
-      // handle 예약 거절
-      break;
-    case "completed":
-      // handle 체험 완료
-      break;
-    case "confirmed":
-      // handle 예약 승인
-      break;
-    default:
-      break;
-  }
-};
+// import { ReservationsList } from "@/types/myReservations.type";
 
-const dropdownItems = [
-  { label: "예약 신청", action: () => handleDropdownItemClick(reservation) },
-  { label: "예약 취소", action: () => handleDropdownItemClick(reservation) },
-  { label: "예약 승인", action: () => handleDropdownItemClick(reservation) },
-  { label: "예약 거절", action: () => handleDropdownItemClick(reservation) },
-  { label: "체험 완료", action: () => handleDropdownItemClick(reservation) },
-];
+// const handleDropdownItemClick = (reservation: ReservationsList) => {
+//   // update the state based on the dropdown item clicked
+//   switch (reservation.status) {
+//     case "pending":
+//       // handle 예약 신청
+//       break;
+//     case "canceled":
+//       // handle 예약 취소
+//       break;
+//     case "declined":
+//       // handle 예약 거절
+//       break;
+//     case "completed":
+//       // handle 체험 완료
+//       break;
+//     case "confirmed":
+//       // handle 예약 승인
+//       break;
+//     default:
+//       break;
+//   }
+// };
 
-export default dropdownItems;
+// const dropdownItems = [
+//   { label: "예약 신청", action: () => handleDropdownItemClick() },
+//   { label: "예약 취소", action: () => handleDropdownItemClick() },
+//   { label: "예약 승인", action: () => handleDropdownItemClick() },
+//   { label: "예약 거절", action: () => handleDropdownItemClick() },
+//   { label: "체험 완료", action: () => handleDropdownItemClick() },
+// ];
+
+// export default dropdownItems;
