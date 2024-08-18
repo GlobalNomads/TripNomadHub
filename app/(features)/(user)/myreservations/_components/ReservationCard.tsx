@@ -117,13 +117,9 @@ const ReservationCard = () => {
                     <Modal.Cancel
                       isOpen={isCancelModalOpen}
                       onClose={() => setCancelModalOpen(false)}
-                      onCancel={() => {
-                        setCancelModalOpen(false);
-                      }}
+                      onCancel={() => setCancelModalOpen(false)}
                       description="예약을 취소하시겠어요?"
-                    >
-                      <></> {/* 빈 React Fragment를 children으로 전달 */}
-                    </Modal.Cancel>
+                    />
                   </div>
                 )}
               </div>
