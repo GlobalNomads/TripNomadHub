@@ -45,9 +45,9 @@ const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, 
         {trigger}
       </button>
       {isOpen && (
-        <ul className={`absolute right-0 z-10 mt-2 rounded bg-white shadow-lg ${dropdownClassName}`}>
+        <ul className={`absolute right-0 z-10 mt-2 rounded-md bg-white shadow-lg ${dropdownClassName}`}>
           {items.map((item, index) => (
-            <li key={index} className={`rounded border border-solid border-primary-gray-300 p-2 ${itemClassName}`}>
+            <li key={index} className={`rounded-md border border-solid border-primary-gray-300 p-2 ${itemClassName}`}>
               <button
                 onClick={() => handleClickActionBtn(item.action)}
                 className="md-medium w-full rounded px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
