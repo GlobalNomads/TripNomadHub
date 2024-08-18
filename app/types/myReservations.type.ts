@@ -8,6 +8,7 @@ export interface ReservationsList {
   id: number;
   teamId: string;
   userId: number;
+  activityId: number;
   activity?: ActivityData;
   scheduleId: number;
   status: string;
@@ -22,6 +23,7 @@ export interface ReservationsList {
 }
 
 export interface ReservationsData {
+  activity: any;
   cursorId: number;
   reservations: ReservationsList[];
   totalCount: number;

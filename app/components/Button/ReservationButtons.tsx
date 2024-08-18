@@ -15,7 +15,7 @@ export const WriteReviewButton: FC<ReservationButtonProps> = ({ onClick }) => {
   return (
     <DefaultButton
       type="nomadBlack"
-      className="w-[80px] py-[6px] text-md-bold md:w-[112px] md:py-[7px] md:text-lg-bold xl:w-[144px] xl:py-2 xl:text-lg-bold"
+      className="h-[32px] w-[80px] text-md-bold md:h-10 md:w-[112px] md:text-lg-bold xl:h-[43.08px] xl:w-[144px] xl:text-lg-bold"
       onClick={onClick}
     >
       후기 작성
@@ -27,7 +27,7 @@ export const CancelReservationButton: FC<ReservationButtonProps> = ({ onClick })
   return (
     <DefaultButton
       type="white"
-      className="w-[80px] py-[6px] text-md-bold md:w-[112px] md:py-[7px] md:text-lg-bold xl:w-[144px] xl:py-2 xl:text-lg-bold"
+      className="h-[32px] w-[80px] text-md-bold md:h-10 md:w-[112px] md:text-lg-bold xl:h-[43.08px] xl:w-[144px] xl:text-lg-bold"
       onClick={onClick}
     >
       예약 취소
