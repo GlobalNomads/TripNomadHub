@@ -99,10 +99,10 @@ const ReservationCard = () => {
                     <Modal.Review
                       isOpen={isReviewModalOpen}
                       onClose={() => setReviewModalOpen(false)}
-                      onSubmit={() => {
-                        setReviewModalOpen(false);
-                      }}
                       reservation={selectedReservation}
+                      onSuccess={() => {
+                        /* 성공 시 처리할 로직 */
+                      }}
                     >
                       <>
                         <ReservationInfo reservation={selectedReservation} /> {/* Pass a single reservation object */}
