@@ -3,11 +3,19 @@
 */
 "use client";
 
-import { FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useState, useEffect } from "react";
 import DefaultButton, { DefaultButtonProps } from "./DefaultButton";
 
-const CategoryButton: FC<DefaultButtonProps> = props => {
-  const [selected, setSelected] = useState(false);
+interface CategoryButtonProps extends DefaultButtonProps {
+  isActive?: boolean;
+}
+
+const CategoryButton: FC<CategoryButtonProps> = ({ isActive = false, ...props }) => {
+  const [selected, setSelected] = useState(isActive);
+
+  useEffect(() => {
+    setSelected(isActive);
+  }, [isActive]);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setSelected(!selected);

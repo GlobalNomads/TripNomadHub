@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Activity from "./Activity";
 import type { ActivitiesData } from "@/types/activities.type";
-import getActivities from "@/api/Activities/getActivities";
+
 
 const AllActivities = ({ data }: { data?: ActivitiesData }) => {
   return (

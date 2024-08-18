@@ -38,7 +38,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
       </h1>
       <div className="absolute bottom-[24px] md:bottom-[30px]">
         <span className="font-bold leading-[26px]">₩ {price.toLocaleString()} </span>
-        <span className="text-lg-medium leading-[24px] text-primary-gray-450">/ 인</span>
+        <span className="text-lg-medium leading-[24px] text-primary-gray-450">/ 원</span>
       </div>
     </Link>
   );

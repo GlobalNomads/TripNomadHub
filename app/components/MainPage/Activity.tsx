@@ -33,10 +33,10 @@ const Activity = ({ data }: { data: ActivityList }) => {
           {rating} <span className="text-primary-gray-450">({reviewCount})</span>
         </span>
       </div>
-      <h1 className="line-clamp-2 text-2lg-semibold text-primary-black-200 md:text-2xl-semibold">{title}</h1>
-      <div className="mb-4 mt-12">
+      <h2 className="line-clamp-2 text-2lg-semibold text-primary-black-200 md:text-2xl-semibold">{title}</h2>
+      <div className="mb-6 mt-8">
         <span className="text-2xl-bold">₩ {price.toLocaleString()} </span>
-        <span className="text-primary-gray-450">/ 인</span>
+        <span className="text-md-regular text-primary-gray-450">/ 원</span>
       </div>
     </Link>
   );
