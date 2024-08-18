@@ -55,7 +55,7 @@ const ReservationCard = () => {
             key={reservation.id}
             className="flex h-[128px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
           >
-            <div className="relative h-[128px] w-[128px] overflow-hidden rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]">
+            <div className="relative h-[128px] w-[128px] flex-shrink-0 overflow-hidden rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]">
               {reservation.activity && (
                 <Image
                   src={reservation.activity.bannerImageUrl}
@@ -66,7 +66,7 @@ const ReservationCard = () => {
                 />
               )}
             </div>
-            <div className="ml-2 mt-[11px] grid md:ml-3 md:mt-[12px] xl:ml-6 xl:mt-[21px] xl:h-[162px]">
+            <div className="ml-2 mr-3 mt-[11px] grid w-full md:ml-3 md:mt-[12px] xl:ml-6 xl:mt-[21px] xl:h-[162px]">
               <div className="grid gap-1 md:gap-[0px] xl:gap-[12px]">
                 <div className={`text-sm font-bold md:text-lg ${getStatusColor[reservation.status]}`}>
                   {getStatusText[reservation.status]}
@@ -86,7 +86,7 @@ const ReservationCard = () => {
                   {reservation.headCount}명
                 </div>
               </div>
-              <div className="mb-1 flex w-[190px] items-center justify-between md:w-[245px] xl:mb-0 xl:mt-4 xl:w-[540px]">
+              <div className="mb-1 flex w-full items-center justify-between md:w-[245px] xl:mb-0 xl:mt-4 xl:w-[540px]">
                 <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">{formattedPrice}</div>
                 {reservation.status === "completed" && reservation.reviewSubmitted === false && (
                   <div className="">

@@ -41,7 +41,7 @@ const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, 
 
   return (
     <div className="relative inline-block" ref={menuRef}>
-      <button onClick={toggleDropdown} className="flex items-center justify-center">
+      <button onClick={toggleDropdown} className="flex items-center justify-center bg-white">
         {trigger}
       </button>
       {isOpen && (
