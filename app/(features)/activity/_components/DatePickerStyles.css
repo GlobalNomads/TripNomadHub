@@ -23,7 +23,7 @@
 /* 오늘(today) 강조 */
 .react-datepicker__day--today {
   font-weight: bold;
-  background-color: #00ac07;
+  background-color: #ced8d5;
   border-radius: 8px;
   color: #0b3b2d;
 }
