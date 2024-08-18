@@ -1,6 +1,6 @@
-import { AuthProvider } from "@/context/AuthContext";
 import Header from "@header/Header";
 import type { Metadata } from "next";
+import { getLoginStatus } from "./lib/auth";
 import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
 
@@ -18,16 +18,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const loginStatus = getLoginStatus();
+
   return (
     <html lang="ko">
       <head />
       <body>
-        <AuthProvider>
-          <QueryProvider>
-            <Header />
-            {children}
-          </QueryProvider>
-        </AuthProvider>
+        <QueryProvider>
+          <Header loginStatus={loginStatus} />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

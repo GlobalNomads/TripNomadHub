@@ -1,5 +1,3 @@
-"use server";
-
 import { UserImageUrl } from "@/types/users.type";
 import fetchInstance from "@/utils/fetchInstance";
 

@@ -1,19 +1,20 @@
 "use client";
-import Button from "@/components/Button/Button";
+import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { ReservationsData } from "@/types/myReservations.type";
 import getMyReservations from "@api/MyReservations/getMyReservations";
+import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
-import EmptyPage from "./EmptyPage";
-import ReviewModal from "./OpenModal";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
 const ReservationCard = () => {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const { data, error, isLoading } = useQuery<ReservationsData>({
     queryKey: ["reservations"],
-    queryFn: () => getMyReservations({ size: 10 }),
+    queryFn: () => getMyReservations({ size: 20 }),
     staleTime: 60000,
     retry: 2,
   });
@@ -38,11 +39,11 @@ const ReservationCard = () => {
   };
 
   return (
-    <div className="mx-auto flex-row">
+    <div className="mx-auto flex flex-col gap-2 md:gap-4 xl:gap-6">
       {data.reservations.map(reservation => (
         <div
           key={reservation.id}
-          className="flex h-[128px] w-[344px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
+          className="flex h-[128px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
         >
           <div className="relative h-[128px] w-[128px] overflow-hidden rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]">
             {reservation.activity && (
@@ -77,14 +78,35 @@ const ReservationCard = () => {
             </div>
             <div className="mb-1 flex w-[190px] items-center justify-between md:w-[245px] xl:mb-0 xl:mt-4 xl:w-[540px]">
               <div className="text-2lg-medium md:text-xl-medium xl:text-2xl-medium">₩{reservation.totalPrice}</div>
-              <div>
-                <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
-              </div>
+              {reservation.status === "completed" && (
+                <div className="">
+                  <Button.WriteReview onClick={() => setReviewModalOpen(true)} />
+                  <Modal.Review
+                    isOpen={isReviewModalOpen}
+                    onClose={() => setReviewModalOpen(false)}
+                    onSubmit={() => {
+                      setReviewModalOpen(false);
+                    }}
+                  />
+                </div>
+              )}
+              {reservation.status === "pending" && (
+                <div className="">
+                  <Button.CancelReservation onClick={() => setCancelModalOpen(true)} />
+                  <Modal.Cancel
+                    isOpen={isCancelModalOpen}
+                    onClose={() => setCancelModalOpen(false)}
+                    onCancel={() => {
+                      setCancelModalOpen(false);
+                    }}
+                    description="예약을 취소하시겠어요?"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
       ))}
-      <ReviewModal isOpen={isReviewModalOpen} onClose={() => setReviewModalOpen(false)} />
     </div>
   );
 };

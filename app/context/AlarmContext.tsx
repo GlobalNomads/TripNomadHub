@@ -41,11 +41,7 @@ function AlarmProvider({ children }: { children: ReactNode }) {
     setCount(prev => prev - 1);
   };
 
-  const values = useMemo(
-    () => ({ alarmMessages, getAlarmMessages, removeAlarmMessage, count }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [alarmMessages],
-  );
+  const values = useMemo(() => ({ alarmMessages, getAlarmMessages, removeAlarmMessage, count }), [alarmMessages]);
 
   return <AlarmContext.Provider value={values}>{children}</AlarmContext.Provider>;
 }

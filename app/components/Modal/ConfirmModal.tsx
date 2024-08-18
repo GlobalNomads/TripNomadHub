@@ -6,9 +6,11 @@
 
 import Button from "@button/Button";
 import { FC } from "react";
-import DefaultModal, { ModalFunctionProps } from "./DefaultModal";
+import DefaultModal, { ModalBody, ModalFooter, ModalHeader } from "./DefaultModal";
 
-interface ConfirmModalProps extends ModalFunctionProps {
+interface ConfirmModalProps {
+  isOpen: boolean;
+  onClose: () => void;
   onConfirm: () => void;
   message: string;
 }
@@ -18,27 +20,17 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose, onConfirm, messa
     <DefaultModal
       isOpen={isOpen}
       onClose={onClose}
-      width="w-[327px] md:w-[540px] xl:w-[540px]"
-      height="h-[220px] md:h-[250px] xl:h-[250px]"
-      padding="p-7"
-      footer={
-        <div className="flex w-full justify-center md:justify-end xl:justify-end">
-          <Button.Modal type="nomadBlack" onClick={onConfirm}>
-            확인
-          </Button.Modal>
-        </div>
-      }
+      className="flex h-[220px] w-[320px] flex-col items-center justify-center rounded-lg md:h-[250px] md:w-[540px]"
     >
-      <div className="relative flex h-full w-full justify-center">
-        {/* 모바일에서만 보이는 메시지 */}
-        <p className="lg-medium absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center font-medium md:hidden xl:hidden">
-          {message}
-        </p>
-        {/* 태블릿, 데스크탑에서만 보이는 메시지 */}
-        <p className="lg-medium absolute left-1/2 top-2/3 hidden -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center font-medium md:block md:text-2lg-medium xl:block xl:text-2lg-medium">
-          {message}
-        </p>
-      </div>
+      <ModalHeader onClose={onClose} />
+      <ModalBody>
+        <p className="text-center text-lg">{message}</p>
+      </ModalBody>
+      <ModalFooter className="flex justify-center md:justify-end">
+        <Button.Modal type="nomadBlack" onClick={onConfirm}>
+          확인
+        </Button.Modal>
+      </ModalFooter>
     </DefaultModal>
   );
 };

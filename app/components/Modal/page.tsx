@@ -1,11 +1,6 @@
-/*
-    Modal test page: 사용 예시 보여주기 위해 만든 페이지
-    TODO: 최종 마무리 하기 전에 삭제하기
-*/
-
 "use client";
 
-import Button from "@button/Button";
+import Button from "@button/Button"; // Button 컴포넌트 경로가 맞는지 확인
 import React, { useState } from "react";
 import Modal from "./Modal";
 
@@ -13,6 +8,9 @@ const ModalTest: React.FC = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [isCurrentReservationsOpen, setCurrentReservationsOpen] = useState(false);
+
+  console.log("ModalTest 컴포넌트 렌더링");
 
   return (
     <div className="space-y-4 p-20">
@@ -21,38 +19,36 @@ const ModalTest: React.FC = () => {
         <Modal.Confirm
           isOpen={isConfirmModalOpen}
           onClose={() => setConfirmModalOpen(false)}
-          onConfirm={() => {
-            setConfirmModalOpen(false);
-          }}
-          message="비밀번호가 일치하지 않습니다. "
-        >
-          <></> {/* 빈 React Fragment를 children으로 전달 */}
-        </Modal.Confirm>
+          onConfirm={() => setConfirmModalOpen(false)}
+          message="비밀번호가 일치하지 않습니다."
+        />
       </div>
+
       <div>
         <Button.Default onClick={() => setCancelModalOpen(true)}>예약취소하기(취소 모달)</Button.Default>
         <Modal.Cancel
           isOpen={isCancelModalOpen}
           onClose={() => setCancelModalOpen(false)}
-          onCancel={() => {
-            setCancelModalOpen(false);
-          }}
+          onCancel={() => setCancelModalOpen(false)}
           description="예약을 취소하시겠어요?"
-        >
-          <></> {/* 빈 React Fragment를 children으로 전달 */}
-        </Modal.Cancel>
+        />
       </div>
+
       <div>
         <Button.Default onClick={() => setReviewModalOpen(true)}>후기 작성하기(리뷰 모달)</Button.Default>
         <Modal.Review
           isOpen={isReviewModalOpen}
           onClose={() => setReviewModalOpen(false)}
-          onSubmit={() => {
-            setReviewModalOpen(false);
-          }}
-        >
-          <></> {/* 빈 React Fragment를 children으로 전달 */}
-        </Modal.Review>
+          onSubmit={() => setReviewModalOpen(false)}
+        />
+      </div>
+
+      <div>
+        <Button.Default onClick={() => setCurrentReservationsOpen(true)}>예약 정보 모달</Button.Default>
+        <Modal.CurrentReservations
+          isOpen={isCurrentReservationsOpen}
+          onClose={() => setCurrentReservationsOpen(false)}
+        />
       </div>
     </div>
   );

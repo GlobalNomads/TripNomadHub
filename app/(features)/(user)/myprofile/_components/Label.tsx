@@ -1,8 +1,8 @@
 import React from "react";
 
-function Label({ htmlFor, children }: React.LabelHTMLAttributes<HTMLLabelElement>) {
+function Label({ htmlFor, children, ...rest }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
-    <label htmlFor={htmlFor} className="text-2xl-bold">
+    <label htmlFor={htmlFor} className="text-2xl-bold" {...rest}>
       {children}
     </label>
   );

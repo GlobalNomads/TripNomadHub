@@ -1,78 +1,63 @@
 /*
-    DefaultModal(기본모달): `title(선택값)-children(본문)-footer(푸터: 의도- 버튼영역)`로 구성
-    - 열기/닫기 기능
-    - 외부 영역 클릭시 모달 창 닫아짐
-    - BorderRadius 12px가 기본값 & 변경 가능
-    - 모달창 open시 기본 bg-black 설정되어있음, 없애고 싶을 경우 "" 빈 문자열 전달하기
-    - centered: description을 모달 중앙에 오게 하기(true), 기본값은 false
-    - footerAlignment 값을 설정하여 footer의 위치를 조정 가능(기본: 중앙정렬)
-    - title영역: title과 함께 x 버튼 필요한 경우 활성화
-*/
+ * DefaultModal(기본모달): `title(선택값) - children(본문) - footer(푸터: 버튼영역)`로 구성
+ *- 열기(isOpen)/닫기(onClose) 기능
+ *- 외부 영역 클릭 시 모달 창 닫힘
+ *- 모달창 open 시 기본 bg-black 설정, 없애고 싶을 경우 "" 빈 문자열 전달하기
+ *- `DefaultModalHeader`, `DefaultModalBody`, `DefaultModalFooter`로 모듈화되어, 조합을 통해 모달 구성 가능
+ *- `title` 영역: title과 함께 x 버튼 표시, title 생략 가능
+ */
+
 "use client";
 
-import closebtn from "@icon/ic_btn_X_bold.svg";
+import close_x_button from "@icon/ic_btn_X_bold.svg";
 import Image from "next/image";
 import { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
-export interface ModalFunctionProps {
+interface DefaultModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: ReactNode;
   children: ReactNode;
-  footer?: ReactNode;
-}
-
-export interface ModalDesignProps {
-  width?: string;
-  height?: string;
-  borderRadius?: string;
   overlayBackground?: string;
-  backgroundColor?: string;
-  padding?: string;
+  className?: string;
 }
 
-const DefaultModal: FC<ModalFunctionProps & ModalDesignProps> = ({
+const DefaultModal: FC<DefaultModalProps> = ({
   isOpen,
   onClose,
-  title,
   children,
-  footer,
-  width = "w-auto",
-  height = "h-auto",
-  borderRadius = "rounded-lg",
   overlayBackground = "bg-black bg-opacity-50",
-  backgroundColor = "bg-white",
-  padding = "p-6",
+  className = "",
+  ...rest
 }) => {
   if (!isOpen) return null;
 
   return createPortal(
     <div className={`fixed inset-0 z-50 flex items-center justify-center ${overlayBackground}`} onClick={onClose}>
-      <div
-        className={`relative ${backgroundColor} ${width} ${height} ${borderRadius} ${padding} flex flex-col`}
-        onClick={e => e.stopPropagation()}
-      >
-        {title && (
-          <div className="mb-4 flex w-full items-center justify-between">
-            <h2>{title}</h2>
-            <div>
-              <button onClick={onClose}>
-                <Image src={closebtn} className="md:w-10 xl:w-10" alt="닫기" />
-              </button>
-            </div>
-          </div>
-        )}
-        <div className="relative flex flex-grow items-center justify-center">{children}</div>
-        {footer && (
-          <div className="mt-4 flex w-full" style={{ marginTop: "auto" }}>
-            {footer}
-          </div>
-        )}
+      <div className={`relative ${className} bg-white p-6`} onClick={e => e.stopPropagation()}>
+        {children}
       </div>
     </div>,
     document.body,
   );
 };
+
+export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ title, onClose }) => (
+  <div className="mb-4 flex w-full items-center justify-between">
+    <h2>{title}</h2>
+    <button onClick={onClose}>
+      <Image src={close_x_button} className="md:w-10" alt="닫기" />
+    </button>
+  </div>
+);
+
+export const ModalBody: FC<{ children: ReactNode }> = ({ children }) => (
+  <div className="relative flex flex-grow items-center justify-center overflow-y-auto">{children}</div>
+);
+
+export const ModalFooter: FC<{
+  children: ReactNode;
+  className?: string;
+}> = ({ children, className }) => <div className={`mt-4 flex w-full ${className}`}>{children}</div>;
 
 export default DefaultModal;
