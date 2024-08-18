@@ -47,6 +47,7 @@
 
 /* schedule 없는 날 */
 .non-selectable-day {
-  color: gray;
+  color: CBC9CF;
+  text-decoration: line-through;
   pointer-events: none;
 }

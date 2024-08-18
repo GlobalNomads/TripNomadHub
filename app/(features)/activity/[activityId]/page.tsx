@@ -1,7 +1,5 @@
 /*
   체험 상세 페이지
-  Todo: 
-    (1)내가 만든 체험인 경우 예약카드 보이지 않게하기
 */
 
 import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수 (체험 정보)
@@ -45,7 +43,11 @@ export default async function ActivityPage({ params }: { params: { activityId: s
             address={activity.address}
           />
         </div>
-        <div className="flex-none">{isOwner && <DropDownMenu activityId={activityId} />}</div>
+        <div className="flex-none">
+          {isOwner && ( // isOwner인 경우에만 DropDownMenu 렌더링
+            <DropDownMenu activityId={activityId} />
+          )}
+        </div>
       </div>
       <ActivityImageGallery bannerImage={activity.bannerImageUrl} images={images} />
       <div className="flex flex-col gap-6 md:flex-row md:gap-6">
@@ -56,15 +58,17 @@ export default async function ActivityPage({ params }: { params: { activityId: s
           <hr className="my-4 border-t border-primary-black-100 opacity-25 md:my-10 md:block" />
           <ActivityReviewClient initialReviews={initialReviews} activityId={activityId} />
         </div>
-        <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
-          <div className="fixed bottom-0 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
-            <ReservationFloatingBox
-              activityId={activity.id as number}
-              schedules={activity.schedules}
-              price={activity.price}
-            />
+        {!isOwner && ( // isOwner가 아닌 경우에만 ReservationFloatingBox 렌더링
+          <div className="pt-[85px] md:relative md:w-[258px] xl:w-[384px]">
+            <div className="fixed bottom-10 left-0 right-0 z-30 w-full bg-white md:relative md:w-[258px] xl:relative xl:w-[384px]">
+              <ReservationFloatingBox
+                activityId={activity.id as number}
+                schedules={activity.schedules}
+                price={activity.price}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
