@@ -7,7 +7,6 @@ import Modal from "./Modal";
 const ModalTest: React.FC = () => {
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
-  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isCurrentReservationsOpen, setCurrentReservationsOpen] = useState(false);
 
   console.log("ModalTest 컴포넌트 렌더링");
@@ -31,15 +30,6 @@ const ModalTest: React.FC = () => {
           onClose={() => setCancelModalOpen(false)}
           onCancel={() => setCancelModalOpen(false)}
           description="예약을 취소하시겠어요?"
-        />
-      </div>
-
-      <div>
-        <Button.Default onClick={() => setReviewModalOpen(true)}>후기 작성하기(리뷰 모달)</Button.Default>
-        <Modal.Review
-          isOpen={isReviewModalOpen}
-          onClose={() => setReviewModalOpen(false)}
-          onSubmit={() => setReviewModalOpen(false)}
         />
       </div>
 
