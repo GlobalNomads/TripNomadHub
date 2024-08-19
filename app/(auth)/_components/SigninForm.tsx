@@ -29,14 +29,17 @@ function SigninForm() {
   const router = useRouter();
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
 
-  const onSubmit: SubmitHandler<ISignInValue> = async data => {
+  const onSubmit: SubmitHandler<ISignInValue> = async returnData => {
     try {
-      await postLogin(data);
-      router.push("/");
+      const data = await postLogin(returnData);
+
+      if (data) {
+        setModalMessage("로그인을 성공했습니다.");
+      }
     } catch (error: any) {
       setModalMessage(error?.message);
-      setConfirmModalOpen(true);
     }
+    setConfirmModalOpen(true);
   };
 
   return (
@@ -86,7 +89,10 @@ function SigninForm() {
       <Modal.Confirm
         isOpen={isConfirmModalOpen}
         onClose={() => setConfirmModalOpen(false)}
-        onConfirm={() => setConfirmModalOpen(false)}
+        onConfirm={() => {
+          setConfirmModalOpen(false);
+          router.push("/");
+        }}
         message={modalMessage}
       />
     </>
