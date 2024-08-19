@@ -18,28 +18,150 @@ const ActivityImageGallery: React.FC<ImageGalleryProps> = ({ images, bannerImage
       </div>
 
       {/* 태블릿과 데스크탑 그리드 */}
-      <div className="hidden h-[600px] grid-cols-4 grid-rows-2 gap-4 md:grid">
-        <div className="relative col-span-2 row-span-2">
-          <Image
-            src={bannerImage}
-            alt="Banner"
-            fill
-            priority
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
-        {images.slice(0, 4).map((image, index) => (
-          <div key={index} className="relative h-full">
+      <div className="hidden h-[600px] gap-4 md:grid">
+        {/* case1: 배너 이미지만 존재 */}
+        {images.length === 0 && (
+          <div className="relative h-full w-full">
             <Image
-              src={image}
-              alt={`Image ${index + 1}`}
+              src={bannerImage}
+              alt="Banner"
               fill
+              priority
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
-        ))}
+        )}
+
+        {/* case2: 배너 이미지 + sub 이미지 1개 */}
+        {images.length === 1 && (
+          <div className="grid grid-cols-2 gap-1">
+            <div className="relative" style={{ aspectRatio: "1 / 1" }}>
+              <Image
+                src={bannerImage}
+                alt="Banner"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative" style={{ aspectRatio: "1 / 1" }}>
+              <Image
+                src={images[0]}
+                alt="SubImage 1"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* case3: 배너 이미지 + sub 이미지 2개 */}
+        {images.length === 2 && (
+          <div className="grid grid-cols-3 grid-rows-2 gap-1">
+            <div className="relative col-span-2 row-span-2">
+              <Image
+                src={bannerImage}
+                alt="Banner"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative col-span-1 row-span-1">
+              <Image
+                src={images[0]}
+                alt="SubImage 1"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative col-span-1 row-span-1">
+              <Image
+                src={images[1]}
+                alt="SubImage 2"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* case4: 배너 이미지 + sub 이미지 3개 */}
+        {images.length === 3 && (
+          <div className="grid grid-cols-3 grid-rows-3 gap-1">
+            {/* 배너 이미지: 왼쪽 전체를 차지 */}
+            <div className="relative col-span-2 row-span-3">
+              <Image
+                src={bannerImage}
+                alt="Banner"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative col-span-1 row-span-1">
+              <Image
+                src={images[0]}
+                alt="SubImage 1"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative col-span-1 row-span-1">
+              <Image
+                src={images[1]}
+                alt="SubImage 2"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            <div className="relative col-span-1 row-span-1">
+              <Image
+                src={images[2]}
+                alt="SubImage 3"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* case5: 배너 이미지 + sub 이미지 4개 */}
+        {images.length === 4 && (
+          <div className="grid grid-cols-4 grid-rows-2 gap-1">
+            <div className="relative col-span-2 row-span-2">
+              <Image
+                src={bannerImage}
+                alt="Banner"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+            {images.slice(0, 4).map((image, index) => (
+              <div key={index} className="relative">
+                <Image
+                  src={image}
+                  alt={`SubImage ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
