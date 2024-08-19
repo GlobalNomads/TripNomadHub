@@ -107,9 +107,9 @@ function MyProfileFrom() {
               프로필 이미지
               <div className="relative h-[140px] w-[140px] object-cover">
                 <Image
-                  className="rounded-full border-[1px] border-solid border-primary-gray-600"
-                  width={140}
-                  height={140}
+                  className="rounded-full border-[1px] border-solid border-primary-gray-600 object-cover"
+                  fill
+                  sizes="140"
                   src={preview || UserProfile}
                   alt="프로필 이미지"
                 />
