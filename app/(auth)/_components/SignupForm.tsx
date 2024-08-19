@@ -1,10 +1,8 @@
 "use client";
 
-import { UserData } from "@/types/users.type";
 import postUsers from "@api/Users/postUsers";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,7 +19,7 @@ interface SignUpValue {
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i; //이메일 방식 선언
 
-function SigninForm() {
+function SignupForm() {
   const {
     register,
     watch,
@@ -37,12 +35,7 @@ function SigninForm() {
   const onSubmit: SubmitHandler<SignUpValue> = async ({ email, nickname, password }) => {
     try {
       const responseData = { email, nickname, password };
-      const returnData = useQuery<UserData>({
-        queryKey: ["users"],
-        queryFn: () => postUsers(responseData),
-        staleTime: 60000,
-        retry: 2,
-      });
+      const returnData = await postUsers(responseData);
 
       if (returnData) {
         setModalMessage("가입이 완료되었습니다.");
@@ -141,4 +134,4 @@ function SigninForm() {
   );
 }
 
-export default SigninForm;
+export default SignupForm;

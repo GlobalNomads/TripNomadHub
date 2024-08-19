@@ -12,7 +12,11 @@ const postMyReservations = async (reservationInput: ReservationInput, reservatio
   try {
     const data = await fetchInstance<PostReservations>(`my-reservations/${reservationId}/reviews`, {
       method: "POST",
-      body: JSON.stringify(reservationInput),
+      body: JSON.stringify({
+        reservationId, // Make sure reservation.id is available
+        rating: reservationInput.rating, // rating state
+        content: reservationInput.content,
+      }),
     });
 
     return data;

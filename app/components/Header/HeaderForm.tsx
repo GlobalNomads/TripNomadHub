@@ -3,16 +3,20 @@
 import { AlarmProvider } from "@/context/AlarmContext";
 import useToggle from "@/hooks/useToggle";
 import Link from "next/link";
+import { useState } from "react";
 import MessageAlarm from "./Alarm/MessageAlarm";
 import UserProfileDropDown from "./UserProfileDropDown";
 
 function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
   const [alarmToggle, setAlarmToggle] = useToggle(false);
   const [menuToggle, setMenuToggle] = useToggle(false);
+  const [userStatus, setUserStatus] = useState(true);
+
+  const Login = userStatus ? loginStatus : userStatus;
 
   return (
     <AlarmProvider>
-      {loginStatus ? (
+      {Login ? (
         <div className="z-3">
           <div className="flex items-center gap-4 text-primary-gray-400">
             <MessageAlarm
@@ -26,6 +30,7 @@ function HeaderForm({ loginStatus }: { loginStatus: boolean }) {
               oppositeToggle={alarmToggle}
               setToggle={setMenuToggle}
               setOppositeToggle={setAlarmToggle}
+              setUserStatus={setUserStatus}
             />
           </div>
         </div>
