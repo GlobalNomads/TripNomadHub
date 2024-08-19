@@ -1,34 +1,39 @@
-// import { ReservationsList } from "@/types/myReservations.type";
+"use client";
+import Dropdown from "@/components/DropDown/DropDown";
+import filterArrow from "@icon/ic_filter_arrow.svg";
+import Image from "next/image";
+import { FC } from "react";
 
-// const handleDropdownItemClick = (reservation: ReservationsList) => {
-//   // update the state based on the dropdown item clicked
-//   switch (reservation.status) {
-//     case "pending":
-//       // handle 예약 신청
-//       break;
-//     case "canceled":
-//       // handle 예약 취소
-//       break;
-//     case "declined":
-//       // handle 예약 거절
-//       break;
-//     case "completed":
-//       // handle 체험 완료
-//       break;
-//     case "confirmed":
-//       // handle 예약 승인
-//       break;
-//     default:
-//       break;
-//   }
-// };
+interface DropdownItemsProps {
+  setSelectedStatus: (status: string | undefined) => void;
+}
 
-// const dropdownItems = [
-//   { label: "예약 신청", action: () => handleDropdownItemClick() },
-//   { label: "예약 취소", action: () => handleDropdownItemClick() },
-//   { label: "예약 승인", action: () => handleDropdownItemClick() },
-//   { label: "예약 거절", action: () => handleDropdownItemClick() },
-//   { label: "체험 완료", action: () => handleDropdownItemClick() },
-// ];
+const DropdownItems: FC<DropdownItemsProps> = ({ setSelectedStatus }) => {
+  const dropdownItems = [
+    { label: "예약 신청", value: "pending" },
+    { label: "예약 취소", value: "canceled" },
+    { label: "예약 승인", value: "confirmed" },
+    { label: "예약 거절", value: "declined" },
+    { label: "체험 완료", value: "completed" },
+  ];
 
-// export default dropdownItems;
+  return (
+    <Dropdown
+      items={dropdownItems.map(item => ({
+        label: item.label,
+        action: () => setSelectedStatus(item.value),
+      }))}
+      trigger={
+        <div className="hidden h-[53px] w-40 rounded-[15px] border border-solid border-primary-green-300 px-5 py-[13.5px] text-primary-green-300 xl:block">
+          <div className="flex items-center justify-between">
+            <span className="text-2lg-medium">필터</span>
+            <Image src={filterArrow} alt="화살표" width={18} height={18} />
+          </div>
+        </div>
+      }
+      itemClassName="w-40"
+    />
+  );
+};
+
+export default DropdownItems;

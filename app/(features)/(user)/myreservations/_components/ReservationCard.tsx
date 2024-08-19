@@ -1,26 +1,50 @@
 "use client";
+import patchMyReservations from "@/api/MyReservations/patchMyReservations";
 import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { ReservationsData, ReservationsList } from "@/types/myReservations.type";
 import getMyReservations from "@api/MyReservations/getMyReservations";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
+import { FC, useState } from "react";
 import ReservationInfo from "./Modal/ReservationInfo";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
-const ReservationCard = () => {
+type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
+
+interface ReservationCardProps {
+  selectedStatus: ReservationStatus;
+}
+
+const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<ReservationsList | null>(null);
 
   const { data, error, isLoading } = useQuery<ReservationsData>({
-    queryKey: ["reservations"],
-    queryFn: () => getMyReservations({ size: 20 }),
+    queryKey: ["reservations", selectedStatus],
+    queryFn: () => getMyReservations({ size: 20, status: selectedStatus }),
     staleTime: 60000,
     retry: 2,
   });
+
+  const queryClient = useQueryClient();
+
+  const handleCancelReservation = async () => {
+    if (selectedReservation) {
+      try {
+        await patchMyReservations(selectedReservation.id, { status: "canceled" });
+        const queryKey: { queryKey: string[] } = { queryKey: ["reservations", selectedStatus] };
+
+        queryClient.invalidateQueries(queryKey);
+        setCancelModalOpen(false);
+      } catch (error) {
+        console.error("Failed to cancel reservation:", error);
+        alert(error);
+      }
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -113,11 +137,16 @@ const ReservationCard = () => {
                 )}
                 {reservation.status === "pending" && (
                   <div className="">
-                    <Button.CancelReservation onClick={() => setCancelModalOpen(true)} />
+                    <Button.CancelReservation
+                      onClick={() => {
+                        setSelectedReservation(reservation);
+                        setCancelModalOpen(true);
+                      }}
+                    />
                     <Modal.Cancel
                       isOpen={isCancelModalOpen}
                       onClose={() => setCancelModalOpen(false)}
-                      onCancel={() => setCancelModalOpen(false)}
+                      onCancel={handleCancelReservation}
                       description="예약을 취소하시겠어요?"
                     />
                   </div>

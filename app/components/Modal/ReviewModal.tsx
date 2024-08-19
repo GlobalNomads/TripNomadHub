@@ -76,19 +76,21 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
             <ReservationInfo reservation={reservation} />
           </div>
           <RatingStar onRatingChange={handleRatingChange} currentRating={rating} />
-          <textarea
-            value={content}
-            onChange={handleContentChange}
-            className="mb-[24px] h-[346px] w-full border border-primary-gray-700 px-4 py-2 md:h-[240px]"
-            placeholder="후기를 작성해주세요"
-          />
+          <div className="w-full">
+            <textarea
+              value={content}
+              onChange={handleContentChange}
+              className="mb-[24px] h-auto w-full border border-primary-gray-700 px-4 py-2 md:h-[240px]"
+              placeholder="후기를 작성해주세요"
+            />
+          </div>
         </div>
       </ModalBody>
-      <ModalFooter className="fixed bottom-[33px] md:static">
+      <ModalFooter className="fixed bottom-[33px] w-full md:static">
         <Button.Default
           type="nomadBlack"
           onClick={handleSubmit}
-          className="left-0 h-[54px] w-full p-[7px] md:static md:mb-auto md:h-[56px]"
+          className="h-[54px] w-full p-[7px] md:static md:mb-auto md:h-[56px]"
         >
           작성하기
         </Button.Default>

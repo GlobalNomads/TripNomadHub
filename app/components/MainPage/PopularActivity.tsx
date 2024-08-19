@@ -1,8 +1,8 @@
+import useImageLoad from "@/hooks/useImageLoad";
+import miniStar from "@icon/mini_star.svg";
+import EmptyImage from "@image/empty.svg";
 import Image from "next/image";
 import Link from "next/link";
-import miniStar from "@icon/mini_star.svg";
-import useImageLoad from "@/hooks/useImageLoad";
-import EmptyImage from "@image/empty.svg";
 
 import type { ActivityList } from "@/types/activities.type";
 
