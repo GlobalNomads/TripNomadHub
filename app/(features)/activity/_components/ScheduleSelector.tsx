@@ -79,7 +79,7 @@ const ScheduleSelector: React.FC<ScheduleSelectorProps> = ({ schedules = [], set
         </div>
       </div>
       <div>
-        <h3 className="pb-3 text-xl-bold text-primary-black-100">예약 가능한 시간</h3>
+        <h3 className="pb-3 text-xl-bold text-primary-black-100 md:text-left">예약 가능한 시간</h3>
         <div className="space-x-3 overflow-x-auto whitespace-nowrap text-left">
           {filteredSchedules.length > 0 ? (
             filteredSchedules.map(schedule => (

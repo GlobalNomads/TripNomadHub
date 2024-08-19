@@ -4,11 +4,12 @@
 "use client";
 
 import postActivitiesIdRez from "@/api/Activities/postActivitiesIdRez";
+import useWindowSize from "@/hooks/useWindowSize"; // 화면 사이즈 변경시 컴포넌트 내 요소 사이즈 조정 커스텀 훅
 import { ReservationFloatingBoxProps, ReservationRequest } from "@/types/activities.type";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
 import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ParticipantCount from "./ParticipantCount";
 import PriceInfo from "./PriceInfo";
 import ScheduleSelector from "./ScheduleSelector";
@@ -19,21 +20,14 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
   const selectedSchedule = schedules.find(schedule => schedule.id === selectedScheduleId);
   const [showScheduleSelector, setShowScheduleSelector] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const windowSize = useWindowSize(); // 커스텀 훅 사용
+  const isMobile = windowSize < 768; // 모바일인지 판단하는 조건
 
   //모달 상태 관리
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [confirmModalMessage, setConfirmModalMessage] = useState("");
   const [onConfirmAction, setOnConfirmAction] = useState<() => void>(() => () => {});
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat("ko-KR").format(amount);
@@ -50,12 +44,26 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
   const reservationMutation = useMutation({
     mutationFn: (newReservation: ReservationRequest) => postActivitiesIdRez(activityId, newReservation),
     onSuccess: () => {
-      openConfirmModal("예약 성공! 😍", () => {
+      openConfirmModal("예약 신청 성공! 😍 체험 제공자의 예약 확정 알림을 기다려주세요.", () => {
         setConfirmModalOpen(false);
       });
     },
-    onError: (err: Error) => {
-      openConfirmModal(`예약 실패! 😥: ${err.message}`, () => {
+    onError: (err: any) => {
+      let errorMessage = "예약 실패! 😥";
+
+      // 에러 메시지를 err.message에서 가져오기
+      const serverMessage = err.message;
+
+      console.log("Error message:", serverMessage);
+
+      // 500 에러와 관련된 경우 로그인 에러 메시지 처리
+      if (serverMessage.includes("Unauthorized: No refresh token available")) {
+        errorMessage = "로그인 후 예약해주세요. 😊";
+      } else if (serverMessage) {
+        errorMessage = `예약 실패! 😥: ${serverMessage}`;
+      }
+
+      openConfirmModal(errorMessage, () => {
         setConfirmModalOpen(false);
       });
     },
@@ -176,7 +184,7 @@ const ReservationFloatingBox: React.FC<ReservationFloatingBoxProps> = ({ activit
           <div className="hidden md:block xl:block">
             <ParticipantCount count={participantCount} setCount={handleParticipantCountChange} />
           </div>
-          <div className={`pt-4 ${isMobile ? "fixed bottom-4 right-4" : ""}`}>
+          <div className={`pt-4 ${isMobile ? "fixed bottom-14 right-4" : ""}`}>
             <Button.Submit
               onClick={handleReservation}
               className={`h-14 ${isMobile ? "w-[106px]" : "w-auto"}`}

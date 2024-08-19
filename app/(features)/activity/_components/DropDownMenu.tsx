@@ -26,21 +26,16 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      console.log("Deleting activity with ID:", activityId);
       return deleteMyActivitiesId(activityId);
     },
     onSuccess: () => {
-      console.log("Activity deleted successfully.");
       setModalMessage("삭제가 완료되었습니다.");
       setIsSuccessModalOpen(true); // 성공 모달 열기
     },
     onError: (error: any) => {
-      console.error("Error occurred during deletion:", error);
-
       let message = "삭제에 실패했습니다.";
       if (error.response) {
         const statusCode = error.response.status;
-        console.log(`Error status code: ${statusCode}`);
 
         switch (statusCode) {
           case 400:
@@ -72,12 +67,10 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
   };
 
   const handleDelete = () => {
-    console.log("Delete button clicked, opening confirmation modal.");
     setIsConfirmModalOpen(true);
   };
 
   const confirmDelete = () => {
-    console.log("Confirm delete clicked.");
     mutation.mutate();
     setIsConfirmModalOpen(false);
   };
