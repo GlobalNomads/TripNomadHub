@@ -41,7 +41,7 @@ const SearchBar = ({ onSearch }: SearchProps) => {
   };
 
   return (
-    <div className="relative -mt-20 flex items-center justify-center">
+    <div className="relative z-10 -mt-24 flex items-center justify-center">
       <div className="h-[129px] w-full rounded-2xl bg-white px-6 py-4 shadow-xl md:h-[166px] md:w-[696px] md:px-6 md:py-9 lg:h-[178px] lg:w-[1200px]">
         <h1 className="text-primary-black text-base font-bold leading-6 md:text-lg md:leading-8">
           무엇을 체험하고 싶으신가요?

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Swiper from "swiper";
 import SearchBar from "./SearchBar";
 import Pagination from "@/components/Pagination";
 import CategoryFilter from "./CategoryFilter";

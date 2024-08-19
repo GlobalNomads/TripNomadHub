@@ -21,6 +21,7 @@ const Activity = ({ data }: { data: ActivityList }) => {
         <Image
           src={displayImage || EmptyImage}
           fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           alt="banner"
           priority
           className="rounded-2xl object-cover shadow-none transition-all duration-300 group-hover:translate-y-[-3px] group-hover:shadow-lg group-hover:shadow-primary-gray-300"

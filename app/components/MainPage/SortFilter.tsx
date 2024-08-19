@@ -9,9 +9,9 @@ const Dropdown = dynamic(() => import("@dropdown/DropDown"), { ssr: false });
 
 const selectOptions: { label: string; value: "latest" | "most_reviewed" | "price_asc" | "price_desc" }[] = [
   { label: "최신 순", value: "latest" },
-  { label: "리뷰 많은 순", value: "most_reviewed" },
-  { label: "가격이 낮은 순", value: "price_asc" },
-  { label: "가격이 높은 순", value: "price_desc" },
+  { label: "리뷰 순", value: "most_reviewed" },
+  { label: "가격 ↓", value: "price_asc" },
+  { label: "가격 ↑", value: "price_desc" },
 ];
 
 interface SortFilterProps {
