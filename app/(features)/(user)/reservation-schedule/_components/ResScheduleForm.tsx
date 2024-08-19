@@ -9,7 +9,7 @@ import CalendarList from "./CalendarList";
 function ResScheduleForm() {
   const { data } = useQuery<ActivitiesData | undefined>({
     queryKey: ["getMyActivities"],
-    queryFn: () => getMyActivities(),
+    queryFn: () => getMyActivities({ size: 20 }),
     staleTime: 60000,
     retry: 2,
   });
@@ -18,7 +18,7 @@ function ResScheduleForm() {
 
   return (
     <>
-      {noData ? (
+      {!noData ? (
         <div>
           <CalendarList activityData={data} />
         </div>
