@@ -4,8 +4,7 @@ import getMyActivities from "@/api/MyActivities/getMyActivities";
 import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { ActivitiesData } from "@/types/activities.type";
 import { useQuery } from "@tanstack/react-query";
-import Calendar from "./Calendar";
-import SelectBox from "./SelectBox";
+import CalendarList from "./CalendarList";
 
 function ResScheduleForm() {
   const { data } = useQuery<ActivitiesData | undefined>({
@@ -21,8 +20,7 @@ function ResScheduleForm() {
     <>
       {noData ? (
         <div>
-          <SelectBox activityData={data} />
-          <Calendar />
+          <CalendarList activityData={data} />
         </div>
       ) : (
         <EmptyPage />
