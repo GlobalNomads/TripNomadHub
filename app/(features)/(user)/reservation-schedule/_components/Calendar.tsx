@@ -1,6 +1,9 @@
 import { MyActivitiesDashData } from "@/types/myActivities.type";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
+import { useState } from "react";
+import CurrentReservationsModal from "./CurrentReservationsModal";
 import { activityData } from "./mock";
 
 interface FullCalendarData {
@@ -11,6 +14,7 @@ interface FullCalendarData {
 function Calendar({ activityId }: { activityId: number }) {
   // const [year, setYear] = useState("");
   // const [month, setMonth] = useState("");
+  const [date, setDate] = useState("");
 
   // const { data: eventDate } = useQuery({
   //   queryKey: ["getMyActivitiesIdDash"],
@@ -34,27 +38,47 @@ function Calendar({ activityId }: { activityId: number }) {
     }));
   });
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleEventClick = (info: DateClickArg) => {
+    setDate(info.dateStr);
+    formatDateString(date);
+    setIsOpen(true);
+  };
+
+  // 들어온 날짜 형태 변환
+  const formatDateString = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+
+    return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+  };
+
   return (
-    <div className="mt-[30px] grid">
-      <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        titleFormat={function (date) {
-          // setYear(String(date.date.year));
-          // setMonth("0" + (date.date.month + 1));
-          return date.date.year + "년 " + (date.date.month + 1) + "월";
-        }}
-        headerToolbar={{
-          start: "prev",
-          center: "title",
-          end: "next",
-        }}
-        events={EventList}
-        dayMaxEvents={true}
-        height={"800px"}
-        editable={true}
-      />
-    </div>
+    <>
+      <div className="mt-[30px] grid">
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          titleFormat={function (date) {
+            // setYear(String(date.date.year));
+            // setMonth("0" + (date.date.month + 1));
+            return date.date.year + "년 " + (date.date.month + 1) + "월";
+          }}
+          headerToolbar={{
+            start: "prev",
+            center: "title",
+            end: "next",
+          }}
+          dateClick={handleEventClick}
+          events={EventList}
+          dayMaxEvents={true}
+          height={"800px"}
+          editable={true}
+        />
+      </div>
+
+      <CurrentReservationsModal isOpen={isOpen} onClose={() => setIsOpen(false)} selectDate={date} />
+    </>
   );
 }
 
