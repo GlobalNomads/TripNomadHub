@@ -1,9 +1,9 @@
 import MainLogo from "@icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
+import AuthHr from "../_components/AuthHr";
 import SignupForm from "../_components/SignupForm";
 import SimpleSignup from "../_components/SimpleSignup";
-import AuthHr from "../_components/authHr";
 
 function Signup() {
   return (

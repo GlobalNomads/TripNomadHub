@@ -1,7 +1,7 @@
 import MainLogo from "@icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
-import AuthHr from "../_components/authHr";
+import AuthHr from "../_components/AuthHr";
 import SigninForm from "../_components/SigninForm";
 import SimpleSignin from "../_components/SimpleSignin";
 
