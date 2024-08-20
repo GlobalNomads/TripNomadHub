@@ -27,7 +27,7 @@ const DropdownItems: FC<DropdownItemsProps> = ({ setSelectedStatus }) => {
         <div className="hidden h-[53px] w-40 rounded-[15px] border border-solid border-primary-green-300 px-5 py-[13.5px] text-primary-green-300 xl:block">
           <div className="flex items-center justify-between">
             <span className="text-2lg-medium">필터</span>
-            <Image src={filterArrow} alt="화살표" width={18} height={18} />
+            <Image src={filterArrow} alt="Arrow" width={18} height={18} />
           </div>
         </div>
       }
