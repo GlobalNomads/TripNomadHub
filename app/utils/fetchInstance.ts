@@ -68,6 +68,7 @@ const handleResponse = async <T>(
   options: RequestInit & { isMultipart?: boolean },
 ): Promise<T> => {
   if (response.ok) {
+    if (!response) return response; //no content 대응
     return response.json();
   }
 
