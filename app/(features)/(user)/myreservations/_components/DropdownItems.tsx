@@ -32,6 +32,7 @@ const DropdownItems: FC<DropdownItemsProps> = ({ setSelectedStatus }) => {
         </div>
       }
       itemClassName="w-40"
+      triggerClassName="bg-white"
     />
   );
 };
