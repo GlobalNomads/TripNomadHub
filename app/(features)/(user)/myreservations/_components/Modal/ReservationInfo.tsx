@@ -27,8 +27,8 @@ const ReservationInfo = ({ reservation }: ReservationInfoProps) => {
   };
 
   return (
-    <div key={reservation?.id} className="overflow mb-[12px] flex w-full gap-2 md:gap-6 xl:h-[100px]">
-      <div className="overflow relative h-[90px] max-h-full w-[83px] max-w-full sm:h-[100px] sm:w-[100px] md:h-[126px] md:w-[126px]">
+    <div key={reservation?.id} className="mb-[12px] flex w-full gap-2 md:gap-6 xl:h-[100px]">
+      <div className="overflow relative h-[90px] w-[83px] max-w-full sm:h-[100px] sm:w-[100px] md:h-[126px] md:w-[126px]">
         {activity && (
           <Image
             src={activity.bannerImageUrl}
@@ -42,7 +42,7 @@ const ReservationInfo = ({ reservation }: ReservationInfoProps) => {
       </div>
       <div>
         <div className="mb-[6px] block text-lg-bold md:mb-[12px] md:text-xl-bold">
-          {truncateTitle(activity?.title || "", 19)}
+          {truncateTitle(activity?.title || "", 16)}
         </div>
         <div className="mb-[6px] text-sm font-normal md:text-2lg-regular">
           {formatDate(reservation.date)} · {reservation.startTime} - {reservation.endTime} · {reservation.headCount}명

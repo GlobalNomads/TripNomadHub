@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 
 interface DropDownMenuProps {
-  activityId: number; // 액티비티 ID를 프로퍼티로 받습니다.
+  activityId: number;
 }
 
 const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
@@ -115,3 +115,19 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
 };
 
 export default DropDownMenu;
+
+////
+// ////
+// return (
+//   <Dropdown
+//     items={dropdownItems}
+//     trigger={
+//       <FilterButton className="h-[41px] w-[80px] p-[12px] text-lg-medium md:h-[53px] md:w-[127px] md:p-[16px] md:text-2lg-medium whitespace-nowrap">
+//         {inputLabel}
+//       </FilterButton>
+//     }
+//     dropdownClassName="w-full text-[10px] md:w-auto overflow-y-scroll scroll-smooth max-h-[200px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px]"
+//     itemClassName="text-[10px] sm:text-sm md:text-md-medium lg:text-lg-medium"
+//   />
+// );
+// };

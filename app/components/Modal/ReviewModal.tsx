@@ -11,6 +11,7 @@ import ReservationInfo from "@/(features)/(user)/myreservations/_components/Moda
 import postMyReservations, { ReservationInput } from "@/api/MyReservations/postMyReservations";
 import { ReservationsList } from "@/types/myActivities.type";
 import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { FC, ReactNode, useEffect, useState } from "react";
 import DefaultModal, { ModalBody, ModalFooter, ModalHeader } from "./DefaultModal";
 
@@ -25,6 +26,8 @@ interface ReviewModalProps {
 const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuccess = () => {} }) => {
   const [rating, setRaing] = useState<number>(0);
   const [content, setContent] = useState<string>("");
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -40,6 +43,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
   const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
+
   //작성하기 버튼 눌렀을 때
   const handleSubmit = async () => {
     if (reservation && rating > 0 && content.trim() !== "") {
@@ -47,15 +51,19 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
 
       try {
         await postMyReservations(reservationInput, reservation.id);
-        alert("후기를 저장했습니다");
+
+        setModalMessage("후기를 전달했습니다.");
         onSuccess();
         onClose();
-      } catch (error) {
-        console.error(error);
-        alert("Error: 후기 저장을 실패했습니다");
+        setConfirmModalOpen(true);
+      } catch (error: any) {
+        console.log(error);
+        setModalMessage(error?.message || "오류가 발생했습니다. 다시 시도해주세요.");
+        setConfirmModalOpen(true);
       }
     } else {
-      alert("별점과 후기 모두 입력해주세요");
+      setModalMessage("⛔별점과 후기 모두 입력해주세요");
+      setConfirmModalOpen(true);
     }
   };
   return (
@@ -95,6 +103,14 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
           작성하기
         </Button.Default>
       </ModalFooter>
+      <Modal.Confirm
+        isOpen={isConfirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        onConfirm={() => {
+          setConfirmModalOpen(false);
+        }}
+        message={modalMessage}
+      />
     </DefaultModal>
   );
 };
