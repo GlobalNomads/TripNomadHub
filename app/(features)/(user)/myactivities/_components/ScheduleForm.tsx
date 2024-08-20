@@ -80,7 +80,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChang
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     if (date) {
-      const formattedDate = format(date, "yy/MM/dd");
+      const formattedDate = format(date, "yyyy-MM-dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
       setNewSchedule({ ...newSchedule, date: formattedDate });
     }
     setShowDatePicker(false);
