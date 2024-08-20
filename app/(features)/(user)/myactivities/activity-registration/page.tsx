@@ -3,9 +3,10 @@
  */
 
 "use client";
-import postActivities from "@/api/Activities/postActivities";
-import postActivitiesImg from "@/api/Activities/postActivitiesImg";
+
 import { ActivitiesIdData } from "@/types/myActivities.type";
+import postActivities from "@api/Activities/postActivities";
+import { useImageUpload } from "@api/Activities/postActivitiesImg";
 import Button from "@button/Button";
 import { useState } from "react";
 import AddressForm from "../_components/AddressForm";
@@ -23,27 +24,36 @@ function ActivityRegistration() {
   const [address, setAddress] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [schedules, setSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
-  const [bannerImage, setBannerImage] = useState<File | null>(null); // 파일 타입으로 관리
-  const [subImages, setSubImages] = useState<File[]>([]); // 파일 타입으로 관리
-  const [bannerImageUrl, setBannerImageUrl] = useState<string>("");
-  const [subImageUrls, setSubImageUrls] = useState<string[]>([]);
+  const [bannerImage, setBannerImage] = useState<File | null>(null);
+  const [subImages, setSubImages] = useState<File[]>([]);
+
+  // 이미지 업로드를 위한 Mutation 훅 사용
+  const { mutateAsync, status } = useImageUpload();
+
+  const isLoading = status === "pending";
 
   const handleSubmit = async () => {
     try {
+      let bannerImageUrl = "";
+      let subImageUrls: string[] = [];
+
       // 배너 이미지 업로드
       if (bannerImage) {
-        const uploadedBannerImage = await postActivitiesImg(bannerImage);
-        setBannerImageUrl(uploadedBannerImage.activityImageUrl);
+        const uploadedBannerImage = await mutateAsync(bannerImage);
+        bannerImageUrl = uploadedBannerImage.activityImageUrl;
       }
 
       // 서브 이미지 업로드
-      const uploadedSubImages = await Promise.all(
-        subImages.map(async image => {
-          const uploadedImage = await postActivitiesImg(image);
-          return uploadedImage.activityImageUrl;
-        }),
-      );
-      setSubImageUrls(uploadedSubImages);
+      if (subImages.length > 0) {
+        subImageUrls = await Promise.all(
+          subImages.map(async image => {
+            const uploadedImage = await mutateAsync(image);
+            return uploadedImage.activityImageUrl; // 이미지 URL만 반환
+          }),
+        );
+      }
+
+      console.log(subImageUrls); // 콘솔에 string[] 형태로 출력
 
       // 최종 데이터 수집
       const formData: ActivitiesIdData = {
@@ -54,10 +64,10 @@ function ActivityRegistration() {
         price,
         schedules,
         bannerImageUrl,
-        subImageUrls: subImageUrls.map(url => ({ imageUrl: url })), // 'url'을 'imageUrl'로 변환
+        subImageUrls,
       };
 
-      // API 호출
+      // API 요청 실행
       const response = await postActivities(formData);
       console.log("등록 성공:", response);
     } catch (error) {
@@ -73,6 +83,7 @@ function ActivityRegistration() {
           type="nomadBlack"
           className="flex h-[48px] w-[120px] items-center justify-center p-[8px] text-sm md:p-[12px] md:text-base lg:p-[16px] lg:text-lg"
           onClick={handleSubmit}
+          disabled={isLoading} // 이미지 업로드 중에는 버튼 비활성화
         >
           등록하기
         </Button.Default>

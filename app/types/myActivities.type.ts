@@ -81,5 +81,5 @@ export interface ActivitiesIdData {
   price: number;
   schedules: Schedule[];
   bannerImageUrl: string;
-  subImageUrls: SubImageUrls[];
+  subImageUrls: string[];
 }
