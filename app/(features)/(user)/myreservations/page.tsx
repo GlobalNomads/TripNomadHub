@@ -6,7 +6,7 @@ import ReservationCard from "./_components/ReservationCard";
 type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
 
 const MyReservations: React.FC = () => {
-  const [selectedStatus, setSelectedStatus] = useState<ReservationStatus | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = useState<"" | ReservationStatus>("");
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex items-center justify-between">
@@ -16,7 +16,7 @@ const MyReservations: React.FC = () => {
         </div>
       </div>
       <div className="h-full w-full">
-        <ReservationCard selectedStatus={selectedStatus} />
+        <ReservationCard selectedStatus={selectedStatus as ReservationStatus} />
       </div>
     </div>
   );

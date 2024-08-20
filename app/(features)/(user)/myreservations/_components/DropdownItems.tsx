@@ -4,12 +4,14 @@ import filterArrow from "@icon/ic_filter_arrow.svg";
 import Image from "next/image";
 import { FC } from "react";
 
+type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
+
 interface DropdownItemsProps {
-  setSelectedStatus: (status: string | undefined) => void;
+  setSelectedStatus: (status: "" | ReservationStatus) => void;
 }
 
 const DropdownItems: FC<DropdownItemsProps> = ({ setSelectedStatus }) => {
-  const dropdownItems = [
+  const dropdownItems: { label: string; value: ReservationStatus }[] = [
     { label: "예약 신청", value: "pending" },
     { label: "예약 취소", value: "canceled" },
     { label: "예약 승인", value: "confirmed" },

@@ -14,7 +14,7 @@ import { getStatusColor, getStatusText } from "./StatusUtils";
 type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
 
 interface ReservationCardProps {
-  selectedStatus: ReservationStatus;
+  selectedStatus: ReservationStatus | undefined;
 }
 
 const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
@@ -22,9 +22,11 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<ReservationsList | null>(null);
 
+  const statusToUse = selectedStatus || "pending";
+
   const { data, error, isLoading } = useQuery<ReservationsData>({
-    queryKey: ["reservations", selectedStatus],
-    queryFn: () => getMyReservations({ size: 20, status: selectedStatus }),
+    queryKey: ["reservations", statusToUse],
+    queryFn: () => getMyReservations({ size: 20, status: statusToUse }),
     staleTime: 60000,
     retry: 2,
   });
@@ -35,7 +37,7 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
     if (selectedReservation) {
       try {
         await patchMyReservations(selectedReservation.id, { status: "canceled" });
-        const queryKey: { queryKey: string[] } = { queryKey: ["reservations", selectedStatus] };
+        const queryKey: { queryKey: string[] } = { queryKey: ["reservations", statusToUse] };
 
         queryClient.invalidateQueries(queryKey);
         setCancelModalOpen(false);
