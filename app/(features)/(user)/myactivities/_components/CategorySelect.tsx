@@ -1,3 +1,7 @@
+/*
+ * 체험 등록 & 수정 - 카테고리 선택 폼
+ */
+
 "use client";
 import React from "react";
 
