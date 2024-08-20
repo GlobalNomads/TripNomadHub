@@ -61,3 +61,25 @@ export interface MyActivitiesDashData {
   date: string;
   reservations: Reservation;
 }
+
+//추가
+export interface SubImageUrls {
+  imageUrl: string;
+}
+
+export interface Schedule {
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface ActivitiesIdData {
+  title: string;
+  category: string;
+  description: string;
+  address: string;
+  price: number;
+  schedules: Schedule[];
+  bannerImageUrl: string;
+  subImageUrls: SubImageUrls[];
+}
