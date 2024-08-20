@@ -22,7 +22,7 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<ReservationsList | null>(null);
 
-  const statusToUse = selectedStatus || "pending";
+  const statusToUse = selectedStatus || undefined;
 
   const { data, error, isLoading } = useQuery<ReservationsData>({
     queryKey: ["reservations", statusToUse],
@@ -37,7 +37,7 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
     if (selectedReservation) {
       try {
         await patchMyReservations(selectedReservation.id, { status: "canceled" });
-        const queryKey: { queryKey: string[] } = { queryKey: ["reservations", statusToUse] };
+        const queryKey: {} = { queryKey: ["reservations", statusToUse] };
 
         queryClient.invalidateQueries(queryKey);
         setCancelModalOpen(false);
