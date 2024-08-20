@@ -41,8 +41,7 @@ function Calendar({ activityId }: { activityId: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleEventClick = (info: DateClickArg) => {
-    setDate(info.dateStr);
-    formatDateString(date);
+    setDate(formatDateString(info.dateStr));
     setIsOpen(true);
   };
 
