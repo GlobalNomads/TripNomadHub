@@ -64,11 +64,11 @@ function ActivityRegistration() {
         price,
         schedules,
         bannerImageUrl,
-        subImageUrls,
+        subImageUrls: subImageUrls as any,
       };
 
       // API 요청 실행
-      const response = await postActivities(formData);
+      const response = await postActivities(formData as any);
       console.log("등록 성공:", response);
     } catch (error) {
       console.error("등록 실패:", error);
