@@ -48,12 +48,6 @@ const SearchBar = ({ onSearch }: SearchProps) => {
         </h1>
         <form onSubmit={handleSubmit} className="mt-4 flex h-14 gap-3 md:mt-5">
           <div className="relative flex-grow">
-            <label
-              htmlFor="activity-search"
-              className="absolute -top-3.5 right-5 bg-white leading-6 text-gray-800 md:left-8 md:right-auto md:px-2.5 xl:left-10"
-            >
-              내가 원하는 체험은
-            </label>
             <div className="absolute left-2 top-2">
               <Image src={searchicon} alt="Search" width={40} height={40} />
             </div>

@@ -28,7 +28,7 @@ const CategoryFilter = ({
 
   return (
     <div className="relative min-w-0 flex-1">
-      <div className="flex gap-4 overflow-x-auto md:gap-8 xl:gap-8">
+      <div className="scroll-padding-x-[10px] flex gap-2 overflow-x-auto md:gap-4 xl:gap-4">
         {CATEGORIES.map(category => (
           <CategoryButton
             key={category}
@@ -41,7 +41,7 @@ const CategoryFilter = ({
         ))}
         <div className="ml-16"></div>
       </div>
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-[50px] bg-gradient-to-l from-white to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-[50px]" />
     </div>
   );
 };

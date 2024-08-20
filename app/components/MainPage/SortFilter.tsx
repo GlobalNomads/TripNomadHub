@@ -40,7 +40,7 @@ const SortFilter: React.FC<SortFilterProps> = ({ onSortSelect }) => {
         </FilterButton>
       }
       dropdownClassName="w-full text-[10px] md:w-auto overflow-y-scroll scroll-smooth max-h-[200px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px]"
-      itemClassName="text-[10px] sm:text-sm md:text-md-medium lg:text-lg-medium"
+      itemClassName="text-[10px] sm:text-sm md:text-md-medium lg:text-lg-medium md:w-[127px]"
     />
   );
 };
