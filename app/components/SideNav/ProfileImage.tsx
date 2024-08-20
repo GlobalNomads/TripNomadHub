@@ -1,7 +1,7 @@
 "use client";
 
 import getUsersMe from "@/api/Users/getUsersMe";
-import DefalutProfile from "@icon/userProfileIcon.svg";
+import DefalutProfile from "@icon/ic_default_reviewprofile.png";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
