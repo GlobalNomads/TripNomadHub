@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
 import Button from "@/components/Button/Button";
+import React, { useState } from "react";
 
-const categories = ["문화 예술", "식음료", "스포츠", "투어", "관광", "웰빙"];
+const categories = ["문화 · 예술", "식음료", "스포츠", "투어", "관광", "웰빙"];
 
 const TitleForm: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
