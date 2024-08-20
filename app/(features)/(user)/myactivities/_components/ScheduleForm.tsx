@@ -97,7 +97,7 @@ const ScheduleForm: React.FC = () => {
               value={newSchedule.date}
               onChange={handleChange}
               placeholder="YY/MM/DD"
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 pl-6"
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 sm:pl-3"
               readOnly
               style={{ boxSizing: "border-box" }}
             />
@@ -129,7 +129,7 @@ const ScheduleForm: React.FC = () => {
             name="startTime"
             value={newSchedule.startTime}
             onChange={handleChange}
-            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 sm:pl-3"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -142,14 +142,14 @@ const ScheduleForm: React.FC = () => {
             ))}
           </select>
 
-          <div className="flex h-[56px] items-center justify-center text-xl">~</div>
+          <div className="hidden h-[56px] items-center justify-center text-xl sm:flex">~</div>
 
           <select
             id="new-endTime"
             name="endTime"
             value={newSchedule.endTime}
             onChange={handleChange}
-            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 sm:pl-3"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -180,7 +180,7 @@ const ScheduleForm: React.FC = () => {
             type="text"
             value={schedule.date}
             readOnly
-            className="h-[56px] flex-1 rounded border border-gray-700 px-3 py-2"
+            className="h-[56px] flex-1 rounded border border-gray-700 px-3 py-2 sm:pl-3"
             style={{ boxSizing: "border-box" }}
           />
 
@@ -189,15 +189,15 @@ const ScheduleForm: React.FC = () => {
               type="text"
               value={schedule.startTime}
               readOnly
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 sm:pl-3"
               style={{ boxSizing: "border-box" }}
             />
-            <div className="flex h-[56px] items-center justify-center text-xl font-semibold">~</div>
+            <div className="hidden h-[56px] items-center justify-center text-xl font-semibold sm:flex">~</div>
             <input
               type="text"
               value={schedule.endTime}
               readOnly
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 sm:pl-3"
               style={{ boxSizing: "border-box" }}
             />
           </div>

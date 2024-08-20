@@ -1,14 +1,28 @@
 "use client";
 import React, { useState } from "react";
 import Button from "@/components/Button/Button";
+import Modal from "@/components/Modal/Modal";
 
 const categories = ["문화 예술", "식음료", "스포츠", "투어", "관광", "웰빙"];
 
-const Title: React.FC = () => {
+const TitleForm: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -21,7 +35,7 @@ const Title: React.FC = () => {
           <Button.Default
             type="nomadBlack"
             className="flex h-[48px] w-[120px] items-center justify-center p-[8px] text-sm md:p-[12px] md:text-base lg:p-[16px] lg:text-lg"
-            onClick={() => alert("nomadBlack Button Clicked")}
+            onClick={handleSubmit}
           >
             수정하기
           </Button.Default>
@@ -77,8 +91,15 @@ const Title: React.FC = () => {
         placeholder="설명"
         className="h-[346px] w-full rounded border border-gray-700 px-3 py-2 text-lg placeholder-gray-500"
       />
+
+      <Modal.Confirm
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirm}
+        message="수정이 완료되었습니다"
+      />
     </div>
   );
 };
 
-export default Title;
+export default TitleForm;
