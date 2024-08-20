@@ -7,16 +7,24 @@ import Calendar from "./Calendar";
 function CalendarList({ activityData }: { activityData: ActivitiesData | undefined }) {
   const [activityId, setActivityId] = useState(0);
 
-  const handleChangeId = (selectId: number) => {
-    setActivityId(selectId);
+  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedActivity = activityData?.activities.find(activity => `${activity.id}` === e.target.value);
+
+    if (selectedActivity) {
+      console.log(selectedActivity.id);
+      setActivityId(selectedActivity.id); // 선택된 액티비티 ID를 캘린더로 전달
+    }
   };
 
   return (
     <>
       <div className="relative">
-        <select className="z-3 box-border w-full max-w-[790px] rounded-md border px-5 py-3 text-lg-regular text-primary-black-200">
+        <select
+          className="z-3 box-border h-[50px] w-full max-w-[790px] rounded-md border px-5 py-3 text-lg-regular text-primary-black-200"
+          onChange={handleChangeSelect}
+        >
           {activityData?.activities.map(activity => (
-            <option className="px-5 py-3" value={activity.id} key={activity.id} onChange={handleChangeId}>
+            <option className="h-14" value={activity.id} key={activity.id}>
               {activity.title}
             </option>
           ))}

@@ -1,4 +1,3 @@
-import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { MyActivitiesDashData } from "@/types/myActivities.type";
 import getMyActivitiesIdDash from "@api/MyActivities/getMyActivitiesIdDash";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -14,6 +13,8 @@ interface FullCalendarData {
 function Calendar({ activityId }: { activityId: number }) {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
+
+  console.log(activityId);
 
   const { data: eventDate } = useQuery({
     queryKey: ["getMyActivitiesIdDash"],
@@ -53,28 +54,24 @@ function Calendar({ activityId }: { activityId: number }) {
 
   return (
     <div className="mt-[30px] grid">
-      {eventDate ? (
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          titleFormat={function (date) {
-            setYear(String(date.date.year));
-            setMonth(String(date.date.month));
-            return date.date.year + "년 " + (date.date.month + 1) + "월";
-          }}
-          headerToolbar={{
-            start: "prev",
-            center: "title",
-            end: "next",
-          }}
-          events={EventList}
-          dayMaxEvents={true}
-          height={"800px"}
-          editable={true}
-        />
-      ) : (
-        <EmptyPage />
-      )}
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        titleFormat={function (date) {
+          setYear(String(date.date.year));
+          setMonth(("0" + (date.date.month + 1)).slice(2));
+          return date.date.year + "년 " + (date.date.month + 1) + "월";
+        }}
+        headerToolbar={{
+          start: "prev",
+          center: "title",
+          end: "next",
+        }}
+        events={EventList}
+        dayMaxEvents={true}
+        height={"800px"}
+        editable={true}
+      />
     </div>
   );
 }
