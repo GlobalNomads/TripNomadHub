@@ -4,6 +4,7 @@ import getMyActivities from "@/api/MyActivities/getMyActivities";
 import EmptyPage from "@/components/EmptyPage/EmptyPage";
 import { ActivitiesData } from "@/types/activities.type";
 import { useQuery } from "@tanstack/react-query";
+import { activitiesData } from "../mockData";
 import CalendarList from "./CalendarList";
 
 function ResScheduleForm() {
@@ -14,7 +15,7 @@ function ResScheduleForm() {
     retry: 2,
   });
 
-  const noData = !data || data.activities.length === 0;
+  const noData = !activitiesData || activitiesData.activities.length === 0;
 
   return (
     <>
