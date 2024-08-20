@@ -1,3 +1,7 @@
+/*
+ * 체험 등록 & 수정 - 체험 설명 작성 폼
+ */
+
 "use client";
 import React from "react";
 
