@@ -6,8 +6,8 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { UserData } from "@/types/users.type";
 import postLogout from "@api/Auth/postLogout";
 import UserProfile from "@icon/ic_default_reviewprofile.png";
+import ImageWithSkeleton from "@skeleton/ImageWithSkeleton"; // ImageWithSkeleton 사용
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DropDownBox from "./DropDownBox";
 
@@ -60,8 +60,14 @@ function UserProfileDropdown({
   return (
     <div className="flex gap-2 border-l-2 border-solid border-primary-gray-200 pl-4">
       <button onClick={toggleDropdown} onBlur={closeToggle} className="flex items-center gap-4">
-        <div className="relative aspect-[1/1] h-[32px] w-[32px] border-none">
-          <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" />
+        <div className="relative aspect-[1/1] h-[32px] w-[32px] rounded-full border-none">
+          <ImageWithSkeleton
+            imageUrl={userProfileImage}
+            alt="프로필 이미지"
+            width="32px"
+            height="32px"
+            priority={true}
+          />
         </div>
 
         <div className="text-md-medium text-primary-gray-800">{data?.nickname}</div>
