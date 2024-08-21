@@ -1,11 +1,16 @@
-"use server";
+// 체험 이미지 등록 API
+// TanStack Query의 useMutation 적용
+
+"use client";
 
 import { ActivitiesImageUrl } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
-const postActivitiesImg = async (userImage: File): Promise<ActivitiesImageUrl> => {
+// 이미지 업로드 API 함수
+export const postActivitiesImg = async (activityImage: File): Promise<ActivitiesImageUrl> => {
   const formData = new FormData();
-  formData.append("image", userImage);
+  formData.append("image", activityImage);
 
   try {
     const data: ActivitiesImageUrl = await fetchInstance<ActivitiesImageUrl>("activities/image", {
@@ -24,4 +29,17 @@ const postActivitiesImg = async (userImage: File): Promise<ActivitiesImageUrl> =
   }
 };
 
-export default postActivitiesImg;
+// `useImageUpload` 훅 정의
+export const useImageUpload = (
+  handleError: (error: Error) => void,
+): UseMutationResult<ActivitiesImageUrl, Error, File> => {
+  return useMutation<ActivitiesImageUrl, Error, File>({
+    mutationFn: postActivitiesImg,
+    onSuccess: (data: ActivitiesImageUrl) => {
+      // 성공 시 추가적인 작업이 있다면 여기에 추가
+    },
+    onError: (error: Error) => {
+      handleError(error);
+    },
+  });
+};
