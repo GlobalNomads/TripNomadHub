@@ -73,7 +73,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
     <DefaultModal
       isOpen={isOpen}
       onClose={onClose}
-      className="relative h-full w-full md:h-[750px] md:max-h-[100vh] md:w-[480px] md:rounded-3xl xl:overflow-y-auto"
+      className="relative h-full w-full overflow-y-scroll md:h-[750px] md:max-h-[100vh] md:w-[480px] md:rounded-3xl xl:overflow-y-auto"
     >
       <div className="mb-[27px] md:mb-[37px]">
         <ModalHeader
@@ -91,13 +91,13 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
             <textarea
               value={content}
               onChange={handleContentChange}
-              className="mb-[24px] h-auto w-full border border-primary-gray-700 px-4 py-2 md:h-[240px]"
+              className="h-[360px] w-full overflow-y-scroll border border-primary-gray-700 px-4 py-2 md:h-[240px]"
               placeholder="후기를 작성해주세요"
             />
           </div>
         </div>
       </ModalBody>
-      <ModalFooter className="fixed bottom-[33px] w-full md:static">
+      <ModalFooter className="abolute bottom-[33px] w-full md:static">
         <Button.Default
           type="nomadBlack"
           onClick={handleSubmit}

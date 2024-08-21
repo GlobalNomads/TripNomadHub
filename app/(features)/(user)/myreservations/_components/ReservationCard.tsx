@@ -86,8 +86,9 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
                 <Image
                   src={reservation.activity.bannerImageUrl}
                   priority
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  sizes="(max-width: 768px) 128px, (max-width: 1024px) 156px, 204px"
+                  style={{ objectFit: "cover" }}
                   alt="배너 이미지"
                 />
               )}
