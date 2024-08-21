@@ -1,6 +1,13 @@
+/*
+ * useImageLoad: 이미지 로딩 상태를 관리하는 훅.
+ */
+
+"use client";
+
+import { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
 
-const useImageLoad = (imageUrl?: string | null) => {
+const useImageLoad = (imageUrl?: string | StaticImageData | null) => {
   const [imgError, setImgError] = useState<boolean | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -11,19 +18,19 @@ const useImageLoad = (imageUrl?: string | null) => {
       return;
     }
 
-    const img = new Image();
-    img.src = imageUrl;
+    const imgSrc = typeof imageUrl === "string" ? imageUrl : imageUrl.src;
 
-    setLoading(true); // 이미지 로드 시작
+    const img = new Image();
+    img.src = imgSrc;
 
     img.onload = () => {
       setImgError(false);
-      setLoading(false); // 로드 성공
+      setLoading(false);
     };
 
     img.onerror = () => {
       setImgError(true);
-      setLoading(false); // 로드 실패
+      setLoading(false);
     };
   }, [imageUrl]);
 
