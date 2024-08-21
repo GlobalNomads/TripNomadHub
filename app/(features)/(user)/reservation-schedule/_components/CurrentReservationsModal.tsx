@@ -18,9 +18,10 @@ import SelectBoxReservationsList from "./SelectBoxReservationsList";
 interface CurrentReservationsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectDate: string;
 }
 
-const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, onClose }) => {
+const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, onClose, selectDate }) => {
   const [activeTab, setActiveTab] = useState<"pending" | "confirmed" | "declined">("pending");
   const [selectedScheduleId, setSelectedScheduleId] = useState<number>(scheduleData[0].scheduleId);
 
@@ -51,8 +52,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
           <hr className="mb-6 border-t border-primary-gray-300" />
           <div className="mb-6 flex flex-col">
             <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 날짜</h3>
-            <span className="mb-4 text-xl-regular">2024년 8월 14일</span>{" "}
-            {/* TODO: 2024년 8월 14일 -> calender에서 날짜 선택할 때 값 받아오도록 변경 */}
+            <span className="mb-4 text-xl-regular">{selectDate}</span>{" "}
             <SelectBoxReservationsList schedules={scheduleData} onSelectChange={setSelectedScheduleId} />
           </div>
           <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 내역</h3>
