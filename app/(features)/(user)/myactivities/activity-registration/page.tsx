@@ -8,6 +8,7 @@ import { ActivityPostData } from "@/types/myActivities.type";
 import postActivities from "@api/Activities/postActivities"; //체험 등록 api
 import { useImageUpload } from "@api/Activities/postActivitiesImg"; //체험 이미지 등록
 import Button from "@button/Button";
+import Modal from "@modal/Modal";
 import { useState } from "react";
 import AddressForm from "../_components/AddressForm";
 import CategorySelect from "../_components/CategorySelect";
@@ -26,6 +27,10 @@ function ActivityRegistration() {
   const [schedules, setSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [bannerImage, setBannerImage] = useState<File | null>(null);
   const [subImages, setSubImages] = useState<File[]>([]);
+
+  // 모달 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
 
   // 이미지 업로드를 위한 Mutation 훅 사용
   const { mutateAsync, status } = useImageUpload();
@@ -67,10 +72,19 @@ function ActivityRegistration() {
 
       // API 요청 실행
       const response = await postActivities(formData);
-      console.log("등록 성공:", response);
-    } catch (error) {
-      console.error("등록 실패:", error);
+      setModalMessage("등록이 성공적으로 완료되었습니다!");
+      setIsModalOpen(true);
+    } catch (error: any) {
+      // 오류 메시지 추출 (필요시 error.message로 사용)
+      const errorMessage =
+        error.response?.data?.message || error.message || "등록에 실패하였습니다. 다시 시도해주세요.";
+      setModalMessage(`등록에 실패하였습니다. 오류: ${errorMessage}`);
+      setIsModalOpen(true);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -97,6 +111,12 @@ function ActivityRegistration() {
         onBannerImageChange={setBannerImage}
         subImages={subImages}
         onSubImagesChange={setSubImages}
+      />
+      <Modal.Confirm
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleCloseModal}
+        message={modalMessage}
       />
     </div>
   );
