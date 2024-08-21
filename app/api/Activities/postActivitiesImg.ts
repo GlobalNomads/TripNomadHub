@@ -30,14 +30,16 @@ export const postActivitiesImg = async (activityImage: File): Promise<Activities
 };
 
 // `useImageUpload` 훅 정의
-export const useImageUpload = (): UseMutationResult<ActivitiesImageUrl, Error, File> => {
+export const useImageUpload = (
+  handleError: (error: Error) => void,
+): UseMutationResult<ActivitiesImageUrl, Error, File> => {
   return useMutation<ActivitiesImageUrl, Error, File>({
     mutationFn: postActivitiesImg,
     onSuccess: (data: ActivitiesImageUrl) => {
-      console.log("이미지 업로드 성공:", data);
+      // 성공 시 추가적인 작업이 있다면 여기에 추가
     },
     onError: (error: Error) => {
-      console.error("이미지 업로드 실패:", error);
+      handleError(error);
     },
   });
 };

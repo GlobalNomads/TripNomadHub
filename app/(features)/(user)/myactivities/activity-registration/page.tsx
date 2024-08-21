@@ -32,8 +32,14 @@ function ActivityRegistration() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
 
+  const handleError = (error: Error) => {
+    const errorMessage = error.message || "이미지 업로드에 실패했습니다.";
+    setModalMessage(`오류: ${errorMessage}`);
+    setIsModalOpen(true);
+  };
+
   // 이미지 업로드를 위한 Mutation 훅 사용
-  const { mutateAsync, status } = useImageUpload();
+  const { mutateAsync, status } = useImageUpload(handleError);
 
   const isLoading = status === "pending";
 
