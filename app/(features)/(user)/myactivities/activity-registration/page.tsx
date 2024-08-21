@@ -33,8 +33,8 @@ function ActivityRegistration() {
   const [modalMessage, setModalMessage] = useState<string>("");
 
   const handleError = (error: Error) => {
-    const errorMessage = error.message || "이미지 업로드에 실패했습니다.";
-    setModalMessage(`오류: ${errorMessage}`);
+    const errorMessage = error.message || "이미지 업로드에 실패했습니다😨";
+    setModalMessage(`오류😨: ${errorMessage}`);
     setIsModalOpen(true);
   };
 
@@ -84,7 +84,7 @@ function ActivityRegistration() {
       // 오류 메시지 추출 (필요시 error.message로 사용)
       const errorMessage =
         error.response?.data?.message || error.message || "등록에 실패하였습니다. 다시 시도해주세요.";
-      setModalMessage(`등록에 실패하였습니다😭: ${errorMessage}`);
+      setModalMessage(`등록 실패😨: ${errorMessage}`);
       setIsModalOpen(true);
     }
   };
