@@ -1,8 +1,10 @@
 /*
-  미팅포인트(ActivityLocation)의 서버 컴포넌트
+  체험 장소(ActivityLocation)의 서버 컴포넌트
 */
 
+import LocationMarker from "@icon/ic_location.svg";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 interface ActivityLocationServerProps {
   address: string;
@@ -15,6 +17,18 @@ const ActivityLocationClient = dynamic(() => import("./ActivityLocationClient"),
 });
 
 export default function ActivityLocationServer({ address }: ActivityLocationServerProps) {
-  // ActivityLocationClient 컴포넌트를 렌더링하고, address 프로퍼티를 전달.
-  return <ActivityLocationClient address={address} />;
+  return (
+    <div className="space-y-4 text-primary-black-100">
+      <h3 className="text-xl-bold">체험 장소</h3>
+      {/* 지도는 CSR */}
+      <ActivityLocationClient address={address} />
+      {/* 주소 정보는 SSR */}
+      <div className="flex space-x-2">
+        <div style={{ width: "20px", height: "20px", position: "relative" }}>
+          <Image src={LocationMarker} alt="Location marker" fill />
+        </div>
+        <p className="text-md-semibold">{address}</p>
+      </div>
+    </div>
+  );
 }

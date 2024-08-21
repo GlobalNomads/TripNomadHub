@@ -1,11 +1,9 @@
 /*
-  미팅포인트(ActivityLocation)의 Client 컴포넌트
+ 체험 장소(ActivityLocation)의 Client 컴포넌트
 */
 "use client";
 
 import { ActivityLocationProps } from "@/types/activities.type";
-import LocationMarker from "@icon/ic_location.svg";
-import Image from "next/image";
 import React, { useEffect } from "react";
 
 declare global {
@@ -62,18 +60,7 @@ const ActivityLocationClient: React.FC<ActivityLocationProps> = ({ address }) =>
     }
   }, [address]);
 
-  return (
-    <div className="space-y-4 text-primary-black-100">
-      <h3 className="text-xl-bold">미팅 포인트</h3>
-      <div id="map" className="map-container"></div>
-      <div className="flex space-x-2">
-        <div style={{ width: "20px", height: "20px", position: "relative" }}>
-          <Image src={LocationMarker} alt="Location marker" fill />
-        </div>
-        <p className="text-md-semibold">{address}</p>
-      </div>
-    </div>
-  );
+  return <div id="map" className="map-container"></div>;
 };
 
 export default ActivityLocationClient;
