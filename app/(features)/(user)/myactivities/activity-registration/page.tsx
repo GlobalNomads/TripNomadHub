@@ -4,9 +4,9 @@
 
 "use client";
 
-import { ActivitiesIdData } from "@/types/myActivities.type";
-import postActivities from "@api/Activities/postActivities";
-import { useImageUpload } from "@api/Activities/postActivitiesImg";
+import { ActivityPostData } from "@/types/myActivities.type";
+import postActivities from "@api/Activities/postActivities"; //체험 등록 api
+import { useImageUpload } from "@api/Activities/postActivitiesImg"; //체험 이미지 등록
 import Button from "@button/Button";
 import { useState } from "react";
 import AddressForm from "../_components/AddressForm";
@@ -53,10 +53,8 @@ function ActivityRegistration() {
         );
       }
 
-      console.log(subImageUrls); // 콘솔에 string[] 형태로 출력
-
       // 최종 데이터 수집
-      const formData: ActivitiesIdData = {
+      const formData: ActivityPostData = {
         title,
         category,
         description,
@@ -64,11 +62,11 @@ function ActivityRegistration() {
         price,
         schedules,
         bannerImageUrl,
-        subImageUrls: subImageUrls as any,
+        subImageUrls,
       };
 
       // API 요청 실행
-      const response = await postActivities(formData as any);
+      const response = await postActivities(formData);
       console.log("등록 성공:", response);
     } catch (error) {
       console.error("등록 실패:", error);

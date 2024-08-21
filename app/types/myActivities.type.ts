@@ -73,7 +73,7 @@ export interface Schedule {
   endTime: string;
 }
 
-export interface ActivitiesIdData {
+export interface ActivityPostData {
   title: string;
   category: string;
   description: string;
