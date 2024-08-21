@@ -1,5 +1,6 @@
+import patchMyReservations from "@api/MyReservations/patchMyReservations";
 import Button from "@button/Button";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
 
 interface Reservation {
@@ -32,16 +33,16 @@ const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
     /*TODO: 작동하는지 확인해주세요 ㅠㅠ*/
   }
 
-  // const { mutate } = useMutation({
-  //   mutationFn: (reservationId: number) => patchMyReservations(reservationId),
-  //   onSuccess: () => {
-  //     // 관련 쿼리를 무효화하여 데이터가 다시 로드되도록 함
-  //     queryClient.invalidateQueries({ queryKey: ["reservations"] });
-  //   },
-  //   onError: (error: Error) => {
-  //     console.error("예약 상태 업데이트 실패:", error.message);
-  //   },
-  // });
+  const { mutate } = useMutation({
+    mutationFn: (reservationId: number) => patchMyReservations(reservationId),
+    onSuccess: () => {
+      // 관련 쿼리를 무효화하여 데이터가 다시 로드되도록 함
+      queryClient.invalidateQueries({ queryKey: ["reservations"] });
+    },
+    onError: (error: Error) => {
+      console.error("예약 상태 업데이트 실패:", error.message);
+    },
+  });
 
   return (
     <div className="overflow-y-auto md:h-[300px]">
