@@ -1,13 +1,21 @@
-import React, { useState, ChangeEvent } from "react";
+/*
+ * 체험 등록 & 수정 - 체험 스케줄 등록 폼
+ */
+
+"use client";
+
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 import Image from "next/image";
+import React, { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/locale";
-import calendarIcon from "@/assets/icon/ic_calendar_check_outline.svg";
-import plusIcon from "@/assets/icon/ic_btn_plus_time.svg";
-import minusIcon from "@/assets/icon/ic_btn_minus_time.svg";
-import { format } from "date-fns";
 
+import minusIcon from "@/assets/icon/ic_btn_minus_time.svg";
+import plusIcon from "@/assets/icon/ic_btn_plus_time.svg";
+import calendarIcon from "@/assets/icon/ic_calendar_check_outline.svg";
+
+// 시간 옵션 생성 함수
 const generateTimeOptions = (): string[] => {
   const times: string[] = [];
   for (let i = 0; i < 24; i++) {
@@ -22,14 +30,20 @@ const generateTimeOptions = (): string[] => {
 
 const timeOptions = generateTimeOptions();
 
+// Schedule 타입 정의
 interface Schedule {
   date: string;
   startTime: string;
   endTime: string;
 }
 
-const ScheduleForm: React.FC = () => {
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
+// ScheduleForm 컴포넌트의 프롭 타입 정의
+interface ScheduleFormProps {
+  schedules: Schedule[];
+  onSchedulesChange: (schedules: Schedule[]) => void;
+}
+
+const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChange }) => {
   const [newSchedule, setNewSchedule] = useState<Schedule>({
     date: "",
     startTime: "",
@@ -38,28 +52,41 @@ const ScheduleForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  // 새로운 스케줄을 추가하는 함수
   const addSchedule = () => {
     if (newSchedule.date && newSchedule.startTime && newSchedule.endTime) {
-      setSchedules([...schedules, newSchedule]);
+      // 종료 시간이 시작 시간보다 빠르거나 같은지 확인
+      if (newSchedule.startTime >= newSchedule.endTime) {
+        alert("종료 시간은 시작 시간보다 늦어야 합니다.");
+        return;
+      }
+
+      // 스케줄 목록에 새 스케줄 추가
+      onSchedulesChange([...schedules, newSchedule]);
+
+      // 입력 필드를 초기화
       setNewSchedule({ date: "", startTime: "", endTime: "" });
       setSelectedDate(null);
     }
   };
 
+  // 스케줄을 삭제하는 함수
   const removeSchedule = (index: number) => {
     const newSchedules = schedules.filter((_, i) => i !== index);
-    setSchedules(newSchedules);
+    onSchedulesChange(newSchedules);
   };
 
+  // 날짜 변경을 처리하는 함수
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     if (date) {
-      const formattedDate = format(date, "yy/MM/dd");
+      const formattedDate = format(date, "yyyy-MM-dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
       setNewSchedule({ ...newSchedule, date: formattedDate });
     }
     setShowDatePicker(false);
   };
 
+  // 입력 필드의 변경을 처리하는 함수
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewSchedule({ ...newSchedule, [name]: value });
