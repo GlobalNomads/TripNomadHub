@@ -36,8 +36,8 @@ const ReservationCard: FC<ReservationCardProps> = ({ selectedStatus }) => {
   const handleCancelReservation = async () => {
     if (selectedReservation) {
       try {
-        await patchMyReservations(selectedReservation.id, { status: "canceled" });
-        const queryKey: {} = { queryKey: ["reservations", statusToUse] };
+        await patchMyReservations(selectedReservation.id);
+        const queryKey = { queryKey: ["reservations", statusToUse] };
 
         queryClient.invalidateQueries(queryKey);
         setCancelModalOpen(false);
