@@ -21,10 +21,26 @@ const ProfileImage = () => {
     <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
       {isLoading || error || !userData?.profileImageUrl ? (
         <div className="flex h-full w-full items-center justify-center">
-          <Image src={DefalutProfile} priority alt="Default profile" layout="fill" />
+          <Image
+            src={DefalutProfile}
+            priority
+            alt="Default profile"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: "cover" }}
+            className="rounded-full"
+          />
         </div>
       ) : (
-        <Image src={userData.profileImageUrl} priority alt="Profile picture" layout="fill" objectFit="cover" />
+        <Image
+          src={userData.profileImageUrl}
+          priority
+          alt="Profile picture"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ objectFit: "cover" }}
+          className="rounded-full"
+        />
       )}
     </div>
   );
