@@ -7,7 +7,7 @@ interface ImageUploadFormProps {
   settingImages: File[];
   subImages: File[];
   onAddSubImagesChange: (images: File[]) => void;
-  onDeleteSubImagesChange: (images: File[]) => void;
+  onDeleteSubImagesChange: (urls: string[]) => void; // 수정된 부분: URL 배열을 받는 함수
 }
 
 interface ImageItem {
@@ -52,14 +52,16 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
     const removedImage = allImages[index];
     const updatedImages = allImages.filter((_, i) => i !== index);
 
+    // 이미지 URL 생성
+    const removedImageUrl = URL.createObjectURL(removedImage.file);
     setAllImages(updatedImages);
 
     if (removedImage.type === "sub") {
-      // Sub 이미지 삭제: 상태 업데이트만 수행
       onAddSubImagesChange(updatedImages.filter(img => img.type === "sub").map(img => img.file));
     } else if (removedImage.type === "setting") {
-      // Setting 이미지 삭제: onDeleteSubImagesChange 호출
-      onDeleteSubImagesChange(updatedImages.filter(img => img.type === "setting").map(img => img.file));
+      onDeleteSubImagesChange([
+        ...updatedImages.filter(img => img.type === "setting").map(img => URL.createObjectURL(img.file)),
+      ]);
     }
   };
 

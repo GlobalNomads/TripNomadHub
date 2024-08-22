@@ -40,7 +40,7 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
   const [addSchedules, setAddSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [deleteSchedules, setDeleteSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [addSubImages, setAddSubImages] = useState<File[]>([]);
-  const [deleteSubImages, setDeleteSubImages] = useState<File[]>([]);
+  const [deleteSubImages, setDeleteSubImages] = useState<string[]>([]);
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
 
@@ -63,6 +63,7 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
     try {
       let bannerImageUrl = "";
       let subImageUrlsToAdd: string[] = [];
+      const subImageIdsToRemove = deleteSubImages;
 
       // 배너 이미지 업로드
       if (bannerImage) {
@@ -71,9 +72,9 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
       }
 
       // 서브 이미지 업로드
-      if (subImages.length > 0) {
-        subImageUrls = await Promise.all(
-          subImages.map(async image => {
+      if (addSubImages.length > 0) {
+        subImageUrlsToAdd = await Promise.all(
+          addSubImages.map(async image => {
             const uploadedImage = await mutateAsync(image);
             return uploadedImage.activityImageUrl; // 이미지 URL만 반환
           }),
