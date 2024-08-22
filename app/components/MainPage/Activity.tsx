@@ -24,18 +24,18 @@ const Activity = ({ data }: { data: ActivityList }) => {
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           alt="banner"
           priority
-          className="rounded-2xl object-cover shadow-none transition-all duration-300 group-hover:translate-y-[-3px] group-hover:shadow-lg group-hover:shadow-primary-gray-300"
+          className="rounded-2xl object-cover shadow-none transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg hover:shadow-gray-400 md:w-[384px] md:h-[384px]"
         />
       </div>
 
-      <div className="my-4 flex items-center gap-5 text-md-semibold md:my-8 md:text-lg-semibold">
+      <div className="my-4 flex items-center gap-2 text-md-semibold md:my-8 md:text-lg-semibold">
         <Image src={miniStar} alt="Star" width={16} height={16} />
         <span>
           {rating} <span className="text-primary-gray-450">({reviewCount})</span>
         </span>
       </div>
       <h2 className="line-clamp-2 text-2lg-semibold text-primary-black-200 md:text-2xl-semibold">{title}</h2>
-      <div className="mb-6 mt-8">
+      <div className="mb-4 mt-4">
         <span className="text-2xl-bold">₩ {price.toLocaleString()} </span>
         <span className="text-md-regular text-primary-gray-450">/ 원</span>
       </div>

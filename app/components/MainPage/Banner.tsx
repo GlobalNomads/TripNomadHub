@@ -40,7 +40,7 @@ const Banner = () => {
         spaceBetween={0}
         slidesPerView={1}
         loop={true}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         className="w-full h-full"
       >
         {slides.map((slide, index) => (

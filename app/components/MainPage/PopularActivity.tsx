@@ -18,7 +18,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
   return (
     <Link
       href={`/activity/${id}`}
-      className="relative size-[186px] flex-shrink-0 rounded-[20px] px-[20px] pb-[24px] text-white shadow-none transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg hover:shadow-primary-gray-300 md:size-[384px]"
+      className="relative size-[186px] flex-shrink-0 rounded-[20px] px-[20px] pb-[24px] text-white shadow-none transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg hover:shadow-gray-400 md:w-[384px] md:h-[384px]"
     >
       <Image
         src={displayImage || EmptyImage}
@@ -28,7 +28,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
         className="absolute -z-10 rounded-[20px] object-cover brightness-75 filter"
       />
 
-      <div className="mt-[40px] flex items-center gap-5 text-md-semibold leading-[24px] md:mt-[174px]">
+      <div className="mt-[40px] flex items-center gap-1 text-md-semibold leading-[24px] md:mt-[174px] font-semibold leading-24">
         <Image src={miniStar} alt="Star" width={16} height={16} />
         <span>
           {rating} ({reviewCount})

@@ -35,12 +35,12 @@ const SortFilter: React.FC<SortFilterProps> = ({ onSortSelect }) => {
     <Dropdown
       items={dropdownItems}
       trigger={
-        <FilterButton className="h-[41px] w-[80px] p-[12px] text-lg-medium md:h-[53px] md:w-[127px] md:p-[16px] md:text-2lg-medium whitespace-nowrap">
+        <FilterButton className="whitespace-nowrap">
           {inputLabel}
         </FilterButton>
       }
-      dropdownClassName="w-full text-[10px] md:w-auto overflow-y-scroll scroll-smooth max-h-[200px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px]"
-      itemClassName="text-[10px] sm:text-sm md:text-md-medium lg:text-lg-medium md:w-[127px]"
+      dropdownClassName="w-full text-[13px] md:w-auto overflow-y-scroll scroll-smooth max-h-[200px] sm:max-h-[300px] md:max-h-[400px] lg:max-h-[500px]"
+      itemClassName="!p-1 sm:text-sm md:text-md-medium lg:text-lg-medium md:w-[127px]"
     />
   );
 };

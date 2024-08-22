@@ -60,7 +60,7 @@ const SearchBar = ({ onSearch }: SearchProps) => {
               className="text-primary-black focus:border-primary-black h-full w-full rounded border border-gray-700 pl-12 pr-3 text-sm outline-none focus:border-2 md:text-base"
             />
           </div>
-          <SearchButton className="h-full" onClick={handleSubmit}>
+          <SearchButton className="h-full bg-primary-green-300 transition-all duration-200 hover:bg-primary-green-200 hover:shadow-lg hover:shadow-primary-green-400 active:bg-gradient-to-r active:from-primary-green-200 active:to-primary-green-300" onClick={handleSubmit}>
             검색하기
           </SearchButton>
         </form>

@@ -142,7 +142,7 @@ const MainPage = () => {
             </h2>
             <PopularActivities data={popularActivities || undefined} />
           </div>
-          <div className="mt-12 flex items-center justify-between md:mt-32 xl:mt-40">
+          <div className="mt-12 flex items-center justify-between gap-6 md:mt-32 xl:mt-40">
             <CategoryFilter currentCategory={category} onCategorySelect={handleCategorySelect} />
             <SortFilter onSortSelect={handleSortSelect} />
           </div>
