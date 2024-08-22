@@ -51,8 +51,12 @@ const DefaultModal: FC<DefaultModalProps> = ({
   );
 };
 
-export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ title, onClose }) => (
-  <div className="mb-4 hidden w-full items-center justify-between md:flex">
+export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void; className?: string }> = ({
+  title,
+  onClose,
+  className,
+}) => (
+  <div className={`mb-4 flex w-full items-center justify-between ${className}`}>
     <h2>{title}</h2>
     <button onClick={onClose}>
       <Image src={close_x_button} className="w-12 md:w-10" alt="닫기" />
