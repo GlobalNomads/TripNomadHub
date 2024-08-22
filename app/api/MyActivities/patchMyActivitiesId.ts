@@ -10,10 +10,10 @@ export interface MyActivitiesInput {
   price: number;
   address: string;
   bannerImageUrl: string;
-  subImageIdsToRemove: [];
-  subImageUrlsToAdd: [];
-  scheduleIdsToRemove: [];
-  schedulesToAdd: [];
+  // subImageIdsToRemove: string[];
+  // subImageUrlsToAdd: string[];
+  // scheduleIdsToRemove: string[];
+  // schedulesToAdd: string[];
 }
 
 const patchMyActivitiesId = async (myActivitiesInput: MyActivitiesInput, activityId: number) => {
