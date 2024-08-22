@@ -111,6 +111,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         onClose={() => setConfirmModalOpen(false)}
         onConfirm={() => {
           setConfirmModalOpen(false);
+          onClose();
         }}
         message={modalMessage}
       />
