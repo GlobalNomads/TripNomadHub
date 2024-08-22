@@ -8,7 +8,7 @@ export interface OauthInput {
   token: string;
 }
 
-const postOauthApps = async (provider: string, oauthInput: OauthInput) => {
+const postOauthSignin = async (provider: string, oauthInput: OauthInput) => {
   try {
     const data = await fetchInstance<OauthData>(`oauth/sign-in/${provider}`, {
       method: "POST",
@@ -25,4 +25,4 @@ const postOauthApps = async (provider: string, oauthInput: OauthInput) => {
   }
 };
 
-export default postOauthApps;
+export default postOauthSignin;

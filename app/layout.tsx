@@ -1,5 +1,6 @@
 import Header from "@header/Header";
 import type { Metadata } from "next";
+import ClientOnlyComponent from "./ClientOnlyComponent";
 import { getLoginStatus } from "./lib/auth";
 import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
@@ -26,7 +27,7 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           <Header loginStatus={loginStatus} />
-          {children}
+          <ClientOnlyComponent>{children}</ClientOnlyComponent>
         </QueryProvider>
       </body>
     </html>
