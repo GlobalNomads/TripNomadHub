@@ -1,34 +1,29 @@
 "use client";
 
-import getActivitiesId from "@/api/Activities/getActivitiesId";
 import patchMyActivitiesId, { MyActivitiesInput } from "@/api/MyActivities/patchMyActivitiesId";
 import useMultipleFiles from "@/hooks/useMultipleFiles";
 import useSingleFiles from "@/hooks/useSingleFiles";
-import { useImageUpload } from "@api/Activities/postActivitiesImg"; //체험 이미지 등록
+import { ActivitiesIdData } from "@/types/activities.type";
+import { useImageUpload } from "@api/Activities/postActivitiesImg";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import AddressForm from "../../_components/AddressForm";
-import CategorySelect from "../../_components/CategorySelect";
-import DescriptionForm from "../../_components/DescriptionForm";
-import PriceForm from "../../_components/PriceForm";
-import TitleForm from "../../_components/TitleForm";
-import ImageUploadForm from "./_components/ImageUploadForm";
-import ScheduleForm from "./_components/ScheduleForm";
+import AddressForm from "../../../_components/AddressForm";
+import CategorySelect from "../../../_components/CategorySelect";
+import DescriptionForm from "../../../_components/DescriptionForm";
+import PriceForm from "../../../_components/PriceForm";
+import TitleForm from "../../../_components/TitleForm";
+import ImageUploadForm from "./ImageUploadForm";
+import ScheduleForm from "./ScheduleForm";
 
-function ActivityEdit({ params }: { params: { activityId: string } }) {
-  //선택한 Activity 데이터 세팅..
-  // const activityId = Number(params.activityId);
-  const activityId = 2627;
-  const { data: activity } = useQuery({
-    queryKey: ["getUsersMe"],
-    queryFn: () => getActivitiesId(activityId),
-    staleTime: 60000,
-    retry: 2,
-  });
+// Props 타입 정의
+interface EditFormProps {
+  activityData: ActivitiesIdData;
+  activityId: number;
+}
 
-  const images = activity?.subImages?.map(image => image.imageUrl) ?? [];
+const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
+  const images = activityData?.subImages?.map(image => image.imageUrl) ?? [];
   const convertedSettingImages = useMultipleFiles(images);
 
   const [title, setTitle] = useState<string>("");
@@ -98,7 +93,7 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
       };
 
       // API 요청 실행
-      const response = await patchMyActivitiesId(formData, Number(params.activityId));
+      const response = await patchMyActivitiesId(formData, activityId);
       setModalMessage("수정이 성공적으로 완료되었습니다!");
       setIsModalOpen(true);
     } catch (error: any) {
@@ -115,7 +110,7 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
   };
 
   return (
-    <div>
+    <>
       <div className="mb-4 flex w-full items-center justify-between">
         <h1 className="font-pretendard text-[32px] font-bold leading-[42px]">내 체험 수정</h1>
         <Button.Default
@@ -127,19 +122,19 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
           수정하기
         </Button.Default>
       </div>
-      <TitleForm title={activity?.title || ""} onTitleChange={setTitle} />
-      <CategorySelect category={activity?.category || ""} onCategoryChange={setCategory} />
-      <DescriptionForm description={activity?.description || ""} onDescriptionChange={setDescription} />
-      <PriceForm price={activity?.price || 0} onPriceChange={setPrice} />
-      <AddressForm address={activity?.address || ""} onAddressChange={setAddress} />
+      <TitleForm title={activityData?.title} onTitleChange={setTitle} />
+      <CategorySelect category={activityData?.category || ""} onCategoryChange={setCategory} />
+      <DescriptionForm description={activityData?.description || ""} onDescriptionChange={setDescription} />
+      <PriceForm price={activityData?.price || 0} onPriceChange={setPrice} />
+      <AddressForm address={activityData?.address || ""} onAddressChange={setAddress} />
       <ScheduleForm
         schedules={addSchedules}
-        settingSchedules={activity?.schedules || []}
+        settingSchedules={activityData?.schedules || []}
         onAddSchedulesChange={setAddSchedules}
         onDeleteSchedulesChange={setDeleteSchedules}
       />
       <ImageUploadForm
-        bannerImage={useSingleFiles(activity?.bannerImageUrl || "")}
+        bannerImage={useSingleFiles(activityData?.bannerImageUrl || "")}
         onBannerImageChange={setBannerImage}
         settingImages={convertedSettingImages}
         subImages={addSubImages}
@@ -152,8 +147,8 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
         onConfirm={handleCloseModal}
         message={modalMessage}
       />
-    </div>
+    </>
   );
-}
+};
 
-export default ActivityEdit;
+export default EditForm;
