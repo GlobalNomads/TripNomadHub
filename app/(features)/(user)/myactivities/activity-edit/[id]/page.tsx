@@ -64,6 +64,8 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
       let bannerImageUrl = "";
       let subImageUrlsToAdd: string[] = [];
       const subImageIdsToRemove = deleteSubImages;
+      const schedulesToAdd = addSchedules;
+      const scheduleIdsToRemove = deleteSchedules;
 
       // 배너 이미지 업로드
       if (bannerImage) {
@@ -130,7 +132,12 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
       <DescriptionForm description={activity?.description || ""} onDescriptionChange={setDescription} />
       <PriceForm price={activity?.price || 0} onPriceChange={setPrice} />
       <AddressForm address={activity?.address || ""} onAddressChange={setAddress} />
-      <ScheduleForm schedules={schedules} onSchedulesChange={setSchedules} />
+      <ScheduleForm
+        schedules={addSchedules}
+        settingSchedules={activity?.schedules || []}
+        onAddSchedulesChange={setAddSchedules}
+        onDeleteSchedulesChange={setDeleteSchedules}
+      />
       <ImageUploadForm
         bannerImage={useSingleFiles(activity?.bannerImageUrl || "")}
         onBannerImageChange={setBannerImage}

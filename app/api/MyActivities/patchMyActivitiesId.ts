@@ -1,6 +1,6 @@
 "use server";
 
-import { PostActivities } from "@/types/activities.type";
+import { PostActivities, Schedules } from "@/types/activities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
 export interface MyActivitiesInput {
@@ -12,8 +12,8 @@ export interface MyActivitiesInput {
   bannerImageUrl: string;
   subImageIdsToRemove: string[];
   subImageUrlsToAdd: string[];
-  scheduleIdsToRemove: string[];
-  schedulesToAdd: string[];
+  scheduleIdsToRemove: Schedules[];
+  schedulesToAdd: Schedules[];
 }
 
 const patchMyActivitiesId = async (myActivitiesInput: MyActivitiesInput, activityId: number) => {
