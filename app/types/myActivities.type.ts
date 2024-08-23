@@ -52,6 +52,7 @@ export interface MyActivitiesSchData {
 }
 
 export interface Reservation {
+  [x: string]: any;
   completed: number;
   confirmed: number;
   pending: number;

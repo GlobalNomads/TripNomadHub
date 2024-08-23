@@ -11,7 +11,7 @@
 
 import close_x_button from "@icon/ic_btn_X_bold.svg";
 import Image from "next/image";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 interface DefaultModalProps {
@@ -32,6 +32,15 @@ const DefaultModal: FC<DefaultModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // 모달이 닫힐 때 body에 overflow: hidden 해제
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return createPortal(
     <div className={`fixed inset-0 z-50 flex items-center justify-center ${overlayBackground}`} onClick={onClose}>
       <div className={`relative ${className} bg-white p-6`} onClick={e => e.stopPropagation()}>
@@ -42,8 +51,12 @@ const DefaultModal: FC<DefaultModalProps> = ({
   );
 };
 
-export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void }> = ({ title, onClose }) => (
-  <div className="mb-4 flex w-full items-center justify-between">
+export const ModalHeader: FC<{ title?: ReactNode; onClose: () => void; className?: string }> = ({
+  title,
+  onClose,
+  className,
+}) => (
+  <div className={`mb-4 flex w-full items-center justify-between ${className}`}>
     <h2>{title}</h2>
     <button onClick={onClose}>
       <Image src={close_x_button} className="w-12 md:w-10" alt="닫기" />

@@ -9,10 +9,11 @@ export interface DropdownProps {
   items: DropdownItem[];
   dropdownClassName?: string;
   itemClassName?: string;
+  triggerClassName?: string;
   trigger: ReactNode;
 }
 
-const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, trigger }) => {
+const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, triggerClassName, trigger }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -41,16 +42,18 @@ const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, 
 
   return (
     <div className="relative inline-block" ref={menuRef}>
-      <button onClick={toggleDropdown} className="flex items-center justify-center bg-white">
+      <button onClick={toggleDropdown} className={`flex items-center justify-center ${triggerClassName}`}>
         {trigger}
       </button>
       {isOpen && (
-        <ul className={`absolute right-0 z-10 mt-2 rounded-md bg-white shadow-lg ${dropdownClassName}`}>
+        <ul
+          className={`absolute right-0 z-10 mt-2 rounded-md border border-solid border-primary-gray-300 bg-white shadow-lg ${dropdownClassName}`}
+        >
           {items.map((item, index) => (
-            <li key={index} className={`rounded-md border border-solid border-primary-gray-300 p-2 ${itemClassName}`}>
+            <li key={index} className={`p-2 ${itemClassName}`}>
               <button
                 onClick={() => handleClickActionBtn(item.action)}
-                className="md-medium w-full rounded px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
+                className="md-medium w-full rounded-md px-4 py-2 text-center text-gray-600 hover:bg-primary-green-100 hover:text-primary-black-100 hover:shadow-inner focus:outline-none md:text-2lg-medium xl:text-2lg-medium"
               >
                 {item.label}
               </button>

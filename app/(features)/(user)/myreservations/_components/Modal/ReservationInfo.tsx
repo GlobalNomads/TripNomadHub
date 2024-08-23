@@ -1,5 +1,6 @@
 "use client";
-import { ActivityData, ReservationsList } from "@/types/myReservations.type";
+
+import { ReservationsList } from "@/types/myReservations.type";
 import Rectangle from "@icon/Rectangle 4.svg";
 import Image from "next/image";
 
@@ -7,33 +8,38 @@ interface ReservationInfoProps {
   reservation: ReservationsList | null;
 }
 
-const ReservationInfo = ({ reservation }: ReservationInfoProps) => {
+function ReservationInfo({ reservation }: ReservationInfoProps) {
   if (!reservation) return null;
-  const activity: ActivityData | undefined = reservation.activity;
+  const { activity } = reservation;
 
-  //타이틀 생략 변환
-  const truncateTitle = (title: string, maxLength: number) => {
-    return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
-  };
+  // 타이틀 생략 변환
+  const truncateTitle = (title: string, maxLength: number) =>
+    title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
 
-  //날짜 변환
-  const formatDate = (dateString: string) => {
-    return dateString.replace(/-/g, ". ");
-  };
+  // 날짜 변환
+  const formatDate = (dateString: string) => dateString.replace(/-/g, ". ");
 
   // 가격 변환
-  const formatPrice = (price: number) => {
-    return `₩ ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-  };
+  const formatPrice = (price: number) => `₩ ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 
   return (
     <div key={reservation?.id} className="mb-[12px] flex w-full gap-2 md:gap-6 xl:h-[100px]">
-      <div className="relative h-[100px] w-[100px] overflow-hidden rounded-3xl md:h-[126px] md:w-[126px]">
-        {activity && <Image src={activity.bannerImageUrl} priority layout="fill" objectFit="cover" alt="배너 이미지" />}
+      <div className="overflow relative h-[85px] w-[85px] md:h-[126px] md:w-[126px]">
+        {activity && (
+          <Image
+            src={activity.bannerImageUrl}
+            priority
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            style={{ objectFit: "cover" }}
+            alt="배너 이미지"
+            className="rounded-3xl"
+          />
+        )}
       </div>
       <div>
         <div className="mb-[6px] block text-lg-bold md:mb-[12px] md:text-xl-bold">
-          {truncateTitle(activity?.title || "", 19)}
+          {truncateTitle(activity?.title || "", 16)}
         </div>
         <div className="mb-[6px] text-sm font-normal md:text-2lg-regular">
           {formatDate(reservation.date)} · {reservation.startTime} - {reservation.endTime} · {reservation.headCount}명
@@ -46,6 +52,6 @@ const ReservationInfo = ({ reservation }: ReservationInfoProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default ReservationInfo;
