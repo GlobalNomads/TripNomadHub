@@ -1,13 +1,14 @@
+import deleteIcon from "@icon/ic_delete_24px.svg";
 import Image from "next/image";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface ImageUploadFormProps {
   bannerImage: File | null;
   onBannerImageChange: (image: File | null) => void;
-  settingImages: File[];
+  settingImages: File[]; // 디폴트 서브 이미지 배열
   subImages: File[];
   onAddSubImagesChange: (images: File[]) => void;
-  onDeleteSubImagesChange: (urls: string[]) => void; // 수정된 부분: URL 배열을 받는 함수
+  onDeleteSubImagesChange: (urls: string[]) => void; // URL 배열을 받는 함수
 }
 
 interface ImageItem {
@@ -23,11 +24,10 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   onAddSubImagesChange,
   onDeleteSubImagesChange,
 }) => {
-  // 두 배열을 합쳐서 상태를 초기화 하는 처리..
-  const settingImageItems: ImageItem[] = settingImages.map(image => ({ file: image, type: "setting" }));
-  const subImageItems: ImageItem[] = subImages.map(image => ({ file: image, type: "sub" }));
-  const initialAllImages: ImageItem[] = [...settingImageItems, ...subImageItems];
-  const [allImages, setAllImages] = useState<ImageItem[]>(initialAllImages);
+  // `settingImages`는 디폴트 서브 이미지로 사용
+  const defaultSubImageItems: ImageItem[] = settingImages.map(image => ({ file: image, type: "setting" }));
+  const addedSubImageItems: ImageItem[] = subImages.map(image => ({ file: image, type: "sub" }));
+  const allSubImageItems: ImageItem[] = [...defaultSubImageItems, ...addedSubImageItems];
 
   const handleBannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -37,42 +37,32 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
 
   const handleSubImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      if (allImages.filter(img => img.type === "sub").length >= 4) {
+      if (allSubImageItems.length >= 4) {
         alert("소개 이미지는 최대 4개까지 등록 가능합니다."); // 경고 메시지 추가
         return;
       }
-      const newImage: ImageItem = { file: e.target.files[0], type: "sub" };
-      const updatedImages = [...allImages, newImage];
-      setAllImages(updatedImages);
-      onAddSubImagesChange(updatedImages.filter(img => img.type === "sub").map(img => img.file));
+      onAddSubImagesChange([...subImages, e.target.files[0]]);
     }
   };
 
-  const removeImage = (index: number) => {
-    const removedImage = allImages[index];
-    const updatedImages = allImages.filter((_, i) => i !== index);
-
-    // 이미지 URL 생성
-    const removedImageUrl = URL.createObjectURL(removedImage.file);
-    setAllImages(updatedImages);
-
-    if (removedImage.type === "sub") {
-      onAddSubImagesChange(updatedImages.filter(img => img.type === "sub").map(img => img.file));
-    } else if (removedImage.type === "setting") {
-      onDeleteSubImagesChange([
-        ...updatedImages.filter(img => img.type === "setting").map(img => URL.createObjectURL(img.file)),
-      ]);
+  const removeSubImage = (index: number) => {
+    const isDefaultImage = index < defaultSubImageItems.length;
+    if (isDefaultImage) {
+      // 기본 서브 이미지는 삭제할 수 없으므로 아무 것도 하지 않음
+      return;
     }
+    const updatedImages = subImages.filter((_, i) => i !== index - defaultSubImageItems.length);
+    onAddSubImagesChange(updatedImages);
   };
 
   return (
     <div className="flex w-full max-w-[342px] flex-col space-y-6 md:max-w-[428px] xl:max-w-[792px]">
       {/* 배너 이미지 섹션 */}
       <div className="flex flex-col space-y-6">
-        <label htmlFor="bannerImage" className="mb-2 text-2xl-semibold">
+        <label htmlFor="bannerImage" className="mb-2 text-[24px] font-semibold">
           배너 이미지
         </label>
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-1 xl:gap-6">
           <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
             <label className="flex h-full w-full cursor-pointer items-center justify-center rounded-[24px] border border-dashed border-primary-gray-800 text-primary-gray-800">
               <input type="file" id="bannerImage" onChange={handleBannerChange} className="hidden" />
@@ -103,18 +93,10 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
               />
               <button
                 type="button"
-                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px]"
+                className="absolute left-[155px] top-[-10px] flex h-[24px] w-[24px] items-center justify-center opacity-80 md:left-[186px]"
                 onClick={() => onBannerImageChange(null)}
               >
-                <svg
-                  className="h-[24px] w-[24px] scale-125 transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+                <Image src={deleteIcon} fill alt="삭제 버튼" sizes="24" className="scale-125 transform" />
               </button>
             </div>
           )}
@@ -123,10 +105,10 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
 
       {/* 서브 이미지 섹션 */}
       <div className="flex flex-col space-y-6">
-        <label htmlFor="subImages" className="mb-2 text-2xl-semibold">
+        <label htmlFor="subImages" className="mb-2 text-[24px] font-semibold">
           소개 이미지
         </label>
-        <div className="flex flex-wrap items-center gap-4 gap-y-6">
+        <div className="flex flex-wrap items-center gap-1 gap-y-6 xl:gap-6">
           <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
             <label className="flex h-full w-full cursor-pointer items-center justify-center rounded-[24px] border border-dashed border-primary-gray-800 text-primary-gray-800">
               <input type="file" id="subImages" onChange={handleSubImageChange} className="hidden" />
@@ -146,7 +128,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
               </span>
             </label>
           </div>
-          {allImages.map((imageItem, index) => (
+          {allSubImageItems.map((imageItem, index) => (
             <div key={index} className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
               <Image
                 src={URL.createObjectURL(imageItem.file)}
@@ -155,21 +137,15 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
                 height={167}
                 className="h-full w-full rounded-[24px] object-cover"
               />
-              <button
-                type="button"
-                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px]"
-                onClick={() => removeImage(index)}
-              >
-                <svg
-                  className="h-[24px] w-[24px] scale-125 transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              {imageItem.type === "sub" && (
+                <button
+                  type="button"
+                  className="absolute left-[155px] top-[-10px] flex h-[24px] w-[24px] items-center justify-center opacity-80 md:left-[186px]"
+                  onClick={() => removeSubImage(index)}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
+                  <Image src={deleteIcon} fill alt="삭제 버튼" sizes="24" className="scale-125 transform" />
+                </button>
+              )}
             </div>
           ))}
         </div>

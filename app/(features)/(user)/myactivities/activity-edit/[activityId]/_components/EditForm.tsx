@@ -7,7 +7,7 @@ import { ActivitiesIdData } from "@/types/activities.type";
 import { useImageUpload } from "@api/Activities/postActivitiesImg";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AddressForm from "../../../_components/AddressForm";
 import CategorySelect from "../../../_components/CategorySelect";
 import DescriptionForm from "../../../_components/DescriptionForm";
@@ -23,7 +23,7 @@ interface EditFormProps {
 }
 
 const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
-  const images = activityData?.subImages?.map(image => image.imageUrl) ?? [];
+  const images = useMemo(() => activityData?.subImages?.map(image => image.imageUrl) ?? [], [activityData.subImages]);
   const convertedSettingImages = useMultipleFiles(images);
 
   const [title, setTitle] = useState<string>("");
@@ -53,6 +53,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
   const { mutateAsync, status } = useImageUpload(handleError);
 
   const isLoading = status === "pending";
+  const bannerImageUrl = useSingleFiles(activityData?.bannerImageUrl);
 
   const handleSubmit = async () => {
     try {
@@ -109,6 +110,12 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    if (bannerImageUrl) {
+      setBannerImage(bannerImageUrl);
+    }
+  }, [bannerImageUrl]);
+
   return (
     <>
       <div className="mb-4 flex w-full items-center justify-between">
@@ -134,7 +141,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
         onDeleteSchedulesChange={setDeleteSchedules}
       />
       <ImageUploadForm
-        bannerImage={useSingleFiles(activityData?.bannerImageUrl || "")}
+        bannerImage={bannerImage}
         onBannerImageChange={setBannerImage}
         settingImages={convertedSettingImages}
         subImages={addSubImages}
