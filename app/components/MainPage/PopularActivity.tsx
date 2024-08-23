@@ -15,6 +15,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
   // 이미지 오류가 있을 경우 대체 이미지를 사용하도록 설정.
   const displayImage = imageError && bannerImageUrl ? EmptyImage : bannerImageUrl;
 
+
   return (
     <Link
       href={`/activity/${id}`}
@@ -39,7 +40,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
       </h2>
       <div className="absolute bottom-[24px] md:bottom-[30px]">
         <span className="font-bold leading-[26px]">₩ {price.toLocaleString()} </span>
-        <span className="text-lg-medium leading-[24px] text-primary-gray-450">/ 원</span>
+        <span className="text-lg-medium leading-[24px] text-primary-gray-450">/ 인</span>
       </div>
     </Link>
   );

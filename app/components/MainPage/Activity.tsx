@@ -37,7 +37,7 @@ const Activity = ({ data }: { data: ActivityList }) => {
       <h2 className="line-clamp-2 text-2lg-semibold text-primary-black-200 md:text-2xl-semibold">{title}</h2>
       <div className="mb-4 mt-4">
         <span className="text-2xl-bold">₩ {price.toLocaleString()} </span>
-        <span className="text-md-regular text-primary-gray-450">/ 원</span>
+        <span className="text-md-regular text-primary-gray-450">/ 인</span>
       </div>
     </Link>
   );

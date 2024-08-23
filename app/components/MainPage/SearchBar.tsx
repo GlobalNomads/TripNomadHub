@@ -9,35 +9,14 @@ interface SearchProps {
 
 const SearchBar = ({ onSearch }: SearchProps) => {
   const [inputValue, setInputValue] = useState("");
-  const [debouncedValue, setDebouncedValue] = useState(inputValue);
-
-  const debounce = (func: (...args: any[]) => void, delay: number) => {
-    let timer: NodeJS.Timeout;
-    return (...args: any[]) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const debouncedSearch = useCallback(
-    debounce((value: string) => onSearch(value), 300),
-    [],
-  );
-
-  useEffect(() => {
-    setDebouncedValue(inputValue);
-    debouncedSearch(inputValue);
-  }, [inputValue, debouncedSearch]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(debouncedValue);
+    onSearch(inputValue);  // 입력 값을 부모 컴포넌트로 전달
   };
 
   return (
