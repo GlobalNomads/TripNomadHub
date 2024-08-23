@@ -22,7 +22,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose, onConfirm, messa
       onClose={onClose}
       className="flex h-[220px] w-[320px] flex-col items-center justify-center rounded-lg md:h-[250px] md:w-[540px]"
     >
-      <ModalHeader onClose={onClose} />
+      <ModalHeader onClose={onClose} className="hidden md:flex" />
       <ModalBody>
         <p className="text-center text-lg">{message}</p>
       </ModalBody>

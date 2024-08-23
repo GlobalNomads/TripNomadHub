@@ -37,12 +37,9 @@ const fetchInstance = async <T>(
   const fullUrl = `${baseUrl}${queryString}`;
 
   try {
-    // fetch 로직을 별도 함수로 분리하여 재사용성 향상
     const response = await performFetch(fullUrl, options);
-    // 응답 처리 로직을 별도 함수로 분리하여 책임 분리
     return await handleResponse<T>(response, fullUrl, options);
   } catch (error) {
-    // 에러 생성을 일관된 방식으로 처리 or, 에러 처리를 핸들러를 받아 사용
     if (onError) {
       throw onError(error);
     } else {
@@ -68,18 +65,24 @@ const handleResponse = async <T>(
   options: RequestInit & { isMultipart?: boolean },
 ): Promise<T> => {
   if (response.ok) {
-    if (!response) return response; //no content 대응
-    return response.json();
+    const contentType = response.headers.get("Content-Type");
+    if (contentType && contentType.includes("application/json")) {
+      try {
+        return await response.json();
+      } catch (error) {
+        throw new Error("Failed to parse JSON response");
+      }
+    } else {
+      return {} as T; // JSON 응답이 아닌 경우 빈 객체 반환
+    }
   }
 
-  // 401 에러 처리를 별도 함수로 분리하여 코드 가독성 향상
   if (response.status === 401) {
     return handleUnauthorized<T>(url, options);
   }
 
-  // 에러 처리 로직 개선
-  const error = await response.json().catch(() => ({ message: "Unknown error" }));
-  throw new Error(error.message || "Request failed");
+  const error = await response.text().catch(() => "Unknown error");
+  throw new Error(error);
 };
 
 // 401 Unauthorized 에러 처리를 위한 별도 함수
@@ -91,7 +94,6 @@ const handleUnauthorized = async <T>(url: string, options: RequestInit & { isMul
 
   try {
     await postTokens();
-    // 토큰 갱신 후 재시도 로직에서 performFetch 함수 재사용
     const retryResponse = await performFetch(url, options);
     if (retryResponse.ok) {
       return retryResponse.json();

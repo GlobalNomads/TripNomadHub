@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 
 interface DropDownMenuProps {
-  activityId: number; // 액티비티 ID를 프로퍼티로 받습니다.
+  activityId: number;
 }
 
 const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
@@ -63,7 +63,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
   });
 
   const handleEdit = () => {
-    console.log("Edit action triggered");
+    router.push(`/myactivities/activity-edit/${activityId}`);
   };
 
   const handleDelete = () => {

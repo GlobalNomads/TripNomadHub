@@ -6,12 +6,23 @@ import fetchInstance from "@/utils/fetchInstance";
 const getMyReservations = async (options?: {
   cursorId?: number;
   size?: number;
-  status?: "pending" | "confirmed" | "declined" | "canceled" | "completed";
+  status?: "pending" | "confirmed" | "declined" | "canceled" | "completed" | undefined;
 }) => {
   try {
+    const params: Record<string, string | number> = {};
+
+    if (options?.cursorId !== undefined) {
+      params.cursorId = options.cursorId;
+    }
+    if (options?.size !== undefined) {
+      params.size = options.size;
+    }
+    if (options?.status !== undefined) {
+      params.status = options.status;
+    }
     const data = await fetchInstance<ReservationsData>("my-reservations", {
       method: "GET",
-      params: options,
+      params,
     });
 
     return data;

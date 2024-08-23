@@ -1,7 +1,9 @@
 import MainLogo from "@icon/ic_logo_big.svg";
 import Image from "next/image";
 import Link from "next/link";
+import AuthHr from "../_components/AuthHr";
 import SignupForm from "../_components/SignupForm";
+import SimpleSignup from "../_components/SimpleSignup";
 
 function Signup() {
   return (
@@ -18,6 +20,9 @@ function Signup() {
             로그인하기
           </Link>
         </div>
+
+        <AuthHr>SNS 계정으로 회원가입하기</AuthHr>
+        <SimpleSignup />
       </div>
     </div>
   );

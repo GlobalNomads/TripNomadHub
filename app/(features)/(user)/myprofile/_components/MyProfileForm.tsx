@@ -23,7 +23,8 @@ interface PatchUserData {
   passwordConfirmation?: string;
 }
 
-function MyProfileFrom() {
+function MyProfileForm() {
+  const queryClient = useQueryClient();
   const {
     register,
     watch,
@@ -31,20 +32,19 @@ function MyProfileFrom() {
     formState: { isSubmitting, errors, isValid },
   } = useForm<PatchUserData>({ mode: "onChange" });
 
-  const { data: userData } = useQuery({
+  const { data: userData, refetch } = useQuery({
     queryKey: ["getUsersMe"],
-    queryFn: () => getUsersMe(),
+    queryFn: getUsersMe,
     staleTime: 60000,
     retry: 2,
   });
 
-  // 데이터 빠른 반영을 위한 mutate 처리
-  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (returnData: patchUserData) => patchUsersMe(returnData),
-    onSuccess: () => {
-      // 관련 쿼리를 무효화하여 데이터가 다시 로드되도록 함
-      queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
+      // 강제로 새로고침하여 최신 데이터로 업데이트
+      await refetch();
       setModalMessage("수정이 완료되었습니다.");
       setConfirmModalOpen(true);
     },
@@ -57,38 +57,31 @@ function MyProfileFrom() {
   const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
   const UserProfile = userData?.profileImageUrl || DefalutProfile.src;
 
-  const [preview, setPreview] = useState<string | null>();
-  const [formData, setFormData] = useState({});
+  const [preview, setPreview] = useState<string | null>(UserProfile);
   const [modalMessage, setModalMessage] = useState("");
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  //이미지 경로 변환 작업
+  // 이미지 경로 변환 작업
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const responseData = await postUsersMeImg(file);
       if (responseData) {
         setPreview(responseData.profileImageUrl);
-        handleChange({
-          target: { name: "profileImageUrl", value: responseData.profileImageUrl },
-        } as React.ChangeEvent<HTMLInputElement>);
+        // 직접 formState 업데이트
+        handleSubmit(async data => {
+          const updatedData: PatchUserData = {
+            ...data,
+            profileImageUrl: responseData.profileImageUrl,
+          };
+          mutate(updatedData);
+        })();
       }
     }
   };
 
-  //이미지 경로 집어넣기 위한 핸들러
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const onSubmit: SubmitHandler<PatchUserData> = async ({ nickname, profileImageUrl, newPassword }) => {
-    const data = { nickname, profileImageUrl, newPassword };
-    setFormData(data);
-    mutate(formData);
+  const onSubmit: SubmitHandler<PatchUserData> = async data => {
+    mutate(data);
   };
 
   return (
@@ -206,4 +199,4 @@ function MyProfileFrom() {
   );
 }
 
-export default MyProfileFrom;
+export default MyProfileForm;
