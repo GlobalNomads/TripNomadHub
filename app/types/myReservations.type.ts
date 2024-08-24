@@ -24,7 +24,7 @@ export interface ReservationsList {
 
 export interface ReservationsData {
   activity: any;
-  cursorId: number;
+  cursorId?: number;
   reservations: ReservationsList[];
   totalCount: number;
 }
