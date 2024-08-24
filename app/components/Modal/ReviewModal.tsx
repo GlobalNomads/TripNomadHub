@@ -33,7 +33,13 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
     if (isOpen) {
       setRaing(0);
       setContent("");
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen, reservation]);
 
   const handleRatingChange = (newRating: number) => {

@@ -63,7 +63,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
   });
 
   const handleEdit = () => {
-    console.log("Edit action triggered");
+    router.push(`/myactivities/activity-edit/${activityId}`);
   };
 
   const handleDelete = () => {
