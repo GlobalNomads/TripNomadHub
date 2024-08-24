@@ -116,7 +116,7 @@ function ActivityEdit({ params }: { params: { activityId: string } }) {
 
   return (
     <div>
-      <div className="mb-4 flex w-full items-center justify-between">
+      <div className="mb-4 flex w-full items-center justify-between md:max-w-[429px] xl:max-w-[792px]">
         <h1 className="font-pretendard text-[32px] font-bold leading-[42px]">내 체험 수정</h1>
         <Button.Default
           type="nomadBlack"

@@ -14,19 +14,14 @@ interface ImageUploadFormProps {
   onSubImagesChange: (images: File[]) => void;
 }
 
-const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
-  bannerImage,
-  onBannerImageChange,
-  subImages,
-  onSubImagesChange,
-}) => {
-  const handleBannerChange = (e: ChangeEvent<HTMLInputElement>) => {
+const ImageUploadForm: React.FC = ({ bannerImage, onBannerImageChange, subImages, onSubImagesChange }) => {
+  const handleBannerChange = (e: ChangeEvent) => {
     if (e.target.files && e.target.files[0]) {
       onBannerImageChange(e.target.files[0]);
     }
   };
 
-  const handleSubImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSubImageChange = (e: ChangeEvent) => {
     if (e.target.files && e.target.files[0]) {
       if (subImages.length >= 4) {
         alert("소개 이미지는 최대 4개까지 등록 가능합니다."); // 경고 메시지 추가
@@ -53,7 +48,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
           배너 이미지
         </label>
         <div className="flex flex-wrap items-center gap-4">
-          <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
+          <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px] xl:h-[180px] xl:w-[180px]">
             <label className="flex h-full w-full cursor-pointer items-center justify-center rounded-[24px] border border-dashed border-primary-gray-800 text-primary-gray-800">
               <input type="file" id="bannerImage" onChange={handleBannerChange} className="hidden" />
               <div className="absolute left-1/2 top-[calc(50%-52px)] flex h-[48px] w-[48px] -translate-x-1/2 transform items-center justify-center">
@@ -73,7 +68,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
             </label>
           </div>
           {bannerImage && (
-            <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
+            <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px] xl:h-[180px] xl:w-[180px]">
               <Image
                 src={URL.createObjectURL(bannerImage)}
                 alt="배너 이미지"
@@ -83,7 +78,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
               />
               <button
                 type="button"
-                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px]"
+                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px] xl:left-[160px]"
                 onClick={removeBannerImage}
               >
                 <svg
@@ -107,7 +102,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
           소개 이미지
         </label>
         <div className="flex flex-wrap items-center gap-4 gap-y-6">
-          <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
+          <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px] xl:h-[180px] xl:w-[180px]">
             <label className="flex h-full w-full cursor-pointer items-center justify-center rounded-[24px] border border-dashed border-primary-gray-800 text-primary-gray-800">
               <input type="file" id="subImages" onChange={handleSubImageChange} className="hidden" />
               <div className="absolute left-1/2 top-[calc(50%-52px)] flex h-[48px] w-[48px] -translate-x-1/2 transform items-center justify-center">
@@ -127,7 +122,10 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
             </label>
           </div>
           {subImages.map((image, index) => (
-            <div key={index} className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
+            <div
+              key={index}
+              className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px] xl:h-[180px] xl:w-[180px]"
+            >
               <Image
                 src={URL.createObjectURL(image)}
                 alt={`소개 이미지 ${index + 1}`}
@@ -137,7 +135,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
               />
               <button
                 type="button"
-                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px]"
+                className="absolute left-[147px] top-[-20px] flex h-10 w-10 items-center justify-center rounded-full bg-primary-black-200 text-white opacity-80 md:left-[186px] xl:left-[160px]"
                 onClick={() => removeSubImage(index)}
               >
                 <svg

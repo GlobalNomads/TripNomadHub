@@ -10,7 +10,7 @@ const DescriptionForm: React.FC<{ description: string; onDescriptionChange: (des
   onDescriptionChange,
 }) => {
   return (
-    <div>
+    <div className="w-full max-w-[343px] md:max-w-[429px] xl:max-w-[792px]">
       <label htmlFor="description" className="mb-2 text-lg font-semibold"></label>
       <textarea
         id="description"
