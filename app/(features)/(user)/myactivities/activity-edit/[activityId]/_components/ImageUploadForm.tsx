@@ -5,7 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 interface ImageUploadFormProps {
   bannerImage: File | null;
   onBannerImageChange: (image: File | null) => void;
-  settingImages: File[]; // 디폴트 서브 이미지 배열
+  settingImages: File[];
   subImages: File[];
   onAddSubImagesChange: (images: File[]) => void;
   onDeleteSubImagesChange: (images: File[]) => void;

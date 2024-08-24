@@ -3,7 +3,7 @@
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import Image from "next/image";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -36,17 +36,19 @@ interface Schedule {
 // ScheduleForm 컴포넌트의 프롭 타입 정의
 interface ScheduleFormProps {
   schedules: Schedule[];
-  onAddSchedulesChange: (schedules: Schedule[]) => void;
-  onDeleteSchedulesChange: (deletedSchedules: Schedule[]) => void;
   settingSchedules: Schedule[];
+  onAddSchedulesChange: (schedules: Schedule[]) => void;
+  onDeleteSchedulesChange: (schedules: Schedule[]) => void;
 }
 
 const ScheduleForm: React.FC<ScheduleFormProps> = ({
   schedules,
+  settingSchedules,
   onAddSchedulesChange,
   onDeleteSchedulesChange,
-  settingSchedules,
 }) => {
+  console.log(settingSchedules);
+  const [allSchedules, setAllSchedules] = useState<Schedule[]>([...settingSchedules, ...schedules]);
   const [newSchedule, setNewSchedule] = useState<Schedule>({
     date: "",
     startTime: "",
@@ -55,12 +57,8 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  // 모든 스케줄을 관리합니다.
-  const [allSchedules, setAllSchedules] = useState<Schedule[]>(schedules);
-  const [deletedSettingSchedules, setDeletedSettingSchedules] = useState<Schedule[]>([]);
-
   // 새로운 스케줄을 추가하는 함수
-  const addSchedule = useCallback(() => {
+  const addSchedule = () => {
     if (newSchedule.date && newSchedule.startTime && newSchedule.endTime) {
       // 종료 시간이 시작 시간보다 빠르거나 같은지 확인
       if (newSchedule.startTime >= newSchedule.endTime) {
@@ -77,84 +75,30 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
       setNewSchedule({ date: "", startTime: "", endTime: "" });
       setSelectedDate(null);
     }
-  }, [newSchedule, allSchedules, onAddSchedulesChange]);
+  };
 
   // 스케줄을 삭제하는 함수
-  const removeSchedule = useCallback(
-    (index: number) => {
-      const scheduleToRemove = allSchedules[index];
-      const newSchedules = allSchedules.filter((_, i) => i !== index);
-
-      // 삭제된 스케줄이 settingSchedules에 포함된 경우만 필터링
-      const isDeletedScheduleSettingSchedule = settingSchedules.some(
-        schedule =>
-          schedule.date === scheduleToRemove.date &&
-          schedule.startTime === scheduleToRemove.startTime &&
-          schedule.endTime === scheduleToRemove.endTime,
-      );
-
-      const updatedDeletedSettingSchedules = isDeletedScheduleSettingSchedule
-        ? [...deletedSettingSchedules, scheduleToRemove]
-        : deletedSettingSchedules;
-
-      setDeletedSettingSchedules(updatedDeletedSettingSchedules);
-      onDeleteSchedulesChange(updatedDeletedSettingSchedules);
-      setAllSchedules(newSchedules);
-    },
-    [allSchedules, settingSchedules, deletedSettingSchedules, onDeleteSchedulesChange],
-  );
+  const removeSchedule = (index: number) => {
+    const updatedSchedules = allSchedules.filter((_, i) => i !== index);
+    setAllSchedules(updatedSchedules);
+    onDeleteSchedulesChange(updatedSchedules);
+  };
 
   // 날짜 변경을 처리하는 함수
-  const handleDateChange = useCallback(
-    (date: Date | null) => {
-      setSelectedDate(date);
-      if (date) {
-        const formattedDate = format(date, "yyyy-MM-dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
-        setNewSchedule({ ...newSchedule, date: formattedDate });
-      }
-      setShowDatePicker(false);
-    },
-    [newSchedule],
-  );
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    if (date) {
+      const formattedDate = format(date, "yyyy-MM-dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
+      setNewSchedule({ ...newSchedule, date: formattedDate });
+    }
+    setShowDatePicker(false);
+  };
 
   // 입력 필드의 변경을 처리하는 함수
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const { name, value } = e.target;
-      setNewSchedule({ ...newSchedule, [name]: value });
-    },
-    [newSchedule],
-  );
-
-  // `schedules`와 `settingSchedules`의 조합을 유지합니다.
-  useEffect(() => {
-    // 기존 스케줄에 `settingSchedules`를 추가
-    const combinedSchedules = [...schedules];
-    const settingScheduleMap = new Map<string, Schedule>();
-
-    // 설정된 스케줄을 맵에 저장
-    settingSchedules.forEach(schedule => {
-      settingScheduleMap.set(`${schedule.date}_${schedule.startTime}_${schedule.endTime}`, schedule);
-    });
-
-    // 기존 스케줄에서 삭제되지 않은 설정 스케줄만 포함
-    const updatedSchedules = combinedSchedules.map(schedule => {
-      const key = `${schedule.date}_${schedule.startTime}_${schedule.endTime}`;
-      if (settingScheduleMap.has(key)) {
-        settingScheduleMap.delete(key); // 삭제되지 않은 설정 스케줄
-      }
-      return schedule;
-    });
-
-    // 남아 있는 설정 스케줄을 추가
-    updatedSchedules.push(...Array.from(settingScheduleMap.values()));
-    setAllSchedules(updatedSchedules);
-  }, [schedules, settingSchedules]);
-
-  useEffect(() => {
-    // 삭제된 스케줄을 업데이트
-    onDeleteSchedulesChange(deletedSettingSchedules);
-  }, [deletedSettingSchedules, onDeleteSchedulesChange]);
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewSchedule({ ...newSchedule, [name]: value });
+  };
 
   return (
     <div className="relative flex w-full max-w-[1200px] flex-col items-start p-0">
@@ -265,24 +209,43 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
 
       <div className="my-4 h-[1px] w-full bg-primary-gray-300"></div>
 
-      {allSchedules.length > 0 && (
-        <div className="flex w-full flex-col">
-          {allSchedules.map((schedule, index) => (
-            <div key={index} className="flex items-center space-x-4 border-b border-gray-300 py-2">
-              <div className="flex w-full max-w-[34.5%] items-center justify-start text-lg">{schedule.date}</div>
-              <div className="flex w-full max-w-[33.33%] items-center justify-center text-lg">{schedule.startTime}</div>
-              <div className="flex w-full max-w-[12.5%] items-center justify-end text-lg">{schedule.endTime}</div>
-              <button
-                type="button"
-                onClick={() => removeSchedule(index)}
-                className="relative flex h-[32px] w-[32px] items-center justify-center rounded"
-              >
-                <Image src={minusIcon} alt="삭제 아이콘" width={32} height={32} />
-              </button>
-            </div>
-          ))}
+      {allSchedules.map((schedule, index) => (
+        <div key={index} className="mb-4 flex w-full items-center space-x-4">
+          <input
+            type="text"
+            value={schedule.date}
+            readOnly
+            className="h-[56px] flex-1 rounded border border-gray-700 px-3 py-2"
+            style={{ boxSizing: "border-box" }}
+          />
+
+          <div className="flex flex-1 items-center space-x-2">
+            <input
+              type="text"
+              value={schedule.startTime}
+              readOnly
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              style={{ boxSizing: "border-box" }}
+            />
+            <div className="flex h-[56px] items-center justify-center text-xl font-semibold">~</div>
+            <input
+              type="text"
+              value={schedule.endTime}
+              readOnly
+              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              style={{ boxSizing: "border-box" }}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => removeSchedule(index)}
+            className="relative flex h-[56px] w-[56px] items-center justify-center rounded"
+          >
+            <Image src={minusIcon} alt="삭제 아이콘" width={56} height={56} />
+          </button>
         </div>
-      )}
+      ))}
     </div>
   );
 };

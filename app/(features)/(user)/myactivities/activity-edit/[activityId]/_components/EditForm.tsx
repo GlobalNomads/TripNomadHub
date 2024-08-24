@@ -59,7 +59,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
     try {
       let bannerImageUrl = "";
       let subImageUrlsToAdd: string[] = [];
-      const subImageIdsToRemove = deleteSubImages;
+      let subImageIdsToRemove: string[] = [];
       const schedulesToAdd = addSchedules;
       const scheduleIdsToRemove = deleteSchedules;
 
@@ -73,6 +73,16 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
       if (addSubImages.length > 0) {
         subImageUrlsToAdd = await Promise.all(
           addSubImages.map(async image => {
+            const uploadedImage = await mutateAsync(image);
+            return uploadedImage.activityImageUrl; // 이미지 URL만 반환
+          }),
+        );
+      }
+
+      // 삭제 이미지 업로드
+      if (deleteSubImages.length > 0) {
+        subImageIdsToRemove = await Promise.all(
+          deleteSubImages.map(async image => {
             const uploadedImage = await mutateAsync(image);
             return uploadedImage.activityImageUrl; // 이미지 URL만 반환
           }),
@@ -136,7 +146,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
       <AddressForm address={activityData?.address || ""} onAddressChange={setAddress} />
       <ScheduleForm
         schedules={addSchedules}
-        settingSchedules={activityData?.schedules || []}
+        settingSchedules={activityData?.schedules}
         onAddSchedulesChange={setAddSchedules}
         onDeleteSchedulesChange={setDeleteSchedules}
       />
