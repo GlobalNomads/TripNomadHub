@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SearchBar from "../SearchBar";
+import SearchBar from "./SearchBar";
 import { ActivitiesData } from "@/types/activities.type";
 import getActivities from "@/api/Activities/getActivities";
 

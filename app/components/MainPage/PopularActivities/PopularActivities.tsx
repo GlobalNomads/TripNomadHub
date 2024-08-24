@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PopularActivity from "../PopularActivity";
+import PopularActivity from "./PopularActivity";
 import type { ActivitiesData } from "@/types/activities.type";
 import getActivities from "@/api/Activities/getActivities";
 import useUpdateActivitySize from "../hooks/useUpdateActivitySize";

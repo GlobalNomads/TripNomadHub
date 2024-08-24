@@ -1,7 +1,7 @@
 import getActivities from "@/api/Activities/getActivities";
 import { ActivitiesData } from "@/types/activities.type";
 import { Dispatch, SetStateAction, useEffect, useState, useTransition } from "react";
-import Activity from "../Activity";
+import Activity from "./Activity";
 import { CategoryType } from "../MainPage";
 import useUpdateActivitySize from "../hooks/useUpdateActivitySize";
 
