@@ -7,7 +7,7 @@ import { FC } from "react";
 type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
 
 interface DropdownItemsProps {
-  setSelectedStatus: (status: "" | ReservationStatus) => void;
+  setSelectedStatus: (status: ReservationStatus) => void;
 }
 
 const DropdownItems: FC<DropdownItemsProps> = ({ setSelectedStatus }) => {

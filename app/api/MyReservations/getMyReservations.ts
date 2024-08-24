@@ -3,15 +3,18 @@
 import { ReservationsData } from "@/types/myReservations.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const getMyReservations = async (options?: {
-  cursorId?: number;
+type ReservationStatus = "pending" | "confirmed" | "declined" | "canceled" | "completed";
+
+interface getMyReservationsOptions {
   size?: number;
-  status?: "pending" | "confirmed" | "declined" | "canceled" | "completed" | undefined;
-}) => {
+  cursorId?: number;
+  status?: ReservationStatus;
+}
+const getMyReservations = async (options: getMyReservationsOptions): Promise<ReservationsData> => {
   try {
     const params: Record<string, string | number> = {};
 
-    if (options?.cursorId !== undefined) {
+    if (options?.cursorId !== undefined && options.cursorId !== 1) {
       params.cursorId = options.cursorId;
     }
     if (options?.size !== undefined) {
