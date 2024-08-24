@@ -6,13 +6,13 @@ import { FC } from "react";
 
 interface Reservation {
   id: number;
-  nickname: string;
+  nickname: string | undefined;
   headCount: number;
   status: "pending" | "confirmed" | "declined";
 }
 
 interface ReservationListProps {
-  reservations: MyActivitiesResData | undefined;
+  reservationData: MyActivitiesResData;
 }
 
 interface ReservationListCardProps extends Reservation {
@@ -27,12 +27,8 @@ const mapStatusToUnionType = (status: string): "pending" | "confirmed" | "declin
   throw new Error(`Unexpected status: ${status}`);
 };
 
-const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
+const ReservationList: FC<ReservationListProps> = ({ reservationData }) => {
   const queryClient = useQueryClient();
-
-  {
-    /*TODO: 작동하는지 확인해주세요 ㅠㅠ*/
-  }
 
   const { mutate } = useMutation({
     mutationFn: (reservationId: number) => patchMyReservations(reservationId),
@@ -47,12 +43,12 @@ const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
 
   return (
     <div className="overflow-y-auto md:h-[300px]">
-      {reservations.map(reservation => (
+      {reservationData.reservations.map(reservation => (
         <ReservationListCard
           key={reservation.id}
           id={reservation.id}
           status={mapStatusToUnionType(reservation.status)}
-          nickname={reservation.nickname}
+          nickname={reservation.nickname || undefined}
           headCount={reservation.headCount}
           onApprove={() => mutate(reservation.id)}
           onDecline={() => mutate(reservation.id)}
@@ -62,7 +58,13 @@ const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
   );
 };
 
-const ReservationListCard: FC<ReservationListCardProps> = ({ status, nickname, headCount, onApprove, onDecline }) => {
+const ReservationListCard: FC<ReservationListCardProps> = ({
+  status,
+  nickname = "",
+  headCount,
+  onApprove,
+  onDecline,
+}) => {
   const mappedStatus = mapStatusToUnionType(status);
   return (
     <div className="space-y-2 rounded-lg border border-solid border-primary-gray-300 p-4">

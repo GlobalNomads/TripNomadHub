@@ -1,11 +1,3 @@
-/*
- * CurrentReservationsModal(예약 정보 모달): 해당 날짜의 예약 신청 내역을 확인하고 승인/거절할 수 있는 모달창
- * Reservation Tabs: 신청, 승인, 거절 선택 Tab
- * SelectBoxReservationsList: 예약날짜에 해당하는 체험 시간(에 해당하는 scheduleId) 선택하는 select box 컴포넌트
- * Reservation List: select box에서 전달된 scheduleId에 해당하는 예약 내역을 불러오는 컴포넌트
- * TODO: 최적화를 위한 refactoring은 모달 컴포넌트 연결 후 진행하겠습니다! 😎
- */
-
 "use client";
 
 import getMyActivitiesIdRes from "@/api/MyActivities/getMyActivitiesIdRes";
@@ -47,7 +39,6 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
   const [activeTab, setActiveTab] = useState<"pending" | "confirmed" | "declined">("pending");
   const [selectedScheduleId, setSelectedScheduleId] = useState<number>(scheduleData[0].scheduleId);
   const [selectedScheduleCount, setSelectedScheduleCount] = useState<Count>(scheduleData[0].count);
-  const [filteredReservations, setFilteredReservations] = useState<MyActivitiesResData | undefined>();
 
   const { data: reservationData } = useQuery<MyActivitiesResData>({
     queryKey: ["getMyActivitiesIdRes", selectedScheduleId, activeTab],
@@ -82,13 +73,13 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
             />
           </div>
           <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 내역</h3>
-          <ReservationList reservations={reservationData} />
+          {reservationData ? (
+            <ReservationList reservationData={reservationData} />
+          ) : (
+            <p>예약 데이터를 로딩 중입니다...</p>
+          )}
         </div>
       </Modal.Body>
-      <Modal.Footer className="flex justify-between text-2xl-bold text-primary-black-200">
-        <div>예약 현황</div>
-        <div>{reservationData?.totalCount ?? 0}</div> {/* 활성 탭에 따라 예약 총 건수를 표시 */}
-      </Modal.Footer>
     </Modal.Default>
   );
 };
