@@ -80,7 +80,7 @@ const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     if (date) {
-      const formattedDate = format(date, "yy/MM/dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
+      const formattedDate = format(date, "yyyy-MM-dd"); // 날짜 형식을 "yyyy-MM-dd"로 변경
       setNewSchedule({ ...newSchedule, date: formattedDate });
     }
     setShowDatePicker(false);
@@ -91,13 +91,14 @@ const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
     const { name, value } = e.target;
     setNewSchedule({ ...newSchedule, [name]: value });
   };
+
   return (
-    <div className="relative flex w-[343px] w-full flex-col items-start p-0 md:w-[429px] xl:w-[792px]">
+    <div className="relative flex w-[343px] w-full max-w-[343px] flex-col items-start p-0 md:max-w-[429px] xl:max-w-[792px]">
       <label htmlFor="time" className="mb-2 pt-4 text-[24px] font-semibold">
         예약 가능한 시간대
       </label>
 
-      <div className="mb-4 flex w-full max-w-[343px] md:w-[429px] xl:w-[792px]">
+      <div className="mb-4 flex w-full">
         <div className="flex w-full max-w-[40%] justify-start xl:max-w-[53%]">
           <label htmlFor="new-date" className="text-lg">
             날짜
@@ -115,7 +116,7 @@ const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
         </div>
       </div>
 
-      <div className="mb-4 flex w-full max-w-[343px] items-center space-x-1 md:w-[429px] xl:w-[792px]">
+      <div className="mb-4 flex w-[343px] w-full items-center space-x-1 md:w-[429px] xl:w-[792px]">
         {/* 날짜 입력 필드 */}
         <div className="relative flex flex-1 flex-col">
           <input
