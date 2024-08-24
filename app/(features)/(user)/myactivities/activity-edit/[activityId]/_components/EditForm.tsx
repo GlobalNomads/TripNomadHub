@@ -126,6 +126,16 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
     }
   }, [bannerImageUrl]);
 
+  useEffect(() => {
+    if (activityData) {
+      setTitle(activityData.title);
+      setCategory(activityData.category);
+      setDescription(activityData.description);
+      setAddress(activityData.address);
+      setPrice(activityData.price);
+    }
+  }, [activityData]);
+
   return (
     <>
       <div className="mb-4 flex w-full items-center justify-between">

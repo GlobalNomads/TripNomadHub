@@ -47,7 +47,6 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
   onAddSchedulesChange,
   onDeleteSchedulesChange,
 }) => {
-  console.log(settingSchedules);
   const [allSchedules, setAllSchedules] = useState<Schedule[]>([...settingSchedules, ...schedules]);
   const [newSchedule, setNewSchedule] = useState<Schedule>({
     date: "",
@@ -104,27 +103,27 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
     <div className="relative flex w-full max-w-[1200px] flex-col items-start p-0">
       <h2 className="mb-[24px] text-[24px] font-semibold">예약 가능한 시간대</h2>
 
-      <div className="mb-4 flex w-full">
+      <div className="mb-1 flex w-full">
         <div className="flex w-full max-w-[34.5%] justify-start">
-          <label htmlFor="new-date" className="text-lg">
+          <label htmlFor="new-date" className="text-md-medium md:text-xl-medium">
             날짜
           </label>
         </div>
         <div className="flex w-full max-w-[33.33%] justify-center">
-          <label htmlFor="new-startTime" className="text-lg">
+          <label htmlFor="new-startTime" className="text-md-medium md:text-xl-medium">
             시작 시간
           </label>
         </div>
-        <div className="flex w-full max-w-[12.5%] justify-end">
-          <label htmlFor="new-endTime" className="text-lg">
+        <div className="flex w-full max-w-[13%] justify-end">
+          <label htmlFor="new-endTime" className="text-md-medium md:text-xl-medium">
             종료 시간
           </label>
         </div>
       </div>
 
-      <div className="mb-4 flex w-full items-center space-x-4">
+      <div className="flex w-full items-center space-x-1 md:space-x-4">
         <div className="relative flex flex-1 flex-col">
-          <div className="relative flex items-center">
+          <div className="relative flex items-center gap-1">
             <input
               type="text"
               id="new-date"
@@ -132,7 +131,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
               value={newSchedule.date}
               onChange={handleChange}
               placeholder="YY/MM/DD"
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2 pl-6"
+              className="h-[44px] w-full rounded border border-gray-700 px-3 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
               readOnly
               style={{ boxSizing: "border-box" }}
             />
@@ -158,13 +157,13 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-1 items-center space-x-2">
+        <div className="flex flex-1 items-center space-x-1 md:space-x-2">
           <select
             id="new-startTime"
             name="startTime"
             value={newSchedule.startTime}
             onChange={handleChange}
-            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+            className="h-[44px] w-full rounded border border-gray-700 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -177,14 +176,14 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
             ))}
           </select>
 
-          <div className="flex h-[56px] items-center justify-center text-xl">~</div>
+          <div className="hidden items-center justify-center text-xl xl:flex">~</div>
 
           <select
             id="new-endTime"
             name="endTime"
             value={newSchedule.endTime}
             onChange={handleChange}
-            className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+            className="h-[44px] w-full rounded border border-gray-700 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -201,38 +200,38 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
         <button
           type="button"
           onClick={addSchedule}
-          className="relative flex h-[56px] w-[56px] items-center justify-center rounded"
+          className="relative flex h-11 w-11 items-center justify-center rounded md:h-14 md:w-14"
         >
-          <Image src={plusIcon} alt="추가 아이콘" width={56} height={56} />
+          <Image src={plusIcon} alt="추가 아이콘" fill sizes="44" />
         </button>
       </div>
 
       <div className="my-4 h-[1px] w-full bg-primary-gray-300"></div>
 
       {allSchedules.map((schedule, index) => (
-        <div key={index} className="mb-4 flex w-full items-center space-x-4">
+        <div key={index} className="mb-4 flex w-full items-center space-x-1 md:space-x-4">
           <input
             type="text"
             value={schedule.date}
             readOnly
-            className="h-[56px] flex-1 rounded border border-gray-700 px-3 py-2"
+            className="h-[44px] w-full flex-1 rounded border border-gray-700 px-3 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
             style={{ boxSizing: "border-box" }}
           />
 
-          <div className="flex flex-1 items-center space-x-2">
+          <div className="flex flex-1 items-center space-x-1 md:space-x-2">
             <input
               type="text"
               value={schedule.startTime}
               readOnly
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              className="h-[44px] w-full rounded border border-gray-700 px-3 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
               style={{ boxSizing: "border-box" }}
             />
-            <div className="flex h-[56px] items-center justify-center text-xl font-semibold">~</div>
+            <div className="hidden h-[44px] items-center justify-center text-xl-semibold md:h-[56px] xl:flex">~</div>
             <input
               type="text"
               value={schedule.endTime}
               readOnly
-              className="h-[56px] w-full rounded border border-gray-700 px-3 py-2"
+              className="h-[44px] w-full rounded border border-gray-700 px-3 py-2 text-md-medium md:h-[56px] md:text-lg-medium"
               style={{ boxSizing: "border-box" }}
             />
           </div>
@@ -240,9 +239,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({
           <button
             type="button"
             onClick={() => removeSchedule(index)}
-            className="relative flex h-[56px] w-[56px] items-center justify-center rounded"
+            className="relative flex h-11 w-11 items-center justify-center rounded md:h-14 md:w-14"
           >
-            <Image src={minusIcon} alt="삭제 아이콘" width={56} height={56} />
+            <Image src={minusIcon} alt="삭제 아이콘" sizes="44" fill />
           </button>
         </div>
       ))}
