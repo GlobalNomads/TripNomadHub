@@ -8,9 +8,11 @@
 
 "use client";
 
+import getMyActivitiesIdRes from "@/api/MyActivities/getMyActivitiesIdRes";
+import { Count, MyActivitiesResData, MyActivitiesSchData } from "@/types/myActivities.type";
 import Modal from "@modal/Modal";
+import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
-import { reservationData, scheduleData } from "./MockData"; //TODO: API 연결 후 삭제
 import ReservationList from "./ReservationList";
 import ReservationTabs from "./ReservationTabs";
 import SelectBoxReservationsList from "./SelectBoxReservationsList";
@@ -18,22 +20,42 @@ import SelectBoxReservationsList from "./SelectBoxReservationsList";
 interface CurrentReservationsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  selectDate: string;
+  date: string;
+  activityId: number;
+  scheduleData: MyActivitiesSchData[];
 }
 
-const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, onClose, selectDate }) => {
+interface ReservationList {
+  stats: "pending" | "confirmed" | "declined" | "canceled" | "completed";
+  scheduleId: number;
+}
+
+// 들어온 날짜 형태 변환
+const formatDateString = (dateString: string) => {
+  const [year, month, day] = dateString.split("-");
+
+  return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+};
+
+const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
+  isOpen,
+  onClose,
+  date,
+  activityId,
+  scheduleData,
+}) => {
   const [activeTab, setActiveTab] = useState<"pending" | "confirmed" | "declined">("pending");
   const [selectedScheduleId, setSelectedScheduleId] = useState<number>(scheduleData[0].scheduleId);
+  const [selectedScheduleCount, setSelectedScheduleCount] = useState<Count>(scheduleData[0].count);
+  const [filteredReservations, setFilteredReservations] = useState<MyActivitiesResData | undefined>();
 
-  // 선택된 스케줄 ID에 따라 예약 데이터를 필터링합니다.
-  const filteredReservations = reservationData[activeTab].filter(
-    reservation => reservation.scheduleId === selectedScheduleId,
-  );
-
-  const transformedReservations = filteredReservations.map(item => ({
-    ...item,
-    status: item.status as "pending" | "confirmed" | "declined",
-  }));
+  const { data: reservationData } = useQuery<MyActivitiesResData>({
+    queryKey: ["getMyActivitiesIdRes", selectedScheduleId, activeTab],
+    queryFn: () => getMyActivitiesIdRes(activityId, { scheduleId: selectedScheduleId, status: activeTab }),
+    staleTime: 60000,
+    retry: 2,
+    enabled: isOpen,
+  });
 
   return (
     <Modal.Default
@@ -48,20 +70,24 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({ isOpen, o
       />
       <Modal.Body>
         <div className="flex w-full flex-col md:h-auto">
-          <ReservationTabs activeTab={activeTab} setActiveTab={setActiveTab} scheduleData={scheduleData[0].count} />
+          <ReservationTabs activeTab={activeTab} setActiveTab={setActiveTab} scheduleData={selectedScheduleCount} />
           <hr className="mb-6 border-t border-primary-gray-300" />
           <div className="mb-6 flex flex-col">
             <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 날짜</h3>
-            <span className="mb-4 text-xl-regular">{selectDate}</span>{" "}
-            <SelectBoxReservationsList schedules={scheduleData} onSelectChange={setSelectedScheduleId} />
+            <span className="mb-4 text-xl-regular">{formatDateString(date)}</span>
+            <SelectBoxReservationsList
+              schedules={scheduleData}
+              onSelectChange={setSelectedScheduleId}
+              onCountChage={setSelectedScheduleCount}
+            />
           </div>
           <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 내역</h3>
-          <ReservationList reservations={transformedReservations} />
+          <ReservationList reservations={reservationData} />
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-between text-2xl-bold text-primary-black-200">
         <div>예약 현황</div>
-        <div>{reservationData[activeTab].length}</div> {/* 활성 탭에 따라 예약 총 건수를 표시 */}
+        <div>{reservationData?.totalCount ?? 0}</div> {/* 활성 탭에 따라 예약 총 건수를 표시 */}
       </Modal.Footer>
     </Modal.Default>
   );

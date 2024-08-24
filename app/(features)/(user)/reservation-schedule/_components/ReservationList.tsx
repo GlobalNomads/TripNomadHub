@@ -1,3 +1,4 @@
+import { MyActivitiesResData } from "@/types/myActivities.type";
 import patchMyReservations from "@api/MyReservations/patchMyReservations";
 import Button from "@button/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,7 +12,7 @@ interface Reservation {
 }
 
 interface ReservationListProps {
-  reservations: Reservation[];
+  reservations: MyActivitiesResData | undefined;
 }
 
 interface ReservationListCardProps extends Reservation {

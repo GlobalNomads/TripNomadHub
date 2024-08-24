@@ -1,5 +1,6 @@
 import getMyActivitiesIdDash from "@/api/MyActivities/getMyActivitiesIdDash";
-import { MyActivitiesDashData } from "@/types/myActivities.type";
+import getMyActivitiesIdSch from "@/api/MyActivities/getMyActivitiesIdSch";
+import { MyActivitiesDashData, MyActivitiesSchData } from "@/types/myActivities.type";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
@@ -15,6 +16,7 @@ function Calendar({ activityId }: { activityId: number }) {
   const [month, setMonth] = useState("");
   const [date, setDate] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [scheduleData, setScheduleData] = useState<MyActivitiesSchData[]>([]);
 
   useEffect(() => {
     const now = new Date();
@@ -28,7 +30,7 @@ function Calendar({ activityId }: { activityId: number }) {
   // 데이터 가져오기 쿼리
   const { data: eventData, refetch } = useQuery({
     queryKey: ["getMyActivitiesIdDash"],
-    queryFn: () => getMyActivitiesIdDash(activityId, { year, month }),
+    queryFn: () => getMyActivitiesIdDash(activityId, { year: year, month: month }),
     staleTime: 60000,
     retry: 2,
     enabled: !!year && !!month,
@@ -56,16 +58,22 @@ function Calendar({ activityId }: { activityId: number }) {
     }));
   });
 
-  const handleEventClick = (info: DateClickArg) => {
-    setDate(formatDateString(info.dateStr));
-    setIsOpen(true);
-  };
-
-  // 들어온 날짜 형태 변환
-  const formatDateString = (dateString: string) => {
-    const [year, month, day] = dateString.split("-");
-
-    return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+  const handleEventClick = async (info: DateClickArg) => {
+    try {
+      // getMyActivitiesIdSch API 호출
+      const response = await getMyActivitiesIdSch(activityId, { date: info.dateStr });
+      setIsOpen(true);
+      if (response.length === 0) {
+        alert("예약이 없습니다");
+      } else {
+        setScheduleData(response);
+        setDate(info.dateStr);
+        setIsOpen(true); // 예약이 있는 경우에만 모달을 엽니다.
+      }
+    } catch (error) {
+      console.error("API 호출 중 오류 발생:", error);
+      // 오류 발생 시 모달을 열지 않습니다.
+    }
   };
 
   // 날짜 범위가 변경될 때 호출되는 함수
@@ -105,7 +113,13 @@ function Calendar({ activityId }: { activityId: number }) {
         />
       </div>
 
-      <CurrentReservationsModal isOpen={isOpen} onClose={() => setIsOpen(false)} selectDate={date} />
+      <CurrentReservationsModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        scheduleData={scheduleData}
+        activityId={activityId}
+        date={date}
+      />
     </>
   );
 }
