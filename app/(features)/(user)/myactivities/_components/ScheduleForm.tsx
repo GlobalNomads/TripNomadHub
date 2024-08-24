@@ -94,7 +94,7 @@ const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
 
   return (
     <div className="relative flex w-[343px] w-full max-w-[343px] flex-col items-start p-0 md:max-w-[429px] xl:max-w-[792px]">
-      <label htmlFor="time" className="mb-2 pt-4 text-[24px] font-semibold">
+      <label htmlFor="time" className="mb-2 hidden pt-4 text-[24px] font-semibold md:block">
         예약 가능한 시간대
       </label>
 

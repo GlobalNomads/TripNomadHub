@@ -101,7 +101,7 @@ const ImageUploadForm: React.FC = ({ bannerImage, onBannerImageChange, subImages
         <label htmlFor="subImages" className="mb-2 text-2xl-semibold">
           소개 이미지
         </label>
-        <div className="flex flex-wrap items-center gap-4 gap-y-6">
+        <div className="flex flex-wrap items-center gap-2 gap-y-6 md:gap-4">
           <div className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px] xl:h-[180px] xl:w-[180px]">
             <label className="flex h-full w-full cursor-pointer items-center justify-center rounded-[24px] border border-dashed border-primary-gray-800 text-primary-gray-800">
               <input type="file" id="subImages" onChange={handleSubImageChange} className="hidden" />
