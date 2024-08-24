@@ -35,7 +35,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
   const [addSchedules, setAddSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [deleteSchedules, setDeleteSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [addSubImages, setAddSubImages] = useState<File[]>([]);
-  const [deleteSubImages, setDeleteSubImages] = useState<string[]>([]);
+  const [deleteSubImages, setDeleteSubImages] = useState<File[]>([]);
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
 

@@ -1,6 +1,6 @@
 import deleteIcon from "@icon/ic_delete_24px.svg";
 import Image from "next/image";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 interface ImageUploadFormProps {
   bannerImage: File | null;
@@ -8,7 +8,7 @@ interface ImageUploadFormProps {
   settingImages: File[]; // 디폴트 서브 이미지 배열
   subImages: File[];
   onAddSubImagesChange: (images: File[]) => void;
-  onDeleteSubImagesChange: (urls: string[]) => void; // URL 배열을 받는 함수
+  onDeleteSubImagesChange: (images: File[]) => void;
 }
 
 interface ImageItem {
@@ -24,8 +24,13 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   onAddSubImagesChange,
   onDeleteSubImagesChange,
 }) => {
-  // `settingImages`는 디폴트 서브 이미지로 사용
-  const defaultSubImageItems: ImageItem[] = settingImages.map(image => ({ file: image, type: "setting" }));
+  const [settingImageState, setSettingImageState] = useState<File[]>([]);
+
+  useEffect(() => {
+    setSettingImageState(settingImages);
+  }, [settingImages]);
+
+  const defaultSubImageItems: ImageItem[] = settingImageState.map(image => ({ file: image, type: "setting" }));
   const addedSubImageItems: ImageItem[] = subImages.map(image => ({ file: image, type: "sub" }));
   const allSubImageItems: ImageItem[] = [...defaultSubImageItems, ...addedSubImageItems];
 
@@ -46,13 +51,15 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   };
 
   const removeSubImage = (index: number) => {
-    const isDefaultImage = index < defaultSubImageItems.length;
-    if (isDefaultImage) {
-      // 기본 서브 이미지는 삭제할 수 없으므로 아무 것도 하지 않음
-      return;
-    }
     const updatedImages = subImages.filter((_, i) => i !== index - defaultSubImageItems.length);
     onAddSubImagesChange(updatedImages);
+  };
+
+  const handleDeleteSettingImage = (image: File) => {
+    // `settingImages`에서 이미지를 제거
+    const updatedSettingImages = settingImageState.filter(img => img !== image);
+    setSettingImageState(updatedSettingImages);
+    onDeleteSubImagesChange(updatedSettingImages);
   };
 
   return (
@@ -137,15 +144,19 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
                 height={167}
                 className="h-full w-full rounded-[24px] object-cover"
               />
-              {imageItem.type === "sub" && (
-                <button
-                  type="button"
-                  className="absolute left-[155px] top-[-10px] flex h-[24px] w-[24px] items-center justify-center opacity-80 md:left-[186px]"
-                  onClick={() => removeSubImage(index)}
-                >
-                  <Image src={deleteIcon} fill alt="삭제 버튼" sizes="24" className="scale-125 transform" />
-                </button>
-              )}
+              <button
+                type="button"
+                className="absolute left-[155px] top-[-10px] flex h-[24px] w-[24px] items-center justify-center opacity-80 md:left-[186px]"
+                onClick={() => {
+                  if (imageItem.type === "setting") {
+                    handleDeleteSettingImage(imageItem.file);
+                  } else {
+                    removeSubImage(index);
+                  }
+                }}
+              >
+                <Image src={deleteIcon} fill alt="삭제 버튼" sizes="24" className="scale-125 transform" />
+              </button>
             </div>
           ))}
         </div>
