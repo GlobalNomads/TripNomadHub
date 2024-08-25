@@ -35,20 +35,12 @@ function Calendar({ activityId }: { activityId: number }) {
   }, []);
 
   // 데이터 가져오기 쿼리
-  const { data: eventData, refetch } = useQuery({
+  const { data: eventData } = useQuery({
     queryKey: ["getMyActivitiesIdDash"],
     queryFn: () => getMyActivitiesIdDash(activityId, { year: year, month: month }),
-    staleTime: 60000,
+    staleTime: 0,
     retry: 2,
-    enabled: !!year && !!month,
   });
-
-  useEffect(() => {
-    if (year && month) {
-      // 상태가 변경된 경우에 refetch 호출
-      refetch();
-    }
-  }, [year, month, refetch]);
 
   // 키 변환 로직을 정의합니다.
   const keyMapping: { [key: string]: string } = {
@@ -59,10 +51,12 @@ function Calendar({ activityId }: { activityId: number }) {
 
   const EventList = eventData?.flatMap((event: MyActivitiesDashData) => {
     // 객체를 배열로 변환하고 키를 새로운 이름으로 변경한 후 객체 형태로 변환합니다.
-    return Object.entries(event.reservations).map(([key, value]) => ({
-      title: `${keyMapping[key as keyof typeof keyMapping] || key} ${value}`,
-      date: event.date,
-    }));
+    return Object.entries(event.reservations)
+      .filter(([key, value]) => value > 0)
+      .map(([key, value]) => ({
+        title: `${keyMapping[key as keyof typeof keyMapping] || key} ${value}`,
+        date: event.date,
+      }));
   });
 
   const handleEventClick = async (info: DateClickArg) => {

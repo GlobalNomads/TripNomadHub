@@ -45,7 +45,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
     <Modal.Default
       isOpen={isOpen}
       onClose={onClose}
-      className="h-full w-full overflow-auto border border-solid border-primary-gray-300 md:h-[750px] md:w-[480px] md:rounded-3xl"
+      className="h-full w-full overflow-auto border border-solid border-primary-gray-300 md:h-[700px] md:w-[480px] md:rounded-3xl"
       overlayBackground=""
     >
       <Modal.Header
