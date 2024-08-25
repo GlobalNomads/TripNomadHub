@@ -57,11 +57,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
 
       try {
         await postMyReservations(reservationInput, reservation.id);
-
         setModalMessage("후기를 전달했습니다.");
-
-        onSuccess();
-
         setConfirmModalOpen(true);
       } catch (error: any) {
         console.log(error);
@@ -117,6 +113,9 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         onClose={() => setConfirmModalOpen(false)}
         onConfirm={() => {
           setConfirmModalOpen(false);
+          if (modalMessage === "후기를 전달했습니다.") {
+            onSuccess();
+          }
           onClose();
         }}
         message={modalMessage}

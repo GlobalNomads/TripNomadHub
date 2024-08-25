@@ -16,13 +16,19 @@ interface ReservationCardProps {
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservations }) => {
   console.log("Reservations:", reservations);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
-  // const [isCancelModalOpen, setCancelModalOpen] = useState(false);
-  // const [selectedReservation, setSelectedReservation] = useState<ReservationsList | null>(null);
+  const [ReviewSelectedReservation, setReviewSelectedReservation] = useState<ReservationsList | null>(null);
   const [currentReservations, setCurrentReservations] = useState<ReservationsList[]>(reservations);
-  // const statusToUse = selectedStatus || undefined;
   const { handleCancelReservation, isCancelModalOpen, setCancelModalOpen, selectedReservation, CancelReservation } =
     useCancelReservation(setCurrentReservations);
 
+  const handleReviewSuccess = (reservationId: number) => {
+    setCurrentReservations(prevReservations =>
+      prevReservations.map(reservation =>
+        reservation.id === reservationId ? { ...reservation, reviewSubmitted: true } : reservation,
+      ),
+    );
+    setReviewModalOpen(false);
+  };
   // 타이틀 생략 변환
   const truncateTitle = (title: string, maxLength: number) => {
     return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
@@ -88,22 +94,21 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservations }) => {
                 <div className="">
                   <Button.WriteReview
                     onClick={() => {
-                      setSelectedReservation(reservation);
+                      setReviewSelectedReservation(reservation);
                       setReviewModalOpen(true);
                     }}
                   />
                   <Modal.Review
                     isOpen={isReviewModalOpen}
                     onClose={() => setReviewModalOpen(false)}
-                    reservation={selectedReservation}
+                    reservation={ReviewSelectedReservation}
                     onSuccess={() => {
-                      /* 성공 시 처리할 로직 */
+                      if (ReviewSelectedReservation) {
+                        handleReviewSuccess(reservation.id);
+                      }
                     }}
                   >
-                    <>
-                      <ReservationInfo reservation={selectedReservation} /> {/* Pass a single reservation object */}
-                    </>{" "}
-                    {/* 빈 React Fragment를 children으로 전달 */}
+                    <>{ReviewSelectedReservation && <ReservationInfo reservation={ReviewSelectedReservation} />}</>
                   </Modal.Review>
                 </div>
               )}
