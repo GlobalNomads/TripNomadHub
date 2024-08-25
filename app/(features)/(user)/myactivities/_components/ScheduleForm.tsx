@@ -1,7 +1,3 @@
-/*
- * 체험 등록 & 수정 - 체험 스케줄 등록 폼
- */
-
 "use client";
 
 import { format } from "date-fns";
@@ -43,7 +39,7 @@ interface ScheduleFormProps {
   onSchedulesChange: (schedules: Schedule[]) => void;
 }
 
-const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChange }) => {
+const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
   const [newSchedule, setNewSchedule] = useState<Schedule>({
     date: "",
     startTime: "",
@@ -51,13 +47,35 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChang
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // 시간 문자열을 Date 객체로 변환
+  const timeToDate = (dateStr: string, timeStr: string): Date => {
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const [hour, minute] = timeStr.split(":").map(Number);
+    return new Date(year, month - 1, day, hour, minute);
+  };
 
   // 새로운 스케줄을 추가하는 함수
   const addSchedule = () => {
     if (newSchedule.date && newSchedule.startTime && newSchedule.endTime) {
       // 종료 시간이 시작 시간보다 빠르거나 같은지 확인
       if (newSchedule.startTime >= newSchedule.endTime) {
-        alert("종료 시간은 시작 시간보다 늦어야 합니다.");
+        setError("종료 시간은 시작 시간보다 늦어야 합니다.");
+        return;
+      }
+
+      // 중복 시간 검사
+      const newStartDate = timeToDate(newSchedule.date, newSchedule.startTime);
+      const newEndDate = timeToDate(newSchedule.date, newSchedule.endTime);
+      const isOverlapping = schedules.some(schedule => {
+        const existingStartDate = timeToDate(schedule.date, schedule.startTime);
+        const existingEndDate = timeToDate(schedule.date, schedule.endTime);
+        return newStartDate < existingEndDate && newEndDate > existingStartDate;
+      });
+
+      if (isOverlapping) {
+        setError("중복된 시간대가 있습니다. 다른 시간대를 선택해 주세요.");
         return;
       }
 
@@ -67,6 +85,9 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChang
       // 입력 필드를 초기화
       setNewSchedule({ date: "", startTime: "", endTime: "" });
       setSelectedDate(null);
+      setError(null); // 에러 메시지 초기화
+    } else {
+      setError("모든 필드를 입력해 주세요.");
     }
   };
 
@@ -87,7 +108,7 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChang
   };
 
   // 입력 필드의 변경을 처리하는 함수
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
     setNewSchedule({ ...newSchedule, [name]: value });
   };
@@ -97,6 +118,8 @@ const ScheduleForm: React.FC<ScheduleFormProps> = ({ schedules, onSchedulesChang
       <label htmlFor="time" className="mb-2 hidden pt-4 text-[24px] font-semibold md:block">
         예약 가능한 시간대
       </label>
+
+      {error && <div className="mb-4 text-red-600">{error}</div>}
 
       <div className="mb-4 flex w-full">
         <div className="flex w-full max-w-[40%] justify-start xl:max-w-[53%]">
