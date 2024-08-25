@@ -1,16 +1,12 @@
-"use client";
-
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-
-import dayjs from "dayjs";
-import "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
-
 import { useAlarm } from "@/context/AlarmContext";
 import useToggle from "@/hooks/useToggle";
 import Alarm from "@icon/ic_notification.svg";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import NoAlarmMessage from "./NoAlarmMessage";
 
 dayjs.locale("ko");
@@ -29,7 +25,7 @@ export default function MessageAlarm({
 }) {
   const { getAlarmMessages, count, alarmMessages, removeAlarmMessage } = useAlarm();
   const [isShowCount, setIsShowCount] = useToggle(true);
-  const [hasMore, setHasMore] = useToggle(true);
+  const [hasMore, setHasMore] = useState(true);
   const { ref, inView } = useInView();
 
   const closeToggle = () => {
@@ -45,16 +41,24 @@ export default function MessageAlarm({
   };
 
   useEffect(() => {
-    if (alarmMessages.length < 10) getAlarmMessages();
-  }, []);
+    if (alarmMessages.length === 0) {
+      getAlarmMessages();
+    }
+  }, [alarmMessages]);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && hasMore) {
       getAlarmMessages();
-    } else if (alarmMessages.length === count) setHasMore();
+    }
+  }, [inView, hasMore]);
 
-    console.log(alarmMessages.length);
-  }, [inView]);
+  useEffect(() => {
+    if (alarmMessages.length < count) {
+      setHasMore(true);
+    } else {
+      setHasMore(false);
+    }
+  }, [alarmMessages, count, setHasMore]);
 
   return (
     <div className="relative">
@@ -78,9 +82,7 @@ export default function MessageAlarm({
           style={{ zIndex: 3 }}
           role="presentation"
           className="absolute right-[-170%] top-[150%] flex w-[368px] max-w-[30em] flex-col gap-y-5 rounded-2xl bg-primary-gray-100 px-[1.5em] py-[1.125em] text-[1.25em] shadow-[0_0.125rem_0.5rem_rgba(0,0,0,0.3),0_0.0625rem_0.125rem_rgba(0,0,0,0.2)] before:absolute before:bottom-full before:right-[60px] before:h-0 before:w-0 before:border-[0.75rem] before:border-solid before:border-transparent before:border-b-primary-gray-100 before:border-t-[none] before:drop-shadow-[0_-0.0625rem_0.0625rem_rgba(0,0,0,0.1)]"
-          onMouseDown={e => {
-            e.preventDefault();
-          }}
+          onMouseDown={e => e.preventDefault()}
         >
           <div className="space-between sticky top-0 flex pb-[10px]">
             <h3 className="flex flex-1 justify-start text-xl font-bold leading-7 text-primary-black-200">{`알림 ${count}개`}</h3>

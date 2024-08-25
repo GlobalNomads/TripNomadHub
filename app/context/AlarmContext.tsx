@@ -28,11 +28,14 @@ function AlarmProvider({ children }: { children: ReactNode }) {
   const getAlarmMessages = async () => {
     const { totalCount, notifications } = await getNotifications({ size: 10 });
     if (notifications) {
-      setAlarmMessages(prev => [...prev, ...notifications]);
+      // 중복 알림 제거
+      const newNotifications = notifications.filter(n => !alarmMessages.some(m => m.id === n.id));
+
+      setAlarmMessages(prev => [...prev, ...newNotifications]);
       setPage(prev => prev + 1);
     }
 
-    if (totalCount) setCount(() => totalCount);
+    if (totalCount !== undefined) setCount(() => totalCount);
   };
 
   const removeAlarmMessage = async (id: number) => {
