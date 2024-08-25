@@ -2,13 +2,12 @@ import getActivities from "@/api/Activities/getActivities";
 import { ActivitiesData } from "@/types/activities.type";
 import { Dispatch, SetStateAction, useEffect, useState, useTransition } from "react";
 import Activity from "./Activity";
-import { CategoryType } from "../MainPage";
 import useUpdateActivitySize from "../hooks/useUpdateActivitySize";
 
 interface Props {
   currentPage: number;
   searchKeyword?: string;
-  category?: CategoryType; // category 타입 변경
+  category?: "문화 · 예술" | "식음료" | "스포츠" | "투어" | "관광" | "웰빙";
   sort: "latest" | "most_reviewed" | "price_asc" | "price_desc";
   setTotalPages: Dispatch<SetStateAction<number>>;
 }
@@ -45,18 +44,14 @@ const AllActivities = ({ currentPage, searchKeyword, category, sort, setTotalPag
 
   return (
     <>
-      <h2 className="xs:text-2xl-bold my-6 font-semibold text-primary-black-200 sm:text-2xl-bold md:mb-8 md:mt-9">
-        {category ? category : "🌍 모든 체험"}
-      </h2>
-      {loading ? (
-        <p>Loading activities...</p> // 로딩 상태 표시
-      ) : (
-        <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 md:gap-x-16 md:gap-y-32 xl:grid-cols-4 xl:gap-x-12 xl:gap-y-24">
-          {allActivities?.activities.map(activity => (
-            <Activity key={activity.id} data={activity} />
-          ))}
-        </div>
+      {!searchKeyword && (
+        <h2 className="my-6 font-semibold text-primary-black-200 md:mb-8 md:mt-9 md:text-2xl-bold">
+          {category ? category : "🌍 모든 체험"}
+        </h2>
       )}
+      <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 md:gap-x-16 md:gap-y-32 xl:grid-cols-4 xl:gap-x-12 xl:gap-y-24">
+        {allActivities?.activities.map(activity => <Activity key={activity.id} data={activity} />)}
+      </div>
     </>
   );
 };

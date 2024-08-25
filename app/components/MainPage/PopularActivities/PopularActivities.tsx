@@ -32,18 +32,11 @@ const PopularActivities = () => {
 
   return (
     <div className="mt-12 md:mt-12 xl:mt-12">
-      <h2 className="xs:text-2xl-bold mb-4 text-lg-semibold font-semibold text-primary-black-200 sm:text-2xl-bold md:text-2xl-bold">
-        🔥인기 체험
-      </h2>
-      {loading ? (
-        <p>Loading popular activities...</p> // 로딩 상태 표시
-      ) : (
+      <h2 className="mb-4 text-lg-semibold font-semibold text-primary-black-200 md:text-2xl-bold">🔥인기 체험</h2>
         <div className="no-scrollbar -m-5 flex gap-4 overflow-x-auto p-5 md:gap-8 xl:gap-6">
-          {popularActivities?.activities.map(activity => (
-            <PopularActivity key={activity.id} data={activity} />
-          ))}
+          {popularActivities?.activities.map(activity => <PopularActivity key={activity.id} data={activity} />)}
         </div>
-      )}
+   
     </div>
   );
 };
