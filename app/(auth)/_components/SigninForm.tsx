@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import postLogin from "@api/Auth/postLogin";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
@@ -24,6 +25,7 @@ function SigninForm() {
     formState: { isSubmitting, errors, isValid },
   } = useForm<ISignInValue>({ mode: "onChange" });
 
+  const { setIsLoggedIn } = useAuth();
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const router = useRouter();
@@ -34,6 +36,7 @@ function SigninForm() {
       const data = await postLogin(returnData);
 
       if (data) {
+        setIsLoggedIn(true);
         setModalMessage("로그인을 성공했습니다.");
       }
     } catch (error: any) {
