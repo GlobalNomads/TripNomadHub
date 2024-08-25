@@ -129,7 +129,7 @@ const ReservationCard = <T,>({
   children,
 }: ReservationCardProps<T>) => {
   return (
-    <div className="mx-auto flex min-w-[340px] flex-col gap-2 md:min-w-[440px] md:gap-4 xl:w-[800px] xl:gap-6">
+    <div className="mx-auto flex min-w-[340px] flex-col gap-2 md:min-w-[440px] md:max-w-[800px] md:gap-4 xl:gap-6">
       {reservations.map((reservation, index) => (
         <div
           key={index}
