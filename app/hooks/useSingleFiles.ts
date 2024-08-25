@@ -8,7 +8,7 @@ const urlToFile = async (url: string, filename: string): Promise<File> => {
 };
 
 // 단일 URL을 File로 변환하는 훅
-const useSingleFile = (url: string): File | null => {
+const useSingleFiles = (url: string): File | null => {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -25,4 +25,4 @@ const useSingleFile = (url: string): File | null => {
   return file;
 };
 
-export default useSingleFile;
+export default useSingleFiles;
