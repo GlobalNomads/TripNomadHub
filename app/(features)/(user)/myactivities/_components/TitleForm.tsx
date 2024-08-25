@@ -14,7 +14,7 @@ const TitleForm: React.FC<{ title: string; onTitleChange: (title: string) => voi
       placeholder="제목"
       value={title}
       onChange={e => onTitleChange(e.target.value)}
-      className="mb-4 h-[56px] w-full rounded border border-gray-700 px-3 py-2 placeholder-gray-500"
+      className="mb-4 h-[56px] w-full max-w-[343px] rounded border border-gray-700 px-3 py-2 placeholder-gray-500 md:max-w-[429px] xl:max-w-[792px]"
     />
   );
 };
