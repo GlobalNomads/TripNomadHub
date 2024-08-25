@@ -38,7 +38,9 @@ const ModalTest: React.FC = () => {
         <Modal.CurrentReservations
           isOpen={isCurrentReservationsOpen}
           onClose={() => setCurrentReservationsOpen(false)}
-          selectDate={"2024년 8월 20일"}
+          date={"2024년 8월 20일"}
+          activityId={2627}
+          scheduleData={[]}
         />
       </div>
     </div>
