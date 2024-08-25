@@ -5,7 +5,14 @@ import React from "react";
 // <1> 이미지 컴포넌트
 const ImageComponent = <T,>({ getImageUrl, item }: { getImageUrl: (item: T) => string; item: T }) => (
   <div className="relative h-[128px] w-[128px] flex-shrink-0 overflow-hidden rounded-l-3xl md:h-[156px] md:w-[156px] xl:h-[204px] xl:w-[204px]">
-    <Image src={getImageUrl(item)} priority layout="fill" objectFit="cover" alt="체험 배너 사진" />
+    <Image
+      src={getImageUrl(item)}
+      priority
+      fill
+      alt="체험 배너 사진"
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      style={{ objectFit: "cover" }}
+    />
   </div>
 );
 
