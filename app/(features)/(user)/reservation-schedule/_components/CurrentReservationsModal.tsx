@@ -22,13 +22,6 @@ interface ReservationList {
   scheduleId: number;
 }
 
-// 들어온 날짜 형태 변환
-const formatDateString = (dateString: string) => {
-  const [year, month, day] = dateString.split("-");
-
-  return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
-};
-
 const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
   isOpen,
   onClose,
@@ -65,7 +58,7 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
           <hr className="mb-6 border-t border-primary-gray-300" />
           <div className="mb-6 flex flex-col">
             <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 날짜</h3>
-            <span className="mb-4 text-xl-regular">{formatDateString(date)}</span>
+            <span className="mb-4 text-xl-regular">{date}</span>
             <SelectBoxReservationsList
               schedules={scheduleData}
               onSelectChange={setSelectedScheduleId}

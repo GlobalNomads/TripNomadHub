@@ -11,6 +11,13 @@ import CurrentReservationsModal from "./CurrentReservationsModal";
 // 숫자를 두 자리 문자열로 포맷팅하는 함수
 const formatToTwoDigits = (num: number) => num.toString().padStart(2, "0");
 
+// 들어온 날짜 형태 변환
+const formatDateString = (dateString: string) => {
+  const [year, month, day] = dateString.split("-");
+
+  return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+};
+
 function Calendar({ activityId }: { activityId: number }) {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
@@ -62,9 +69,8 @@ function Calendar({ activityId }: { activityId: number }) {
     try {
       // getMyActivitiesIdSch API 호출
       const response = await getMyActivitiesIdSch(activityId, { date: info.dateStr });
-      setIsOpen(true);
       if (response.length === 0) {
-        alert("예약이 없습니다");
+        alert(`${formatDateString(info.dateStr)}은 설정된 예약이 없어요`);
       } else {
         setScheduleData(response);
         setDate(info.dateStr);
@@ -72,7 +78,6 @@ function Calendar({ activityId }: { activityId: number }) {
       }
     } catch (error) {
       console.error("API 호출 중 오류 발생:", error);
-      // 오류 발생 시 모달을 열지 않습니다.
     }
   };
 
@@ -113,13 +118,15 @@ function Calendar({ activityId }: { activityId: number }) {
         />
       </div>
 
-      <CurrentReservationsModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        scheduleData={scheduleData}
-        activityId={activityId}
-        date={date}
-      />
+      {isOpen && (
+        <CurrentReservationsModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          scheduleData={scheduleData}
+          activityId={activityId}
+          date={formatDateString(date)}
+        />
+      )}
     </>
   );
 }
