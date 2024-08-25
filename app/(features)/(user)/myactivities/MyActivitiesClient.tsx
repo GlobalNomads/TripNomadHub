@@ -20,6 +20,7 @@ const MyActivitiesClient: React.FC<MyActivitiesClientProps> = ({ initialData }) 
             reservations={[activity]}
             getImageUrl={(activity: ActivityList) => activity.bannerImageUrl || ""}
             getTitle={(activity: ActivityList) => activity.title}
+            maxTitleLength={18}
             getRating={(activity: ActivityList) => activity.rating}
             getReviewCount={(activity: ActivityList) => activity.reviewCount}
             getPrice={(activity: ActivityList) => activity.price}

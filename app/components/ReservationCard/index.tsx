@@ -42,9 +42,30 @@ const RatingComponent = <T,>({
 );
 
 // <3> 제목 컴포넌트
-const TitleComponent = <T,>({ getTitle, item }: { getTitle: (item: T) => string; item: T }) => (
-  <div className="text-md-bold md:text-lg-bold xl:text-xl-bold">{getTitle(item)}</div>
-);
+const truncateTitle = (title: string, maxLength: number) => {
+  return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
+};
+
+const TitleComponent = <T,>({
+  getTitle,
+  item,
+  maxTitleLength,
+}: {
+  getTitle: (item: T) => string;
+  item: T;
+  maxTitleLength?: number;
+}) => {
+  const title = getTitle(item);
+  const truncatedTitle = maxTitleLength ? truncateTitle(title, maxTitleLength) : title;
+  return (
+    <div className="text-md-bold md:text-lg-bold xl:text-xl-bold">
+      {/* 모바일에서는 제목을 잘라서 표시 */}
+      <span className="block md:hidden">{truncatedTitle}</span>
+      {/* 태블릿과 PC에서는 원래 제목 표시 */}
+      <span className="hidden md:block">{title}</span>
+    </div>
+  );
+};
 
 // <4> 서브타이틀 컴포넌트
 const SubtitleComponent = <T,>({ getSubtitle, item }: { getSubtitle?: (item: T) => string; item: T }) => (
@@ -86,6 +107,7 @@ interface ReservationCardProps<T> {
   reservations: T[];
   getImageUrl: (item: T) => string;
   getTitle: (item: T) => string;
+  maxTitleLength?: number;
   getSubtitle?: (item: T) => string;
   getRating?: (item: T) => number;
   getReviewCount?: (item: T) => number;
@@ -98,6 +120,7 @@ const ReservationCard = <T,>({
   reservations,
   getImageUrl,
   getTitle,
+  maxTitleLength,
   getSubtitle,
   getRating,
   getReviewCount,
@@ -106,7 +129,7 @@ const ReservationCard = <T,>({
   children,
 }: ReservationCardProps<T>) => {
   return (
-    <div className="mx-auto flex flex-col gap-2 md:w-[429px] md:gap-4 xl:w-[792px] xl:gap-6">
+    <div className="mx-auto flex min-w-[340px] flex-col gap-2 md:min-w-[440px] md:gap-4 xl:w-[800px] xl:gap-6">
       {reservations.map((reservation, index) => (
         <div
           key={index}
@@ -124,7 +147,7 @@ const ReservationCard = <T,>({
                 item={reservation}
               />
               {/* <3> 제목 컴포넌트 */}
-              <TitleComponent getTitle={getTitle} item={reservation} />
+              <TitleComponent getTitle={getTitle} item={reservation} maxTitleLength={maxTitleLength} />
               {/* <4> 서브타이틀 컴포넌트 */}
               <SubtitleComponent getSubtitle={getSubtitle} item={reservation} />
               {/* <5> 가격 및 자식 컴포넌트 */}
