@@ -14,20 +14,27 @@ interface ImageUploadFormProps {
   onSubImagesChange: (images: File[]) => void;
 }
 
-const ImageUploadForm: React.FC = ({ bannerImage, onBannerImageChange, subImages, onSubImagesChange }) => {
-  const handleBannerChange = (e: ChangeEvent) => {
-    if (e.target.files && e.target.files[0]) {
-      onBannerImageChange(e.target.files[0]);
+const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
+  bannerImage,
+  onBannerImageChange,
+  subImages,
+  onSubImagesChange,
+}) => {
+  const handleBannerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      onBannerImageChange(target.files[0]);
     }
   };
 
-  const handleSubImageChange = (e: ChangeEvent) => {
-    if (e.target.files && e.target.files[0]) {
+  const handleSubImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
       if (subImages.length >= 4) {
-        alert("소개 이미지는 최대 4개까지 등록 가능합니다."); // 경고 메시지 추가
+        alert("소개 이미지는 최대 4개까지 등록 가능합니다.");
         return;
       }
-      onSubImagesChange([...subImages, e.target.files[0]]);
+      onSubImagesChange([...subImages, target.files[0]]);
     }
   };
 
