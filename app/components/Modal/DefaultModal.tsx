@@ -11,7 +11,7 @@
 
 import close_x_button from "@icon/ic_btn_X_bold.svg";
 import Image from "next/image";
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 interface DefaultModalProps {
@@ -31,15 +31,6 @@ const DefaultModal: FC<DefaultModalProps> = ({
   ...rest
 }) => {
   if (!isOpen) return null;
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      // 모달이 닫힐 때 body에 overflow: hidden 해제
-      document.body.style.overflow = "";
-    };
-  }, []);
 
   return createPortal(
     <div className={`fixed inset-0 z-50 flex items-center justify-center ${overlayBackground}`} onClick={onClose}>

@@ -61,7 +61,7 @@ function UserProfileDropdown({
     <div className="flex gap-2 border-l-2 border-solid border-primary-gray-200 pl-4">
       <button onClick={toggleDropdown} onBlur={closeToggle} className="flex items-center gap-4">
         <div className="relative aspect-[1/1] h-[32px] w-[32px] border-none">
-          <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" />
+          <Image fill src={userProfileImage} alt="프로필 이미지" className="rounded-full" sizes="32" />
         </div>
 
         <div className="text-md-medium text-primary-gray-800">{data?.nickname}</div>
