@@ -22,7 +22,6 @@ const AlarmContext = createContext<AlarmContextType>({
 
 function AlarmProvider({ children }: { children: ReactNode }) {
   const [alarmMessages, setAlarmMessages] = useState<NotificationList[]>([]);
-  const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
 
   const getAlarmMessages = async () => {
@@ -32,7 +31,6 @@ function AlarmProvider({ children }: { children: ReactNode }) {
       const newNotifications = notifications.filter(n => !alarmMessages.some(m => m.id === n.id));
 
       setAlarmMessages(prev => [...prev, ...newNotifications]);
-      setPage(prev => prev + 1);
     }
 
     if (totalCount !== undefined) setCount(() => totalCount);

@@ -10,7 +10,7 @@ function ResScheduleForm() {
   const { data } = useQuery<ActivitiesData | undefined>({
     queryKey: ["getMyActivities"],
     queryFn: () => getMyActivities({ size: 20 }),
-    staleTime: 60000,
+    staleTime: 0,
     retry: 2,
   });
 

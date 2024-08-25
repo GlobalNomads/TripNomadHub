@@ -15,6 +15,7 @@ interface CurrentReservationsModalProps {
   date: string;
   activityId: number;
   scheduleData: MyActivitiesSchData[];
+  onUpdate: () => void;
 }
 
 interface ReservationList {
@@ -28,15 +29,16 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
   date,
   activityId,
   scheduleData,
+  onUpdate,
 }) => {
   const [activeTab, setActiveTab] = useState<"pending" | "confirmed" | "declined">("pending");
   const [selectedScheduleId, setSelectedScheduleId] = useState<number>(scheduleData[0].scheduleId);
   const [selectedScheduleCount, setSelectedScheduleCount] = useState<Count>(scheduleData[0].count);
 
-  const { data: reservationData } = useQuery<MyActivitiesResData>({
+  const { data: reservationData, refetch } = useQuery<MyActivitiesResData>({
     queryKey: ["getMyActivitiesIdRes", selectedScheduleId, activeTab],
     queryFn: () => getMyActivitiesIdRes(activityId, { scheduleId: selectedScheduleId, status: activeTab }),
-    staleTime: 60000,
+    staleTime: 0,
     retry: 2,
     enabled: isOpen,
   });
@@ -67,7 +69,12 @@ const CurrentReservationsModal: FC<CurrentReservationsModalProps> = ({
           </div>
           <h3 className="mb-4 text-xl-bold text-primary-black-200">예약 내역</h3>
           {reservationData ? (
-            <ReservationList reservationData={reservationData} />
+            <ReservationList
+              reservationData={reservationData}
+              activityId={activityId}
+              refetch={refetch}
+              onUpdate={onUpdate}
+            />
           ) : (
             <p>예약 데이터를 로딩 중입니다...</p>
           )}

@@ -36,7 +36,7 @@ function Calendar({ activityId }: { activityId: number }) {
 
   // 데이터 가져오기 쿼리
   const { data: eventData } = useQuery({
-    queryKey: ["getMyActivitiesIdDash"],
+    queryKey: ["getMyActivitiesIdDash", activityId, year, month],
     queryFn: () => getMyActivitiesIdDash(activityId, { year: year, month: month }),
     staleTime: 0,
     retry: 2,
@@ -91,6 +91,11 @@ function Calendar({ activityId }: { activityId: number }) {
     [year, month],
   );
 
+  const handleUpdate = async () => {
+    const response = await getMyActivitiesIdSch(activityId, { date: date });
+    setScheduleData(response);
+  };
+
   return (
     <>
       <div className="mt-[30px] grid">
@@ -119,6 +124,7 @@ function Calendar({ activityId }: { activityId: number }) {
           scheduleData={scheduleData}
           activityId={activityId}
           date={formatDateString(date)}
+          onUpdate={handleUpdate}
         />
       )}
     </>
