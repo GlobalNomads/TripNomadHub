@@ -62,7 +62,7 @@ const PriceAndChildrenComponent = <T,>({
   item,
 }: {
   getPrice?: (item: T) => number;
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((reservation: T) => React.ReactNode);
   item: T;
 }) => {
   return (
@@ -77,7 +77,7 @@ const PriceAndChildrenComponent = <T,>({
           </div>
         )}
       />
-      {children}
+      {typeof children === "function" ? children(item) : children}
     </div>
   );
 };
@@ -91,7 +91,7 @@ interface ReservationCardProps<T> {
   getReviewCount?: (item: T) => number;
   getCategory?: (item: T) => string;
   getPrice?: (item: T) => number;
-  children?: (reservation: T) => React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const ReservationCard = <T,>({
@@ -129,7 +129,7 @@ const ReservationCard = <T,>({
               <SubtitleComponent getSubtitle={getSubtitle} item={reservation} />
               {/* <5> 가격 및 자식 컴포넌트 */}
               <PriceAndChildrenComponent getPrice={getPrice} item={reservation}>
-                {children && children(reservation)}
+                {children}
               </PriceAndChildrenComponent>
             </div>
           </div>
