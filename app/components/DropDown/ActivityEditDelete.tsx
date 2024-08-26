@@ -1,6 +1,8 @@
 /*
   적용 컴포넌트: 체험 상세 페이지, 내 체험 관리 페이지의 
   Trigger(케밥 버튼) + DropDown 메뉴
+  체험 상세 페이지에서는 체험 삭제 후 LandingPage로 이동,
+  체험 관리 페이지에서는 체험 삭제 후 관리 페이지에 머물기
 */
 "use client";
 
@@ -31,7 +33,7 @@ const ActivityEditDelete: FC<ActivityEditDeleteProps> = ({ activityId }) => {
     },
     onSuccess: () => {
       setModalMessage("삭제가 완료되었습니다.");
-      setIsSuccessModalOpen(true); // 성공 모달 열기
+      setIsSuccessModalOpen(true);
     },
     onError: (error: any) => {
       let message = "삭제에 실패했습니다.";
@@ -59,7 +61,7 @@ const ActivityEditDelete: FC<ActivityEditDeleteProps> = ({ activityId }) => {
       }
 
       setModalMessage(message);
-      setIsErrorModalOpen(true); // 에러 모달 열기
+      setIsErrorModalOpen(true);
     },
   });
 
