@@ -22,6 +22,7 @@ export interface ReservationsList {
   activityId: number;
   scheduleId: number;
   status: string;
+  nickname?: string;
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;

@@ -22,17 +22,18 @@ const AlarmContext = createContext<AlarmContextType>({
 
 function AlarmProvider({ children }: { children: ReactNode }) {
   const [alarmMessages, setAlarmMessages] = useState<NotificationList[]>([]);
-  const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
 
   const getAlarmMessages = async () => {
     const { totalCount, notifications } = await getNotifications({ size: 10 });
     if (notifications) {
-      setAlarmMessages(prev => [...prev, ...notifications]);
-      setPage(prev => prev + 1);
+      // 중복 알림 제거
+      const newNotifications = notifications.filter(n => !alarmMessages.some(m => m.id === n.id));
+
+      setAlarmMessages(prev => [...prev, ...newNotifications]);
     }
 
-    if (totalCount) setCount(() => totalCount);
+    if (totalCount !== undefined) setCount(() => totalCount);
   };
 
   const removeAlarmMessage = async (id: number) => {

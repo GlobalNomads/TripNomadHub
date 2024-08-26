@@ -1,7 +1,6 @@
 import Header from "@header/Header";
 import type { Metadata } from "next";
-import ClientOnlyComponent from "./ClientOnlyComponent";
-import { getLoginStatus } from "./lib/auth";
+import { AuthProvider } from "./context/AuthContext";
 import { QueryProvider } from "./QueryProvider";
 import "./styles/globals.css";
 
@@ -19,15 +18,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const loginStatus = getLoginStatus();
-
   return (
     <html lang="ko">
       <head />
       <body>
         <QueryProvider>
-          <Header loginStatus={loginStatus} />
-          <ClientOnlyComponent>{children}</ClientOnlyComponent>
+          <AuthProvider>
+            <Header />
+            {children}
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

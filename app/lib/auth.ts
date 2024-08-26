@@ -1,7 +1,7 @@
-import { cookies } from "next/headers";
+// lib/auth.ts
+import Cookies from "js-cookie";
 
-export function getLoginStatus() {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-  return !!accessToken;
-}
+export const getLoginStatus = (): boolean => {
+  const accessToken = Cookies.get("accessToken");
+  return !!accessToken; // 토큰이 존재하면 true, 없으면 false 반환
+};

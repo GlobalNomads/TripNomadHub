@@ -1,17 +1,21 @@
-import patchMyReservations from "@api/MyReservations/patchMyReservations";
+import patchMyActivitiesIdResId, { StatsInput } from "@/api/MyActivities/patchMyActivitiesIdResId";
+import { MyActivitiesResData } from "@/types/myActivities.type";
 import Button from "@button/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { FC } from "react";
 
 interface Reservation {
   id: number;
-  nickname: string;
+  nickname: string | undefined;
   headCount: number;
   status: "pending" | "confirmed" | "declined";
 }
 
 interface ReservationListProps {
-  reservations: Reservation[];
+  reservationData: MyActivitiesResData;
+  activityId: number;
+  refetch: () => void;
+  onUpdate: () => void;
 }
 
 interface ReservationListCardProps extends Reservation {
@@ -26,18 +30,13 @@ const mapStatusToUnionType = (status: string): "pending" | "confirmed" | "declin
   throw new Error(`Unexpected status: ${status}`);
 };
 
-const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
-  const queryClient = useQueryClient();
-
-  {
-    /*TODO: 작동하는지 확인해주세요 ㅠㅠ*/
-  }
-
+const ReservationList: FC<ReservationListProps> = ({ reservationData, activityId, refetch, onUpdate }) => {
   const { mutate } = useMutation({
-    mutationFn: (reservationId: number) => patchMyReservations(reservationId),
+    mutationFn: ({ status, reservationId }: { status: StatsInput; reservationId: number }) =>
+      patchMyActivitiesIdResId(status, activityId, reservationId),
     onSuccess: () => {
-      // 관련 쿼리를 무효화하여 데이터가 다시 로드되도록 함
-      queryClient.invalidateQueries({ queryKey: ["reservations"] });
+      refetch(); //reservationData 최신데이터 갱신
+      onUpdate(); //ScheduleData 최신데이터 갱신
     },
     onError: (error: Error) => {
       console.error("예약 상태 업데이트 실패:", error.message);
@@ -46,22 +45,28 @@ const ReservationList: FC<ReservationListProps> = ({ reservations }) => {
 
   return (
     <div className="overflow-y-auto md:h-[300px]">
-      {reservations.map(reservation => (
+      {reservationData.reservations.map(reservation => (
         <ReservationListCard
           key={reservation.id}
           id={reservation.id}
           status={mapStatusToUnionType(reservation.status)}
-          nickname={reservation.nickname}
+          nickname={reservation.nickname || undefined}
           headCount={reservation.headCount}
-          onApprove={() => mutate(reservation.id)}
-          onDecline={() => mutate(reservation.id)}
+          onApprove={() => mutate({ status: { status: "confirmed" }, reservationId: reservation.id })}
+          onDecline={() => mutate({ status: { status: "declined" }, reservationId: reservation.id })}
         />
       ))}
     </div>
   );
 };
 
-const ReservationListCard: FC<ReservationListCardProps> = ({ status, nickname, headCount, onApprove, onDecline }) => {
+const ReservationListCard: FC<ReservationListCardProps> = ({
+  status,
+  nickname = "",
+  headCount,
+  onApprove,
+  onDecline,
+}) => {
   const mappedStatus = mapStatusToUnionType(status);
   return (
     <div className="space-y-2 rounded-lg border border-solid border-primary-gray-300 p-4">
