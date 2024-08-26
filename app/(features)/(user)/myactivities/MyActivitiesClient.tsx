@@ -1,6 +1,6 @@
 "use client";
 
-import DropDownMenu from "@/(features)/activity/_components/DropDownMenu";
+import DropDownMenu from "@/components/DropDown/ActivityEditDelete";
 import ReservationCard from "@/components/ReservationCard";
 import { ActivitiesData, ActivityList } from "@/types/activities.type";
 

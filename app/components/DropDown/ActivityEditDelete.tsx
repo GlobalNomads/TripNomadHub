@@ -1,24 +1,25 @@
 /*
-  체험 상세 페이지 DropDown 메뉴 + 케밥 버튼
-  Todo: 수정하기 페이지 연결하기
+  적용 컴포넌트: 체험 상세 페이지, 내 체험 관리 페이지의 
+  Trigger(케밥 버튼) + DropDown 메뉴
 */
 "use client";
 
-import deleteMyActivitiesId from "@api/MyActivities/deleteMyActivitiesId";
-import Dropdown, { DropdownItem } from "@dropdown/DropDown";
+import deleteMyActivitiesId from "@api/MyActivities/deleteMyActivitiesId"; //체험 삭제 함수 호출
 import KebabBtn from "@icon/ic_meatball.svg";
 import Modal from "@modal/Modal";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FC, useState } from "react";
+import Dropdown, { DropdownItem } from "./DropDown";
 
-interface DropDownMenuProps {
+interface ActivityEditDeleteProps {
   activityId: number;
 }
 
-const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
+const ActivityEditDelete: FC<ActivityEditDeleteProps> = ({ activityId }) => {
   const router = useRouter();
+  const pathname = usePathname(); // 현재 경로 가져오기
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -34,8 +35,8 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
     },
     onError: (error: any) => {
       let message = "삭제에 실패했습니다.";
-      if (error.response) {
-        const statusCode = error.response.status;
+      if (error instanceof Error && (error as any).response) {
+        const statusCode = (error as any).response.status;
 
         switch (statusCode) {
           case 400:
@@ -53,7 +54,7 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
           default:
             message = `서버 오류: ${statusCode}`;
         }
-      } else if (error.message) {
+      } else if (error instanceof Error && error.message) {
         message = error.message;
       }
 
@@ -77,7 +78,18 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
 
   const handleSuccessConfirm = () => {
     setIsSuccessModalOpen(false);
-    router.push("/");
+
+    // pathname이 정의되어 있는지 확인
+    if (typeof pathname === "string") {
+      // 조건에 따라 페이지 이동
+      if (pathname.startsWith("/activity")) {
+        router.push("/"); // landing page로 이동
+      } else if (pathname.startsWith("/myactivities")) {
+        router.refresh(); // 현재 페이지 새로고침
+      }
+    } else {
+      console.error("pathname이 정의되지 않았습니다.");
+    }
   };
 
   const dropdownItems: DropdownItem[] = [
@@ -114,4 +126,4 @@ const DropDownMenu: FC<DropDownMenuProps> = ({ activityId }) => {
   );
 };
 
-export default DropDownMenu;
+export default ActivityEditDelete;
