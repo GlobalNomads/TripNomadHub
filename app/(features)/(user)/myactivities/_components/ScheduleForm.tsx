@@ -180,7 +180,7 @@ const ScheduleForm: React.FunctionComponent<ScheduleFormProps> = ({ schedules, o
             name="startTime"
             value={newSchedule.startTime}
             onChange={handleChange}
-            className="lx:px-3 h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px]"
+            className="h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px] xl:px-3"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -200,7 +200,7 @@ const ScheduleForm: React.FunctionComponent<ScheduleFormProps> = ({ schedules, o
             name="endTime"
             value={newSchedule.endTime}
             onChange={handleChange}
-            className="lx:px-3 h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px]"
+            className="h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px] xl:px-3"
             style={{ boxSizing: "border-box" }}
           >
             <option value="" disabled>
@@ -245,14 +245,14 @@ const ScheduleForm: React.FunctionComponent<ScheduleFormProps> = ({ schedules, o
               type="text"
               value={schedule.startTime}
               readOnly
-              className="lx:px-3 h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px]"
+              className="h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px] xl:px-3"
             />
             <div className="hidden h-[56px] items-center justify-center text-xl font-semibold xl:flex">~</div>
             <input
               type="text"
               value={schedule.endTime}
               readOnly
-              className="lx:px-3 h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px]"
+              className="h-[44px] w-[79px] rounded border border-gray-700 px-1 py-2 text-md-regular md:h-[56px] md:w-[104px] md:text-lg-regular xl:w-[140px] xl:px-3"
             />
           </div>
 
