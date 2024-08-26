@@ -103,7 +103,13 @@ const ActivityEditDelete: FC<ActivityEditDeleteProps> = ({ activityId }) => {
     <>
       <Dropdown
         items={dropdownItems}
-        trigger={<Image src={KebabBtn} alt="menu" width={32} height={32} />}
+        trigger={
+          <Image
+            src={KebabBtn}
+            alt="menu"
+            className="h-6 w-6 md:h-8 md:w-8" // 기본 24px * 24px, md 이상에서 32px * 32px
+          />
+        }
         itemClassName="w-[140px] md:w-[160px] h-[58px]"
       />
       <Modal.Confirm
