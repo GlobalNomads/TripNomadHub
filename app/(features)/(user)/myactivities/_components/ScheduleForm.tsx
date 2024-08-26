@@ -39,7 +39,7 @@ interface ScheduleFormProps {
   onSchedulesChange: (schedules: Schedule[]) => void;
 }
 
-const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
+const ScheduleForm: React.FunctionComponent<ScheduleFormProps> = ({ schedules, onSchedulesChange }) => {
   const [newSchedule, setNewSchedule] = useState<Schedule>({
     date: "",
     startTime: "",
@@ -108,7 +108,7 @@ const ScheduleForm: React.FC = ({ schedules, onSchedulesChange }) => {
   };
 
   // 입력 필드의 변경을 처리하는 함수
-  const handleChange = (e: ChangeEvent) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewSchedule({ ...newSchedule, [name]: value });
   };

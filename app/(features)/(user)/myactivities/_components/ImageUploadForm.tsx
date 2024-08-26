@@ -1,7 +1,6 @@
 /*
  * 체험 등록 & 수정 - 이미지 등록 폼
  */
-
 "use client";
 
 import Image from "next/image";
@@ -14,7 +13,7 @@ interface ImageUploadFormProps {
   onSubImagesChange: (images: File[]) => void;
 }
 
-const ImageUploadForm: React.FC = ({ bannerImage, onBannerImageChange, subImages, onSubImagesChange }) => {
+const ImageUploadForm = ({ bannerImage, onBannerImageChange, subImages, onSubImagesChange }: ImageUploadFormProps) => {
   const bannerInputRef = useRef<HTMLInputElement>(null);
   const subImageInputRef = useRef<HTMLInputElement>(null);
 

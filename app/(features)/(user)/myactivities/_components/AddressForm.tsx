@@ -23,7 +23,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, onAddressChange }) =
     setIsPostcodeVisible(prev => !prev);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside: EventListener = event => {
     if (postcodeRef.current && !postcodeRef.current.contains(event.target as Node)) {
       setIsPostcodeVisible(false);
     }
@@ -64,7 +64,12 @@ const AddressForm: React.FC<AddressFormProps> = ({ address, onAddressChange }) =
           <button type="button" onClick={togglePostcode} className="absolute right-2 top-2">
             <Image src={closeIcon} alt="닫기 아이콘" width={24} height={24} />
           </button>
-          <Postcode onComplete={data => handleAddressChange(`${data.address} (${data.bname})`)} autoClose={false} />
+          <Postcode
+            onComplete={(data: { address: string; bname: string }) =>
+              handleAddressChange(`${data.address} (${data.bname})`)
+            }
+            autoClose={false}
+          />
         </div>
       )}
     </div>

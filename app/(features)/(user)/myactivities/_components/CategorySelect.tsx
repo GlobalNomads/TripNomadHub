@@ -16,7 +16,7 @@ const CategorySelect: React.FC<{ category: string; onCategoryChange: (category: 
   };
 
   return (
-    <div className="relative mb-4 h-[56px] w-full max-w-[343px] md:max-w-[429px] xl:max-w-[792px]">
+    <div className="relative mb-4 h-[56px] w-full">
       <select
         id="category"
         name="category"
