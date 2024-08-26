@@ -1,22 +1,13 @@
+"use client";
+
 import getMyActivitiesIdDash from "@/api/MyActivities/getMyActivitiesIdDash";
 import getMyActivitiesIdSch from "@/api/MyActivities/getMyActivitiesIdSch";
 import { MyActivitiesDashData, MyActivitiesSchData } from "@/types/myActivities.type";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import FullCalendar from "@fullcalendar/react";
 import { useQuery } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
-import CurrentReservationsModal from "./CurrentReservationsModal";
-
-// 숫자를 두 자리 문자열로 포맷팅하는 함수
-const formatToTwoDigits = (num: number) => num.toString().padStart(2, "0");
-
-// 들어온 날짜 형태 변환
-const formatDateString = (dateString: string) => {
-  const [year, month, day] = dateString.split("-");
-
-  return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
-};
 
 function Calendar({ activityId }: { activityId: number }) {
   const [year, setYear] = useState("");
@@ -24,6 +15,16 @@ function Calendar({ activityId }: { activityId: number }) {
   const [date, setDate] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [scheduleData, setScheduleData] = useState<MyActivitiesSchData[]>([]);
+
+  // 숫자를 두 자리 문자열로 포맷팅하는 함수
+  const formatToTwoDigits = (num: number) => num.toString().padStart(2, "0");
+
+  // 들어온 날짜 형태 변환
+  const formatDateString = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+
+    return `${year}년 ${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+  };
 
   useEffect(() => {
     const now = new Date();
@@ -96,10 +97,13 @@ function Calendar({ activityId }: { activityId: number }) {
     setScheduleData(response);
   };
 
+  const DynamicFullCalendar = dynamic(() => import("@fullcalendar/react"), { ssr: false });
+  const DynamicCurrentReservationsModal = dynamic(() => import("./CurrentReservationsModal"), { ssr: false });
+
   return (
     <>
       <div className="mt-[30px] grid">
-        <FullCalendar
+        <DynamicFullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           titleFormat={date => `${date.date.year}년 ${formatToTwoDigits(date.date.month + 1)}월`}
@@ -118,7 +122,7 @@ function Calendar({ activityId }: { activityId: number }) {
       </div>
 
       {isOpen && (
-        <CurrentReservationsModal
+        <DynamicCurrentReservationsModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           scheduleData={scheduleData}

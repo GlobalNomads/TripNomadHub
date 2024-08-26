@@ -33,7 +33,7 @@ function CalendarList({ activityData }: { activityData: ActivitiesData | undefin
         <label className="absolute left-10 top-0 -translate-y-1/2 bg-primary-gray-100 px-2 text-gray-500">체험명</label>
       </div>
 
-      {/* activityId가 null이 아닌 경우에만 Calendar 컴포넌트 렌더링 */}
+      {/* activityId가 있을때만 Calendar 컴포넌트 렌더링 */}
       {activityId !== null ? <Calendar activityId={activityId} /> : <NoSelectPage />}
     </>
   );
