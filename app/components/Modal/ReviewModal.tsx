@@ -85,7 +85,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
       </div>
       <ModalBody>
         <div className="flex flex-grow flex-col items-center">
-          <div className="md:mb-[24px]">
+          <div className="xl:mb-[24px]">
             <ReservationInfo reservation={reservation} />
           </div>
           <RatingStar onRatingChange={handleRatingChange} currentRating={rating} />
