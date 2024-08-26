@@ -1,44 +1,34 @@
 "use client";
-import patchMyReservations from "@/api/MyReservations/patchMyReservations";
 import { ReservationsList } from "@/types/myReservations.type";
 import Button from "@button/Button";
 import Modal from "@modal/Modal";
-import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
+import { useCancelReservation } from "./hooks/CancelReservation";
 import ReservationInfo from "./Modal/ReservationInfo";
 import { getStatusColor, getStatusText } from "./StatusUtils";
 
 interface ReservationCardProps {
   reservations: ReservationsList[];
-  selectedStatus: "pending" | "confirmed" | "declined" | "canceled" | "completed";
+  selectedStatus: "pending" | "confirmed" | "declined" | "canceled" | "completed" | undefined;
 }
 
-const ReservationCard: React.FC<ReservationCardProps> = ({ reservations, selectedStatus }) => {
+const ReservationCard: React.FC<ReservationCardProps> = ({ reservations }) => {
   console.log("Reservations:", reservations);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
-  const [isCancelModalOpen, setCancelModalOpen] = useState(false);
-  const [selectedReservation, setSelectedReservation] = useState<ReservationsList | null>(null);
+  const [ReviewSelectedReservation, setReviewSelectedReservation] = useState<ReservationsList | null>(null);
+  const [currentReservations, setCurrentReservations] = useState<ReservationsList[]>(reservations);
+  const { handleCancelReservation, isCancelModalOpen, setCancelModalOpen, selectedReservation, CancelReservation } =
+    useCancelReservation(setCurrentReservations);
 
-  const statusToUse = selectedStatus || undefined;
-
-  const queryClient = useQueryClient();
-
-  const handleCancelReservation = async () => {
-    if (selectedReservation) {
-      try {
-        await patchMyReservations(selectedReservation.id);
-        const queryKey = { queryKey: ["reservations", statusToUse] };
-
-        queryClient.invalidateQueries(queryKey);
-        setCancelModalOpen(false);
-      } catch (error) {
-        console.error("Failed to cancel reservation:", error);
-        alert(error);
-      }
-    }
+  const handleReviewSuccess = (reservationId: number) => {
+    setCurrentReservations(prevReservations =>
+      prevReservations.map(reservation =>
+        reservation.id === reservationId ? { ...reservation, reviewSubmitted: true } : reservation,
+      ),
+    );
+    setReviewModalOpen(false);
   };
-
   // 타이틀 생략 변환
   const truncateTitle = (title: string, maxLength: number) => {
     return title.length > maxLength ? `${title.slice(0, maxLength)}...` : title;
@@ -59,7 +49,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservations, selecte
 
   return (
     <div>
-      {reservations.map((reservation, index) => (
+      {currentReservations.map((reservation, index) => (
         <div
           key={index}
           className="flex h-[128px] rounded-3xl border border-solid border-gray-300 bg-white md:h-[156px] md:w-[429px] xl:h-[204px] xl:w-[792px]"
@@ -104,37 +94,31 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservations, selecte
                 <div className="">
                   <Button.WriteReview
                     onClick={() => {
-                      setSelectedReservation(reservation);
+                      setReviewSelectedReservation(reservation);
                       setReviewModalOpen(true);
                     }}
                   />
                   <Modal.Review
                     isOpen={isReviewModalOpen}
                     onClose={() => setReviewModalOpen(false)}
-                    reservation={selectedReservation}
+                    reservation={ReviewSelectedReservation}
                     onSuccess={() => {
-                      /* 성공 시 처리할 로직 */
+                      if (ReviewSelectedReservation) {
+                        handleReviewSuccess(reservation.id);
+                      }
                     }}
                   >
-                    <>
-                      <ReservationInfo reservation={selectedReservation} /> {/* Pass a single reservation object */}
-                    </>{" "}
-                    {/* 빈 React Fragment를 children으로 전달 */}
+                    <>{ReviewSelectedReservation && <ReservationInfo reservation={ReviewSelectedReservation} />}</>
                   </Modal.Review>
                 </div>
               )}
               {reservation.status === "pending" && (
                 <div className="">
-                  <Button.CancelReservation
-                    onClick={() => {
-                      setSelectedReservation(reservation);
-                      setCancelModalOpen(true);
-                    }}
-                  />
+                  <Button.CancelReservation onClick={() => handleCancelReservation(reservation)} />
                   <Modal.Cancel
                     isOpen={isCancelModalOpen}
                     onClose={() => setCancelModalOpen(false)}
-                    onCancel={handleCancelReservation}
+                    onCancel={CancelReservation}
                     description="예약을 취소하시겠어요?"
                   />
                 </div>
