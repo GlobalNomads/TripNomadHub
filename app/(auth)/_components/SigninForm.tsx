@@ -25,7 +25,7 @@ function SigninForm() {
     formState: { isSubmitting, errors, isValid },
   } = useForm<ISignInValue>({ mode: "onChange" });
 
-  const { setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const router = useRouter();
@@ -40,7 +40,8 @@ function SigninForm() {
         setModalMessage("로그인을 성공했습니다.");
       }
     } catch (error: any) {
-      setModalMessage(error?.message);
+      const parsedMessage = JSON.parse(error.message);
+      setModalMessage(parsedMessage.message);
     }
     setConfirmModalOpen(true);
   };
@@ -94,7 +95,7 @@ function SigninForm() {
         onClose={() => setConfirmModalOpen(false)}
         onConfirm={() => {
           setConfirmModalOpen(false);
-          router.push("/");
+          isLoggedIn && router.push("/");
         }}
         message={modalMessage}
       />
