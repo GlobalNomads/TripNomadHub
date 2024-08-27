@@ -41,9 +41,6 @@ const MyReservations: React.FC = () => {
     );
   if (isError) return <h3>Failed to load</h3>;
 
-  // if (!data || data.pages.every(page => page.reservations.length === 0)) {
-  //   return <EmptyPage />;
-  // }
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex items-center justify-between">

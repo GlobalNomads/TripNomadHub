@@ -3,9 +3,11 @@
 import { MyActivitiesData } from "@/types/myActivities.type";
 import fetchInstance from "@/utils/fetchInstance";
 
-const ReservationInput = { status: "declined" }; // 고정 값이라 데이터 값을 세팅 해둠
+export interface StatsInput {
+  status: "declined" | "confirmed";
+}
 
-const patchMyActivitiesIdResId = async (activityId: number, reservationId: number) => {
+const patchMyActivitiesIdResId = async (ReservationInput: StatsInput, activityId: number, reservationId: number) => {
   try {
     const data = await fetchInstance<MyActivitiesData>(`my-activities/${activityId}/reservations/${reservationId}`, {
       method: "PATCH",

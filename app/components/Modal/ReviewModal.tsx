@@ -57,11 +57,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
 
       try {
         await postMyReservations(reservationInput, reservation.id);
-
         setModalMessage("후기를 전달했습니다.");
-
-        onSuccess();
-
         setConfirmModalOpen(true);
       } catch (error: any) {
         console.log(error);
@@ -89,7 +85,7 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
       </div>
       <ModalBody>
         <div className="flex flex-grow flex-col items-center">
-          <div className="md:mb-[24px]">
+          <div className="xl:mb-[24px]">
             <ReservationInfo reservation={reservation} />
           </div>
           <RatingStar onRatingChange={handleRatingChange} currentRating={rating} />
@@ -117,6 +113,9 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         onClose={() => setConfirmModalOpen(false)}
         onConfirm={() => {
           setConfirmModalOpen(false);
+          if (modalMessage === "후기를 전달했습니다.") {
+            onSuccess();
+          }
           onClose();
         }}
         message={modalMessage}

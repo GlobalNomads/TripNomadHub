@@ -1,9 +1,6 @@
-"use server";
-
 import { UserData } from "@/types/auth.type";
 import fetchInstance from "@/utils/fetchInstance";
-
-import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
 export interface UserInput {
   email: string;
@@ -18,8 +15,8 @@ const postLogin = async (userInput: UserInput) => {
     });
 
     if (data.accessToken && data.refreshToken) {
-      cookies().set("accessToken", data.accessToken);
-      cookies().set("refreshToken", data.refreshToken);
+      Cookies.set("accessToken", data.accessToken);
+      Cookies.set("refreshToken", data.refreshToken);
     } else {
       throw new Error("Access token is missing");
     }

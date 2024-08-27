@@ -1,11 +1,8 @@
-"use client";
-
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
-
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { useAlarm } from "@/context/AlarmContext";
 import useToggle from "@/hooks/useToggle";
@@ -29,7 +26,7 @@ export default function MessageAlarm({
 }) {
   const { getAlarmMessages, count, alarmMessages, removeAlarmMessage } = useAlarm();
   const [isShowCount, setIsShowCount] = useToggle(true);
-  const [hasMore, setHasMore] = useToggle(true);
+  const [hasMore, setHasMore] = useState(true); // useState로 변경
   const { ref, inView } = useInView();
 
   const closeToggle = () => {
@@ -44,17 +41,29 @@ export default function MessageAlarm({
     if (oppositeToggle) setOppositeToggle();
   };
 
-  useEffect(() => {
-    if (alarmMessages.length < 10) getAlarmMessages();
-  }, []);
+  const fetchAlarmMessages = useCallback(async () => {
+    if (hasMore) {
+      await getAlarmMessages();
+    }
+  }, [getAlarmMessages, hasMore]);
 
   useEffect(() => {
-    if (inView) {
-      getAlarmMessages();
-    } else if (alarmMessages.length === count) setHasMore();
+    // 초기 렌더링 시 알림 가져오기
+    fetchAlarmMessages();
+  }, [fetchAlarmMessages]);
 
-    console.log(alarmMessages.length);
-  }, [inView]);
+  useEffect(() => {
+    if (inView && hasMore) {
+      fetchAlarmMessages();
+    }
+  }, [inView, fetchAlarmMessages, hasMore]);
+
+  useEffect(() => {
+    // 알림 수가 전체 수와 같으면 더 이상 로딩할 알림이 없음
+    if (alarmMessages.length >= count) {
+      setHasMore(false);
+    }
+  }, [alarmMessages, count]);
 
   return (
     <div className="relative">
@@ -72,7 +81,6 @@ export default function MessageAlarm({
         )}
         <Image src={Alarm} alt="알람 이미지" width={35} height={35} />
       </button>
-
       {toggle && (
         <ul
           style={{ zIndex: 3 }}

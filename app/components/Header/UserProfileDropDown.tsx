@@ -1,6 +1,7 @@
 "use client";
 
 import getUsersMe from "@/api/Users/getUsersMe";
+import { useAuth } from "@/context/AuthContext";
 import useImageLoad from "@/hooks/useImageLoad";
 import useWindowSize from "@/hooks/useWindowSize";
 import { UserData } from "@/types/users.type";
@@ -16,13 +17,11 @@ function UserProfileDropdown({
   oppositeToggle,
   setToggle,
   setOppositeToggle,
-  setUserStatus,
 }: {
   toggle: boolean;
   oppositeToggle: boolean;
   setToggle: () => void;
   setOppositeToggle: () => void;
-  setUserStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data } = useQuery<UserData>({
     queryKey: ["getUsersMe"],
@@ -34,6 +33,7 @@ function UserProfileDropdown({
   const profileImage = data?.profileImageUrl;
   const imageError = useImageLoad(profileImage);
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   // 로그인 유저 이미지 판단(에러나 파일 미 등록시 디폴트 이미지 선정)
   const userProfileImage = !imageError && profileImage ? profileImage : UserProfile;
@@ -41,11 +41,10 @@ function UserProfileDropdown({
   const isMoblie = windowWidth < 451;
 
   const handleLogout = async () => {
-    await postLogout();
-    setUserStatus(false);
-    setToggle();
-    router.push("/");
-    setUserStatus(true);
+    await postLogout(); // 로그아웃 API 호출
+    setIsLoggedIn(false); // 로그아웃 후 전역 상태 업데이트
+    setToggle(); // 드롭다운 닫기
+    router.push("/"); // 로그아웃 후 홈 페이지로 리다이렉트
   };
 
   const toggleDropdown = () => {
