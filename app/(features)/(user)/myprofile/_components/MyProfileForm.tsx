@@ -41,10 +41,15 @@ function MyProfileForm() {
 
   const { mutate } = useMutation({
     mutationFn: (returnData: patchUserData) => patchUsersMe(returnData),
+
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
       // 강제로 새로고침하여 최신 데이터로 업데이트
-      await refetch();
+      // await refetch();
+      // await queryClient.refetchQueries({ queryKey: ["getUsersMe"] });
+      // Inspect the cache using getQueryData
+      // const cachedUserData = queryClient.getQueryData(["getUsersMe"]);
+      // console.log("Cached user data:", cachedUserData);
       setModalMessage("수정이 완료되었습니다.");
       setConfirmModalOpen(true);
     },
@@ -81,7 +86,8 @@ function MyProfileForm() {
   };
 
   const onSubmit: SubmitHandler<PatchUserData> = async data => {
-    mutate(data);
+    console.log({ data });
+    mutate({ ...data, profileImageUrl: preview });
   };
 
   return (
