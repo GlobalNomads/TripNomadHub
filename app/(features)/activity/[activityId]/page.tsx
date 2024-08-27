@@ -5,12 +5,12 @@
 import getActivitiesId from "@api/Activities/getActivitiesId"; // API 함수 (체험 정보)
 import getActivitiesIdRev from "@api/Activities/getActivitiesIdRev"; //API 함수(ReviewData)
 import getUserData from "@api/Users/getUsersMe"; //로그인된 사용자 정보를 가져오는 API 함수
+import DropDownMenu from "../../../components/DropDown/ActivityEditDelete";
 import ActivityDescription from "../_components/ActivityDescription";
 import ActivityImageGallery from "../_components/ActivityImageGallery";
 import ActivityLocationServer from "../_components/ActivityLocationServer";
 import ActivityReviewClient from "../_components/ActivityReviewClient";
 import ActivityTitle from "../_components/ActivityTitle";
-import DropDownMenu from "../_components/DropDownMenu";
 import ReservationFloatingBox from "../_components/ReservationFloatingBox";
 
 export default async function ActivityPage({ params }: { params: { activityId: string } }) {
