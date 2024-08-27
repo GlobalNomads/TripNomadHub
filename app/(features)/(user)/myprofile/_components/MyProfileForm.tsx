@@ -1,24 +1,24 @@
 "use client";
 
 import getUsersMe from "@/api/Users/getUsersMe";
-import patchUsersMe, { patchUserData } from "@/api/Users/patchUsersMe";
+import patchUsersMe from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
 import Button from "@button/Button";
 import DefalutProfile from "@icon/ic_default_reviewprofile.png";
 import Pencil from "@icon/ic_pencil.svg";
 import Modal from "@modal/Modal";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ErrorText from "./ErrorText";
 import Input from "./Input";
 import Label from "./Label";
 
 interface PatchUserData {
-  nickname: string;
-  profileImageUrl: string;
-  newPassword: string;
+  nickname?: string;
+  profileImageUrl?: string;
+  newPassword?: string;
   email?: string;
   passwordConfirmation?: string;
 }
@@ -29,42 +29,34 @@ function MyProfileForm() {
     register,
     watch,
     handleSubmit,
-    formState: { isSubmitting, errors, isValid },
+    formState: { errors },
   } = useForm<PatchUserData>({ mode: "onChange" });
 
-  const { data: userData, refetch } = useQuery({
+  const { data: userData } = useQuery({
     queryKey: ["getUsersMe"],
     queryFn: getUsersMe,
     staleTime: 60000,
     retry: 2,
   });
 
-  const { mutate } = useMutation({
-    mutationFn: (returnData: patchUserData) => patchUsersMe(returnData),
-
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
-      // 강제로 새로고침하여 최신 데이터로 업데이트
-      // await refetch();
-      // await queryClient.refetchQueries({ queryKey: ["getUsersMe"] });
-      // Inspect the cache using getQueryData
-      // const cachedUserData = queryClient.getQueryData(["getUsersMe"]);
-      // console.log("Cached user data:", cachedUserData);
-      setModalMessage("수정이 완료되었습니다.");
-      setConfirmModalOpen(true);
-    },
-    onError: (error: any) => {
-      setModalMessage(error?.message);
-      setConfirmModalOpen(true);
-    },
-  });
-
-  const disabled = !isValid || isSubmitting ? "disabled" : "nomadBlack";
-  const UserProfile = userData?.profileImageUrl || DefalutProfile.src;
-
-  const [preview, setPreview] = useState<string | null>(UserProfile);
+  const [preview, setPreview] = useState(userData?.profileImageUrl ?? DefalutProfile.src);
   const [modalMessage, setModalMessage] = useState("");
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [formData, setFormData] = useState<PatchUserData>({
+    nickname: userData?.nickname,
+    profileImageUrl: userData?.profileImageUrl || undefined,
+    newPassword: "",
+  });
+
+  const UserProfile = preview || DefalutProfile.src;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   // 이미지 경로 변환 작업
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,21 +66,49 @@ function MyProfileForm() {
       if (responseData) {
         setPreview(responseData.profileImageUrl);
         // 직접 formState 업데이트
-        handleSubmit(async data => {
-          const updatedData: PatchUserData = {
-            ...data,
-            profileImageUrl: responseData.profileImageUrl,
-          };
-          mutate(updatedData);
-        })();
+        handleChange({
+          target: { name: "profileImageUrl", value: responseData.profileImageUrl },
+        } as React.ChangeEvent<HTMLInputElement>);
       }
     }
   };
 
   const onSubmit: SubmitHandler<PatchUserData> = async data => {
-    console.log({ data });
-    mutate({ ...data, profileImageUrl: preview });
+    const changes: PatchUserData = {};
+
+    // 변경된 필드만 추출
+    if (data.nickname !== userData?.nickname) {
+      changes.nickname = data.nickname;
+    }
+    if (data.newPassword) {
+      changes.newPassword = data.newPassword;
+    }
+    if (formData.profileImageUrl && formData.profileImageUrl !== userData?.profileImageUrl) {
+      changes.profileImageUrl = formData.profileImageUrl; // 변경된 이미지 URL만 추가
+    }
+
+    try {
+      if (Object.keys(changes).length > 0) {
+        // 변경된 사항이 있을 경우에만 API 호출
+        await patchUsersMe(changes);
+        setModalMessage("수정이 성공적으로 완료되었습니다!");
+        queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
+      } else {
+        setModalMessage("변경된 사항이 없습니다.");
+      }
+    } catch (error: any) {
+      const errorMessage = JSON.parse(error.message);
+      setModalMessage(`수정 실패😨: ${errorMessage.message}`);
+    }
+
+    setConfirmModalOpen(true);
   };
+
+  useEffect(() => {
+    if (userData?.profileImageUrl) {
+      setPreview(userData.profileImageUrl);
+    }
+  }, [userData]);
 
   return (
     <>
@@ -96,27 +116,25 @@ function MyProfileForm() {
         <div className="grid gap-4">
           <div className="flex items-center justify-between">
             <div className="text-3xl-bold">내 정보</div>
-            <Button.Login type={disabled} className="w-full max-w-[120px] py-[10.5px]">
-              저장하기
-            </Button.Login>
+            <Button.Submit className="w-full max-w-[120px] py-[10.5px]">저장하기</Button.Submit>
           </div>
 
           <div className="grid gap-6">
-            <Label htmlFor="profileImage" className="grid w-[140px] gap-[10px] text-2xl-bold">
+            <Label htmlFor="profileImageUrl" className="grid w-[140px] gap-[10px] text-2xl-bold">
               프로필 이미지
               <div className="relative h-[140px] w-[140px] object-cover">
                 <Image
                   className="rounded-full border-[1px] border-solid border-primary-gray-600 object-cover"
                   fill
                   sizes="140"
-                  src={preview || UserProfile}
+                  src={UserProfile}
                   alt="프로필 이미지"
                 />
                 <Input
                   type="file"
                   accept="image/*"
-                  id="profileImage"
-                  name="profileImage"
+                  id="profileImageUrl"
+                  name="profileImageUrl"
                   className="hidden"
                   onChange={handleImageChange}
                 />
@@ -143,7 +161,6 @@ function MyProfileForm() {
                     message: "열 자 이하로 작성해주세요.",
                   },
                 })}
-                validationCheck={!!errors.nickname}
               />
               {errors.nickname?.message && <ErrorText>{errors.nickname?.message}</ErrorText>}
             </div>
@@ -167,7 +184,6 @@ function MyProfileForm() {
                     message: "8자 이상 입력해 주세요",
                   },
                 })}
-                validationCheck={!!errors.newPassword}
               />
               {errors.newPassword && <ErrorText>{errors.newPassword?.message}</ErrorText>}
             </div>
@@ -185,7 +201,6 @@ function MyProfileForm() {
                   },
                   validate: value => (value === watch("newPassword") ? true : "비밀번호가 일치하지 않습니다."),
                 })}
-                validationCheck={!!errors.passwordConfirmation}
               />
               {errors.passwordConfirmation && <ErrorText>{errors.passwordConfirmation?.message}</ErrorText>}
             </div>

@@ -41,7 +41,7 @@ function SigninForm() {
       }
     } catch (error: any) {
       const parsedMessage = JSON.parse(error.message);
-      setModalMessage(parsedMessage);
+      setModalMessage(parsedMessage.message);
     }
     setConfirmModalOpen(true);
   };

@@ -45,7 +45,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
 
   const handleError = (error: Error) => {
     const errorMessage = JSON.parse(error.message) || "이미지 업로드에 실패했습니다😨";
-    setModalMessage(`오류😨: ${errorMessage}`);
+    setModalMessage(`오류😨: ${errorMessage.message}`);
     setIsModalOpen(true);
   };
 

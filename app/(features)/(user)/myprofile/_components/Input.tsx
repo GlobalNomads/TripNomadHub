@@ -5,12 +5,11 @@ import Image from "next/image";
 import React, { forwardRef, useState } from "react";
 
 interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  validationCheck?: boolean;
   disabledCheck?: boolean;
 }
 
 export default forwardRef(function Input(
-  { validationCheck, type, disabledCheck, ...rest }: IInputProps,
+  { type, disabledCheck, ...rest }: IInputProps,
   ref: React.LegacyRef<HTMLInputElement>,
 ) {
   const [inputType, setInputType] = useState(type);
@@ -26,11 +25,7 @@ export default forwardRef(function Input(
       <input
         type={inputType}
         autoComplete="off"
-        className={`box-border w-full max-w-[790px] rounded-md border border-primary-gray-400 px-4 py-3 text-sm-medium text-primary-black-200 outline-0 placeholder:text-[#8F95B2] ${
-          validationCheck
-            ? "bg-primary-red-100 focus:border-primary-red-100 focus:bg-primary-red-100"
-            : "bg-primary-gray-100 focus:border-primary-green-200 focus:bg-white"
-        } ${disabledCheck && "bg-primary-gray-200 text-primary-gray-700"}`}
+        className={`box-border w-full max-w-[790px] rounded-md border border-primary-gray-400 px-4 py-3 text-sm-medium text-primary-black-200 outline-0 placeholder:text-[#8F95B2] ${disabledCheck && "bg-primary-gray-200 text-primary-gray-700"}`}
         ref={ref}
         {...rest}
       />
