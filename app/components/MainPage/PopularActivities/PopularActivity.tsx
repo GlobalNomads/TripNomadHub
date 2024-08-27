@@ -21,6 +21,7 @@ const PopularActivity = ({ data }: { data: ActivityList }) => {
           alt="banner"
           fill
           sizes="275px"
+          priority
           className="absolute inset-0 object-cover"
         />
       </div>

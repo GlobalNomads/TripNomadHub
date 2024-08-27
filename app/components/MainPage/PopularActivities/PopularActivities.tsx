@@ -50,7 +50,7 @@ const PopularActivities = () => {
 
   return (
     <div className="mt-12 md:mt-12 xl:mt-12">
-      <h2 className="mb-4 text-lg-semibold font-semibold text-primary-black-200 md:text-2xl-bold">🔥 인기 체험</h2>
+      <h2 className="mb-8 text-lg-semibold font-semibold text-primary-black-200 md:text-2xl-bold">🔥 인기 체험</h2>
       <Swiper
         spaceBetween={20}
         slidesPerView={2}
