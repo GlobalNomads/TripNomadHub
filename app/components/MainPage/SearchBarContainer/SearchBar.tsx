@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useEffect, useCallback } from "react";
+import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import SearchButton from "@button/SearchButton";
 import searchicon from "@icon/ic_search.svg";
@@ -16,7 +16,7 @@ const SearchBar = ({ onSearch }: SearchProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(inputValue);  // 입력 값을 부모 컴포넌트로 전달
+    onSearch(inputValue); // 입력 값을 부모 컴포넌트로 전달
   };
 
   return (
@@ -39,7 +39,10 @@ const SearchBar = ({ onSearch }: SearchProps) => {
               className="text-primary-black focus:border-primary-black h-full w-full rounded border border-gray-700 pl-12 pr-3 text-sm outline-none focus:border-2 md:text-base"
             />
           </div>
-          <SearchButton className="h-full bg-primary-green-300 transition-all duration-200 hover:bg-primary-green-200 hover:shadow-lg hover:shadow-primary-green-400 active:bg-gradient-to-r active:from-primary-green-200 active:to-primary-green-300" onClick={handleSubmit}>
+          <SearchButton
+            className="hover:shadow-primary-green-400 h-full bg-primary-green-300 transition-all duration-200 hover:bg-primary-green-200 hover:shadow-lg active:bg-gradient-to-r active:from-primary-green-200 active:to-primary-green-300"
+            onClick={handleSubmit}
+          >
             검색하기
           </SearchButton>
         </form>

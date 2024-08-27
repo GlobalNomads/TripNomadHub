@@ -24,8 +24,8 @@ const AllActivities = ({ currentPage, searchKeyword, category, sort, setTotalPag
       try {
         const data = await getActivities({
           method: "offset",
-          sort, // 전달된 sort 사용
-          category, // 전달된 category 사용
+          sort,
+          category,
           page: currentPage,
           size: activitySize * 2, // 화면 크기에 따라 size 동적 조정
           keyword: searchKeyword || undefined, // searchKeyword가 빈 문자열일 경우 undefined 전달
@@ -49,7 +49,7 @@ const AllActivities = ({ currentPage, searchKeyword, category, sort, setTotalPag
           {category ? category : "🌍 모든 체험"}
         </h2>
       )}
-      <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 md:gap-x-16 md:gap-y-32 xl:grid-cols-4 xl:gap-x-12 xl:gap-y-24">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-5 md:grid-cols-3 md:gap-x-16 md:gap-y-32 xl:grid-cols-4 xl:gap-x-12 xl:gap-y-10">
         {allActivities?.activities.map(activity => <Activity key={activity.id} data={activity} />)}
       </div>
     </>

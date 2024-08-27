@@ -1,42 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 import PopularActivity from "./PopularActivity";
-import type { ActivitiesData } from "@/types/activities.type";
+import type { ActivityList } from "@/types/activities.type";
 import getActivities from "@/api/Activities/getActivities";
-import useUpdateActivitySize from "../hooks/useUpdateActivitySize";
 
 const PopularActivities = () => {
-  const [popularActivities, setPopularActivities] = useState<ActivitiesData | undefined>(undefined);
-  const { activitySize } = useUpdateActivitySize();
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  const [popularActivities, setPopularActivities] = useState<ActivityList[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
 
-  // 인기 체험 데이터를 가져오는 함수
+  const fetchPopularActivities = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    try {
+      const data = await getActivities({
+        method: "offset",
+        sort: "most_reviewed",
+        size: 3,
+        page,
+      });
+
+      setPopularActivities(prev => [...prev, ...data.activities]);
+      setTotalCount(data.totalCount);
+      setHasMore(popularActivities.length + data.activities.length < data.totalCount);
+      setPage(prevPage => prevPage + 1);
+    } catch (error) {
+      console.error("Failed to fetch popular activities:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, loading, hasMore, popularActivities.length]);
+
   useEffect(() => {
-    const fetchPopularActivities = async () => {
-      setLoading(true); // 로딩 시작
-      try {
-        const data = await getActivities({
-          method: "offset",
-          sort: "most_reviewed",
-          size: activitySize, // 화면 크기에 따라 size 동적 조정
-        });
-        setPopularActivities(data);
-      } catch (error) {
-        console.error("Failed to fetch popular activities:", error);
-      } finally {
-        setLoading(false); // 로딩 종료
-      }
-    };
-
-    fetchPopularActivities();
-  }, [activitySize]);
+    if (popularActivities.length === 0) {
+      fetchPopularActivities();
+    }
+  }, [fetchPopularActivities, popularActivities.length]);
 
   return (
     <div className="mt-12 md:mt-12 xl:mt-12">
-      <h2 className="mb-4 text-lg-semibold font-semibold text-primary-black-200 md:text-2xl-bold">🔥인기 체험</h2>
-        <div className="no-scrollbar -m-5 flex gap-4 overflow-x-auto p-5 md:gap-8 xl:gap-6">
-          {popularActivities?.activities.map(activity => <PopularActivity key={activity.id} data={activity} />)}
-        </div>
-   
+      <h2 className="mb-4 text-lg-semibold font-semibold text-primary-black-200 md:text-2xl-bold">🔥 인기 체험</h2>
+      <Swiper
+        spaceBetween={20}
+        slidesPerView={2}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
+        modules={[Navigation]}
+        breakpoints={{
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
+        onReachEnd={() => {
+          if (hasMore) {
+            fetchPopularActivities();
+          }
+        }}
+      >
+        {popularActivities.map((activity, index) => (
+          <SwiperSlide key={`${activity.id}-${index}`}>
+            <PopularActivity data={activity} />
+          </SwiperSlide>
+        ))}
+        {loading && (
+          <SwiperSlide>
+            <div className="flex items-center justify-center h-full">
+              <p>Loading...</p>
+            </div>
+          </SwiperSlide>
+        )}
+        <div className="swiper-button-next"></div>
+        <div className="swiper-button-prev"></div>
+      </Swiper>
     </div>
   );
 };
