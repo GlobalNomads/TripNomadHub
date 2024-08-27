@@ -1,7 +1,6 @@
 import getMyActivities from "@api/MyActivities/getMyActivities";
 import DefaultButton from "@button/DefaultButton";
 import Link from "next/link";
-import { Suspense } from "react";
 import MyActivitiesClient from "./MyActivitiesClient";
 
 export default async function MyActivities() {
@@ -20,9 +19,7 @@ export default async function MyActivities() {
           </DefaultButton>
         </Link>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <MyActivitiesClient initialData={initialData} />
-      </Suspense>
+      <MyActivitiesClient initialData={initialData} />
     </div>
   );
 }
