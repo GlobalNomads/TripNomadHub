@@ -41,8 +41,13 @@ const MainPage = () => {
     setCurrentPage(1);
   };
 
-  const handleSortSelect = (sortOption: "latest" | "most_reviewed" | "price_asc" | "price_desc") => {
-    setSort(sortOption);
+  const handleSortSelect = (sortOption: "latest" | "most_reviewed" | "price_asc" | "price_desc" | undefined) => {
+    // sortOption이 undefined인 경우 기본 정렬로 설정하거나 원하는 로직 추가
+    if (sortOption === undefined) {
+      setSort("latest"); // 기본 정렬로 설정
+    } else {
+      setSort(sortOption);
+    }
     setCurrentPage(1);
   };
 

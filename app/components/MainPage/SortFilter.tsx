@@ -20,7 +20,7 @@ interface SortFilterProps {
 
 const SortFilter: React.FC<SortFilterProps> = ({ onSortSelect }) => {
   const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
-  const defaultLabel = "필터 ▼";
+  const defaultLabel = "정렬 ▼";
 
   const handleClickListItem = (value: "latest" | "most_reviewed" | "price_asc" | "price_desc", label: string) => {
     // 동일한 옵션을 클릭하면 "정렬"로 초기화

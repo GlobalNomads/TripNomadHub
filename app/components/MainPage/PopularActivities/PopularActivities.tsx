@@ -77,9 +77,7 @@ const PopularActivities = () => {
         ))}
         {loading && (
           <SwiperSlide>
-            <div className="flex h-full items-center justify-center">
-              <p>Loading...</p>
-            </div>
+            <div className="flex h-full items-center justify-center"></div>
           </SwiperSlide>
         )}
         <div className="swiper-button-next"></div>
