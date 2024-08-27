@@ -71,14 +71,14 @@ const MainPage = () => {
 
   const renderDefaultContent = () => (
     <>
-      <div className="mt-12 md:mt-12 xl:mt-12">
+      <div className="mt-6 md:mt-8 xl:mt-8">
         <PopularActivities />
       </div>
       <div className="mt-12 flex items-center justify-between gap-6 md:mt-32 xl:mt-40">
         <CategoryFilter currentCategory={category} onCategorySelect={handleCategorySelect} />
         <SortFilter onSortSelect={handleSortSelect} />
       </div>
-      <div className="mt-8 md:mt-16 xl:mt-24">
+      <div className="mt-4 md:mt-6 xl:mt-8">
         <AllActivities
           currentPage={currentPage}
           searchKeyword={undefined}

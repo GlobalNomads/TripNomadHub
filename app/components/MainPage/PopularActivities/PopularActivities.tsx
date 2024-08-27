@@ -22,20 +22,25 @@ const PopularActivities = () => {
       const data = await getActivities({
         method: "offset",
         sort: "most_reviewed",
-        size: 3,
+        size: 30,
         page,
       });
 
-      setPopularActivities(prev => [...prev, ...data.activities]);
+      // Filter out activities that are already in the state to prevent duplicates
+      const newActivities = data.activities.filter(
+        newActivity => !popularActivities.some(activity => activity.id === newActivity.id),
+      );
+
+      setPopularActivities(prev => [...prev, ...newActivities]);
       setTotalCount(data.totalCount);
-      setHasMore(popularActivities.length + data.activities.length < data.totalCount);
+      setHasMore(popularActivities.length + newActivities.length < data.totalCount);
       setPage(prevPage => prevPage + 1);
     } catch (error) {
       console.error("Failed to fetch popular activities:", error);
     } finally {
       setLoading(false);
     }
-  }, [page, loading, hasMore, popularActivities.length]);
+  }, [page, loading, hasMore, popularActivities]);
 
   useEffect(() => {
     if (popularActivities.length === 0) {
@@ -50,8 +55,8 @@ const PopularActivities = () => {
         spaceBetween={20}
         slidesPerView={2}
         navigation={{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         }}
         modules={[Navigation]}
         breakpoints={{
@@ -72,7 +77,7 @@ const PopularActivities = () => {
         ))}
         {loading && (
           <SwiperSlide>
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <p>Loading...</p>
             </div>
           </SwiperSlide>
