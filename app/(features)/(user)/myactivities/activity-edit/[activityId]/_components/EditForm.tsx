@@ -149,11 +149,11 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
           수정하기
         </Button.Default>
       </div>
-      <TitleForm title={activityData?.title} onTitleChange={setTitle} />
-      <CategorySelect category={activityData?.category || ""} onCategoryChange={setCategory} />
-      <DescriptionForm description={activityData?.description || ""} onDescriptionChange={setDescription} />
-      <PriceForm price={activityData?.price || 0} onPriceChange={setPrice} />
-      <AddressForm address={activityData?.address || ""} onAddressChange={setAddress} />
+      <TitleForm title={title} onTitleChange={setTitle} />
+      <CategorySelect category={category} onCategoryChange={setCategory} />
+      <DescriptionForm description={description} onDescriptionChange={setDescription} />
+      <PriceForm price={price} onPriceChange={setPrice} />
+      <AddressForm address={address} onAddressChange={setAddress} />
       <ScheduleForm
         schedules={addSchedules}
         settingSchedules={activityData?.schedules}
