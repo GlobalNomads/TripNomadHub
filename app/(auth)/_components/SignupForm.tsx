@@ -41,7 +41,8 @@ function SignupForm() {
         setModalMessage("가입이 완료되었습니다.");
       }
     } catch (error: any) {
-      setModalMessage(error?.message);
+      const parsedMessage = JSON.parse(error.message);
+      setModalMessage(parsedMessage.message);
     }
     setConfirmModalOpen(true);
   };
