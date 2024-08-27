@@ -28,17 +28,20 @@ const Dropdown: FC<DropdownProps> = ({ items, dropdownClassName, itemClassName, 
   };
 
   const handleClickActionBtn = (action: () => void) => {
-    // 공통적인 부분 처리
-    // action 실행
     action?.();
+    setIsOpen(false); // 액션 버튼 클릭 시 드롭다운 닫기
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <div className="relative inline-block" ref={menuRef}>
