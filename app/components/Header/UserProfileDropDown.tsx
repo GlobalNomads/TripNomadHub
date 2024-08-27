@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import useImageLoad from "@/hooks/useImageLoad";
 import useWindowSize from "@/hooks/useWindowSize";
 import { UserData } from "@/types/users.type";
+import { useUserStore } from "@/utils/userStore";
 import postLogout from "@api/Auth/postLogout";
 import UserProfile from "@icon/ic_default_reviewprofile.png";
 import { useQuery } from "@tanstack/react-query";
@@ -30,7 +31,8 @@ function UserProfileDropdown({
     retry: 2,
   });
 
-  const profileImage = data?.profileImageUrl;
+  const { avatarImageUrl } = useUserStore(state => state); // Get profile image URL from zustand store
+  const profileImage = avatarImageUrl || data?.profileImageUrl;
   const imageError = useImageLoad(profileImage);
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useAuth();

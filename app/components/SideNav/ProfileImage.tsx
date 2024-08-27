@@ -1,11 +1,14 @@
 "use client";
 
 import getUsersMe from "@/api/Users/getUsersMe";
+import { useUserStore } from "@/utils/userStore";
 import DefalutProfile from "@icon/ic_default_reviewprofile.png";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
 const ProfileImage = () => {
+  const { avatarImageUrl } = useUserStore(state => state);
+
   const {
     data: userData,
     isLoading,
@@ -14,6 +17,8 @@ const ProfileImage = () => {
     queryKey: ["getUsersMe"],
     queryFn: getUsersMe,
   });
+
+  const profileImageUrl = avatarImageUrl || userData?.profileImageUrl || DefalutProfile.src;
 
   return (
     <div className="relative h-[160px] w-[160px] overflow-hidden rounded-full">
@@ -31,7 +36,7 @@ const ProfileImage = () => {
         </div>
       ) : (
         <Image
-          src={userData.profileImageUrl}
+          src={profileImageUrl}
           priority
           alt="Profile picture"
           fill
