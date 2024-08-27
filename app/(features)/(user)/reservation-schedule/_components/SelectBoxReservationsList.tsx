@@ -1,23 +1,27 @@
+import { Count } from "@/types/myActivities.type";
 import { FC } from "react";
 
 interface Schedule {
   scheduleId: number;
   startTime: string;
   endTime: string;
+  count: Count;
 }
 
 interface SelectBoxReservationsListProps {
   schedules: Schedule[];
   onSelectChange: (scheduleId: number) => void; // 선택된 스케줄 ID를 상위로 전달하는 함수
+  onCountChage: (count: Count) => void; // 선택된 카운트를 상위로 전달
 }
 
-const SelectBoxReservationsList: FC<SelectBoxReservationsListProps> = ({ schedules, onSelectChange }) => {
+const SelectBoxReservationsList: FC<SelectBoxReservationsListProps> = ({ schedules, onSelectChange, onCountChage }) => {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSchedule = schedules.find(
       schedule => `${schedule.startTime}~${schedule.endTime}` === event.target.value,
     );
     if (selectedSchedule) {
       onSelectChange(selectedSchedule.scheduleId); // 선택된 스케줄 ID를 상위로 전달
+      onCountChage(selectedSchedule.count);
     }
   };
 

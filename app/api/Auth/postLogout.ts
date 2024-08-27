@@ -1,12 +1,10 @@
-"use server";
-
-import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
 const postLogout = async () => {
   try {
-    if (cookies().get("refreshToken") && cookies().get("refreshToken")) {
-      cookies().delete("accessToken");
-      cookies().delete("refreshToken");
+    if (Cookies.get("accessToken") && Cookies.get("refreshToken")) {
+      Cookies.remove("accessToken");
+      Cookies.remove("refreshToken");
     } else {
       throw new Error("Access token is missing");
     }

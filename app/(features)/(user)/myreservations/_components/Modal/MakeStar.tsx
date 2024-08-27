@@ -37,7 +37,7 @@ const RatingStar: FC<RatingStarProps> = ({ onRatingChange, currentRating }) => {
   };
 
   return (
-    <div className="mb-[12px] flex h-[100px] items-center justify-center gap-1 md:mb-[24px]">
+    <div className="mb-[12px] mt-[12px] flex h-[100px] items-center justify-center gap-1 md:mb-[24px] md:mt-[24px]">
       {[1, 2, 3, 4, 5].map(rating => (
         <div key={rating} onClick={() => handleClick(rating)} className="cursor-pointer">
           {rating <= starScore ? <FilledStar /> : <UnfilledStar />}
