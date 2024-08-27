@@ -1,9 +1,3 @@
-/*
-    ReviewModal(후기작성 모달): 현재는 틀만 만들어뒀습니다! 실제 사용하려면 많이 수정해서 써야 합니다!
-    bg-primary-green-100로 영역 표시만 해 뒀습니다.
-    TODO: 마음껏 변경하셔도 됩니다...!
-*/
-
 "use client";
 
 import RatingStar from "@/(features)/(user)/myreservations/_components/Modal/MakeStar";
@@ -61,8 +55,8 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         setConfirmModalOpen(true);
       } catch (error: any) {
         console.log(error);
-
-        setModalMessage(error?.message || "오류가 발생했습니다. 다시 시도해주세요.");
+        const parsedMessage = JSON.parse(error.message);
+        setModalMessage(parsedMessage.message);
 
         setConfirmModalOpen(true);
       }

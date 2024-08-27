@@ -12,9 +12,7 @@ const ProfileImage = () => {
     error,
   } = useQuery({
     queryKey: ["getUsersMe"],
-    queryFn: () => getUsersMe(),
-
-    enabled: typeof window !== "undefined",
+    queryFn: getUsersMe,
   });
 
   return (
