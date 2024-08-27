@@ -3,6 +3,7 @@
 import getUsersMe from "@/api/Users/getUsersMe";
 import patchUsersMe from "@/api/Users/patchUsersMe";
 import postUsersMeImg from "@/api/Users/postUsersMeImg";
+import { useUserStore } from "@/utils/userStore";
 import Button from "@button/Button";
 import DefalutProfile from "@icon/ic_default_reviewprofile.png";
 import Pencil from "@icon/ic_pencil.svg";
@@ -24,7 +25,9 @@ interface PatchUserData {
 }
 
 function MyProfileForm() {
+  const { setAvatarImageUrl } = useUserStore();
   const queryClient = useQueryClient();
+
   const {
     register,
     watch,
@@ -90,9 +93,12 @@ function MyProfileForm() {
     try {
       if (Object.keys(changes).length > 0) {
         // 변경된 사항이 있을 경우에만 API 호출
-        await patchUsersMe(changes);
+        const response = await patchUsersMe(changes);
         setModalMessage("수정이 성공적으로 완료되었습니다!");
         queryClient.invalidateQueries({ queryKey: ["getUsersMe"] });
+        if (response && formData.profileImageUrl) {
+          setAvatarImageUrl(formData.profileImageUrl);
+        }
       } else {
         setModalMessage("변경된 사항이 없습니다.");
       }
