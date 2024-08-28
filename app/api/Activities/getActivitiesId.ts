@@ -7,6 +7,7 @@ const getActivitiesId = async (activityId: number) => {
   try {
     const data = await fetchInstance<ActivitiesIdData>(`activities/${activityId}`, {
       method: "GET",
+      mode: "no-cors",
     });
 
     return data;
