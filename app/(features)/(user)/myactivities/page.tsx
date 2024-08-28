@@ -1,18 +1,38 @@
-"use client"; // 클라이언트 컴포넌트로 지정
+"use client";
 
 import DropDownMenu from "@/components/DropDown/ActivityEditDelete";
 import ReservationCard from "@/components/ReservationCard";
 import { ActivitiesData, ActivityList } from "@/types/activities.type";
 import getMyActivities from "@api/MyActivities/getMyActivities";
 import DefaultButton from "@button/DefaultButton";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function MyActivities() {
-  const { data, isLoading, error } = useQuery<ActivitiesData>({
+  const { ref, inView } = useInView();
+
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<ActivitiesData>({
     queryKey: ["myActivities"],
-    queryFn: () => getMyActivities({ size: 20 }),
+    queryFn: async ({ pageParam }) => {
+      const result = await getMyActivities({ cursorId: pageParam as number | undefined, size: 5 });
+      return result;
+    },
+    initialPageParam: undefined,
+    getNextPageParam: lastPage => {
+      if (lastPage.activities.length === 5) {
+        return lastPage.activities[lastPage.activities.length - 1].id;
+      }
+      return undefined;
+    },
   });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -21,6 +41,8 @@ export default function MyActivities() {
   if (error) {
     return <div>Error: {(error as Error).message}</div>;
   }
+
+  const activities = data?.pages.flatMap(page => page.activities) || [];
 
   return (
     <div>
@@ -36,10 +58,10 @@ export default function MyActivities() {
         </Link>
       </div>
       <div className="space-y-2 md:space-y-4 xl:space-y-6">
-        {data?.activities.length === 0 ? (
+        {activities.length === 0 ? (
           <div>No activities found.</div>
         ) : (
-          data?.activities.map((activity: ActivityList) => (
+          activities.map((activity: ActivityList) => (
             <ReservationCard
               key={activity.id}
               reservations={[activity]}
@@ -55,6 +77,11 @@ export default function MyActivities() {
           ))
         )}
       </div>
+      {hasNextPage && (
+        <div ref={ref} className="mt-4 text-center">
+          {isFetchingNextPage ? "Loading more..." : "Load more"}
+        </div>
+      )}
     </div>
   );
 }
