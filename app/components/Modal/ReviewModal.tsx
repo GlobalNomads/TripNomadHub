@@ -54,7 +54,6 @@ const ReviewModal: FC<ReviewModalProps> = ({ isOpen, onClose, reservation, onSuc
         setModalMessage("후기를 전달했습니다.");
         setConfirmModalOpen(true);
       } catch (error: any) {
-        console.log(error);
         const parsedMessage = JSON.parse(error.message);
         setModalMessage(parsedMessage.message);
 
