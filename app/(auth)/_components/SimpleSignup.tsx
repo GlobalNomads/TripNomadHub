@@ -1,6 +1,6 @@
 "use client";
 
-import postOauthSignup, { OauthInput } from "@/api/Oauth/postOauthSignin";
+import postOauthSignup, { OauthInput } from "@/api/Oauth/postOauthSignup";
 import GoogleIcon from "@icon/ic_google.svg";
 import KakaoIcon from "@icon/ic_kakao.svg";
 import { useMutation } from "@tanstack/react-query";
@@ -12,11 +12,13 @@ const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
 const oauthGoogleInput: OauthInput = {
   redirectUri: "http://localhost:3000/oauth/google",
   token: `${GOOGLE_APP_KEY}`,
+  nickname: "Test1111",
 };
 
 const oauthKakaoInput: OauthInput = {
   redirectUri: "http://localhost:3000/oauth/kakao",
   token: `${KAKAO_APP_KEY}`,
+  nickname: "Test1111",
 };
 
 function SimpleSignup() {

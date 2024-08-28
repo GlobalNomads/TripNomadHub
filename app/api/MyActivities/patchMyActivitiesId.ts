@@ -10,7 +10,7 @@ export interface MyActivitiesInput {
   price: number;
   address: string;
   bannerImageUrl: string;
-  subImageIdsToRemove: string[];
+  subImageIdsToRemove: number[];
   subImageUrlsToAdd: string[];
   scheduleIdsToRemove: Schedules[];
   schedulesToAdd: Schedules[];

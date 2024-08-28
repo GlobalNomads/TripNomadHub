@@ -5,14 +5,14 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 interface ImageUploadFormProps {
   bannerImage: File | null;
   onBannerImageChange: (image: File | null) => void;
-  settingImages: File[];
+  settingImages: { id?: number; file: File }[];
   subImages: File[];
   onAddSubImagesChange: (images: File[]) => void;
-  onDeleteSubImagesChange: (images: File[]) => void;
+  onDeleteSubImagesChange: (imageIds: number[]) => void;
 }
 
 interface ImageItem {
-  file: File;
+  file: { id?: number; file: File };
   type: "setting" | "sub";
 }
 
@@ -24,15 +24,30 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   onAddSubImagesChange,
   onDeleteSubImagesChange,
 }) => {
-  const [settingImageState, setSettingImageState] = useState<File[]>([]);
+  const [settingImageState, setSettingImageState] = useState<{ id?: number; file: File }[]>([]);
+  const [deletedSettingImageIds, setDeletedSettingImageIds] = useState<number[]>([]);
 
   useEffect(() => {
     setSettingImageState(settingImages);
   }, [settingImages]);
 
-  const defaultSubImageItems: ImageItem[] = settingImageState.map(image => ({ file: image, type: "setting" }));
-  const addedSubImageItems: ImageItem[] = subImages.map(image => ({ file: image, type: "sub" }));
+  const defaultSubImageItems: ImageItem[] = settingImageState.map(image => ({
+    file: image,
+    type: "setting",
+  }));
+
+  const addedSubImageItems: ImageItem[] = subImages.map(image => ({
+    file: { file: image },
+    type: "sub",
+  }));
+
   const allSubImageItems: ImageItem[] = [...defaultSubImageItems, ...addedSubImageItems];
+
+  useEffect(() => {
+    if (deletedSettingImageIds.length > 0) {
+      onDeleteSubImagesChange(deletedSettingImageIds);
+    }
+  }, [deletedSettingImageIds]);
 
   const handleBannerChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -43,7 +58,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
   const handleSubImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       if (allSubImageItems.length >= 4) {
-        alert("소개 이미지는 최대 4개까지 등록 가능합니다."); // 경고 메시지 추가
+        alert("소개 이미지는 최대 4개까지 등록 가능합니다.");
         return;
       }
       onAddSubImagesChange([...subImages, e.target.files[0]]);
@@ -55,11 +70,17 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
     onAddSubImagesChange(updatedImages);
   };
 
-  const handleDeleteSettingImage = (image: File) => {
-    // `settingImages`에서 이미지를 제거
-    const updatedSettingImages = settingImageState.filter(img => img !== image);
+  const handleDeleteSettingImage = (image: { id?: number; file: File }) => {
+    const updatedSettingImages = settingImageState.filter(img => img.file !== image.file);
     setSettingImageState(updatedSettingImages);
-    onDeleteSubImagesChange(updatedSettingImages);
+
+    setDeletedSettingImageIds(prevIds => {
+      const newId = image.id;
+      if (newId !== undefined) {
+        return [...prevIds, newId];
+      }
+      return prevIds;
+    });
   };
 
   return (
@@ -138,7 +159,7 @@ const ImageUploadForm: React.FC<ImageUploadFormProps> = ({
           {allSubImageItems.map((imageItem, index) => (
             <div key={index} className="relative h-[167px] w-[167px] md:h-[206px] md:w-[206px]">
               <Image
-                src={URL.createObjectURL(imageItem.file)}
+                src={URL.createObjectURL(imageItem.file.file)}
                 alt={`이미지 ${index + 1}`}
                 width={167}
                 height={167}
