@@ -5,22 +5,21 @@ import ReservationCard from "@/components/ReservationCard";
 import { ActivitiesData, ActivityList } from "@/types/activities.type";
 import getMyActivities from "@api/MyActivities/getMyActivities";
 import DefaultButton from "@button/DefaultButton";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function MyActivities() {
-  const [initialData, setInitialData] = useState<ActivitiesData | null>(null);
+  const { data, isLoading, error } = useQuery<ActivitiesData>({
+    queryKey: ["myActivities"],
+    queryFn: () => getMyActivities({ size: 20 }),
+  });
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getMyActivities({ size: 20 });
-      setInitialData(data);
-    }
-    fetchData();
-  }, []);
-
-  if (!initialData) {
+  if (isLoading) {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {(error as Error).message}</div>;
   }
 
   return (
@@ -37,10 +36,10 @@ export default function MyActivities() {
         </Link>
       </div>
       <div className="space-y-2 md:space-y-4 xl:space-y-6">
-        {initialData.activities.length === 0 ? (
+        {data?.activities.length === 0 ? (
           <div>No activities found.</div>
         ) : (
-          initialData.activities.map((activity: ActivityList) => (
+          data?.activities.map((activity: ActivityList) => (
             <ReservationCard
               key={activity.id}
               reservations={[activity]}
