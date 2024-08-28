@@ -1,7 +1,5 @@
 /*
-    ReviewModal(후기작성 모달): 현재는 틀만 만들어뒀습니다! 실제 사용하려면 많이 수정해서 써야 합니다!
-    bg-primary-green-100로 영역 표시만 해 뒀습니다.
-    TODO: 마음껏 변경하셔도 됩니다...!
+    ReviewModal(후기작성 모달)
 */
 
 "use client";
