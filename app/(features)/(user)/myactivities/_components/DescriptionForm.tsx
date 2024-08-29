@@ -18,7 +18,7 @@ const DescriptionForm: React.FC<{ description: string; onDescriptionChange: (des
         placeholder="설명"
         value={description}
         onChange={e => onDescriptionChange(e.target.value)}
-        className="h-[346px] w-full rounded border border-gray-700 px-3 py-2 text-lg placeholder-gray-500"
+        className="h-[346px] w-[343px] rounded border border-gray-700 px-3 py-2 text-lg placeholder-gray-500 sm:w-[343px] md:w-[429px] xl:w-[792px]"
       />
     </div>
   );

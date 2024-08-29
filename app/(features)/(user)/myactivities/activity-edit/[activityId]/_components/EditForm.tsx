@@ -23,8 +23,12 @@ interface EditFormProps {
 }
 
 const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
-  const images = useMemo(() => activityData?.subImages?.map(image => image.imageUrl) ?? [], [activityData.subImages]);
-  const convertedSettingImages = useMultipleFiles(images);
+  const subImages = useMemo(
+    () => activityData?.subImages?.map(({ id, imageUrl }) => ({ id, imageUrl })) ?? [],
+    [activityData.subImages],
+  );
+
+  const convertedSettingImages = useMultipleFiles(subImages);
 
   const [title, setTitle] = useState<string>("");
   const [category, setCategory] = useState<string>("");
@@ -35,7 +39,7 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
   const [addSchedules, setAddSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [deleteSchedules, setDeleteSchedules] = useState<{ date: string; startTime: string; endTime: string }[]>([]);
   const [addSubImages, setAddSubImages] = useState<File[]>([]);
-  const [deleteSubImages, setDeleteSubImages] = useState<File[]>([]);
+  const [deleteSubImages, setDeleteSubImages] = useState<number[]>([]);
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
 
@@ -44,8 +48,8 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
   const [modalMessage, setModalMessage] = useState<string>("");
 
   const handleError = (error: Error) => {
-    const errorMessage = error.message || "이미지 업로드에 실패했습니다😨";
-    setModalMessage(`오류😨: ${errorMessage}`);
+    const errorMessage = JSON.parse(error.message) || "이미지 업로드에 실패했습니다😨";
+    setModalMessage(`오류😨: ${errorMessage.message}`);
     setIsModalOpen(true);
   };
 
@@ -59,9 +63,9 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
     try {
       let bannerImageUrl = "";
       let subImageUrlsToAdd: string[] = [];
-      let subImageIdsToRemove: string[] = [];
       const schedulesToAdd = addSchedules;
       const scheduleIdsToRemove = deleteSchedules;
+      const subImageIdsToRemove = deleteSubImages;
 
       // 배너 이미지 업로드
       if (bannerImage) {
@@ -73,16 +77,6 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
       if (addSubImages.length > 0) {
         subImageUrlsToAdd = await Promise.all(
           addSubImages.map(async image => {
-            const uploadedImage = await mutateAsync(image);
-            return uploadedImage.activityImageUrl; // 이미지 URL만 반환
-          }),
-        );
-      }
-
-      // 삭제 이미지 업로드
-      if (deleteSubImages.length > 0) {
-        subImageIdsToRemove = await Promise.all(
-          deleteSubImages.map(async image => {
             const uploadedImage = await mutateAsync(image);
             return uploadedImage.activityImageUrl; // 이미지 URL만 반환
           }),
@@ -149,11 +143,11 @@ const EditForm: React.FC<EditFormProps> = ({ activityData, activityId }) => {
           수정하기
         </Button.Default>
       </div>
-      <TitleForm title={activityData?.title} onTitleChange={setTitle} />
-      <CategorySelect category={activityData?.category || ""} onCategoryChange={setCategory} />
-      <DescriptionForm description={activityData?.description || ""} onDescriptionChange={setDescription} />
-      <PriceForm price={activityData?.price || 0} onPriceChange={setPrice} />
-      <AddressForm address={activityData?.address || ""} onAddressChange={setAddress} />
+      <TitleForm title={title} onTitleChange={setTitle} />
+      <CategorySelect category={category} onCategoryChange={setCategory} />
+      <DescriptionForm description={description} onDescriptionChange={setDescription} />
+      <PriceForm price={price} onPriceChange={setPrice} />
+      <AddressForm address={address} onAddressChange={setAddress} />
       <ScheduleForm
         schedules={addSchedules}
         settingSchedules={activityData?.schedules}
