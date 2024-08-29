@@ -1,9 +1,9 @@
 "use client";
 import getMyReservations from "@/api/MyReservations/getMyReservations";
 import EmptyPage from "@/components/EmptyPage/EmptyPage";
-import { ReservationsData, ReservationsList } from "@/types/myReservations.type";
+import { ReservationsData } from "@/types/myReservations.type";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import DropdownItems from "./_components/DropdownItems";
 import ReservationCard from "./_components/ReservationCard";
@@ -15,7 +15,7 @@ const MyReservations: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<ReservationStatus | undefined>(undefined);
   const { ref, inView } = useInView();
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, hasNextPage, refetch, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
     ReservationsData,
     Error
   >({
@@ -33,38 +33,35 @@ const MyReservations: React.FC = () => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isLoading)
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
+  const handleStatusChange = useCallback((newStatus: ReservationStatus | undefined) => {
+    setSelectedStatus(newStatus);
+  }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [selectedStatus, refetch]);
+
+  if (isLoading) return <Spinner />;
   if (isError) return <h3>Failed to load</h3>;
+
+  const reservations = data?.pages.flatMap(page => page.reservations) || [];
 
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex items-center justify-between">
         <div className="mb-3 text-3xl-bold">예약 내역</div>
         <div>
-          <DropdownItems setSelectedStatus={setSelectedStatus} />
+          <DropdownItems setSelectedStatus={handleStatusChange} />
         </div>
       </div>
 
-      {!data || data.pages.every(page => page.reservations.length === 0) ? (
+      {reservations.length === 0 ? (
         <EmptyPage />
       ) : (
         <div className="h-full w-full">
           <div className="mx-auto flex flex-col gap-2 md:gap-4 xl:gap-6">
-            {data?.pages.map((page, pageIndex) => (
-              <React.Fragment key={pageIndex}>
-                {page.reservations.map((reservation: ReservationsList, index: React.Key | null | undefined) => (
-                  <ReservationCard
-                    key={index}
-                    reservations={[reservation]}
-                    selectedStatus={selectedStatus as ReservationStatus}
-                  />
-                ))}
-              </React.Fragment>
+            {reservations.map(reservation => (
+              <ReservationCard key={reservation.id} reservations={[reservation]} selectedStatus={selectedStatus} />
             ))}
           </div>
 
