@@ -51,7 +51,7 @@ const MyReservations: React.FC = () => {
       <div className="mb-4 flex items-center justify-between">
         <div className="mb-3 text-3xl-bold">예약 내역</div>
         <div>
-          <DropdownItems setSelectedStatus={handleStatusChange} />
+          <DropdownItems setSelectedStatus={handleStatusChange} selectedStatus={undefined} />
         </div>
       </div>
 
