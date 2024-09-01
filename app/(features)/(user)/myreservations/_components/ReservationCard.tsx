@@ -14,11 +14,10 @@ interface ReservationCardProps {
 }
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservations }) => {
-  console.log("Reservations:", reservations);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [ReviewSelectedReservation, setReviewSelectedReservation] = useState<ReservationsList | null>(null);
   const [currentReservations, setCurrentReservations] = useState<ReservationsList[]>(reservations);
-  const { handleCancelReservation, isCancelModalOpen, setCancelModalOpen, selectedReservation, CancelReservation } =
+  const { handleCancelReservation, isCancelModalOpen, setCancelModalOpen, CancelReservation } =
     useCancelReservation(setCurrentReservations);
 
   const handleReviewSuccess = (reservationId: number) => {
