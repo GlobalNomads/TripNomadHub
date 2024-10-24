@@ -38,7 +38,7 @@
 - 내 체험 수정 페이지
 - 내 정보 페이지
 
-### [김진윤](https://github.com/EveryYawm)
+### [김진윤](https://github.com/JinyunKim)
 - 공용 버튼 컴포넌트, 모달 컴포넌트
 - 체험 상세 페이지
 - 내 체험 관리 페이지
